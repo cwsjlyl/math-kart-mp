@@ -81,10 +81,27 @@
     .garage-school-logo { width: 48px; height: 48px; border-radius: 50%; background: #ffffff; border: 2px solid #fde047; padding: 3px; object-fit: contain; }
     .garage-header h1 { font-size: 21px; font-weight: 900; color: #fef08a; }
     .garage-header p { font-size: 11px; color: #cbd5e1; font-weight: 700; }
-    .garage-panel { pointer-events: auto; background: rgba(255,255,255,0.95); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border: 4px solid #facc15; border-radius: 26px; max-width: 900px; width: 100%; max-height: 64vh; overflow-y: auto; padding: 13px 18px; box-shadow: 0 22px 52px rgba(0,0,0,0.58); color: #0f172a; }
+    .garage-panel { pointer-events: auto; background: rgba(255,255,255,0.95); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border: 4px solid #facc15; border-radius: 26px; max-width: 1120px; width: 100%; max-height: 72vh; overflow-y: auto; padding: 12px 14px; box-shadow: 0 22px 52px rgba(0,0,0,0.58); color: #0f172a; }
     .section-label { font-size: 13px; font-weight: 900; color: #1e293b; margin-bottom: 6px; display: flex; align-items: center; justify-content: space-between; }
     .track-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 10px; }
     .kart-style-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 8px; }
+    .garage-hint { font-size: 13px; font-weight: 800; color: #9a3412; background: #fff7ed; border: 2px solid #fdba74; border-radius: 12px; padding: 7px 12px; margin-bottom: 10px; line-height: 1.45; }
+    .garage-layout { display: grid; grid-template-columns: minmax(0, 1fr) minmax(260px, 320px); gap: 12px; align-items: start; }
+    .garage-selects { min-width: 0; }
+    .driver-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin-bottom: 8px; }
+    .choice-card .choice-thumb { width: 100%; height: 56px; object-fit: cover; object-position: center 20%; border-radius: 8px; display: block; background: #e2e8f0; margin: 0 auto 2px; }
+    .driver-grid .choice-card .choice-thumb { height: 86px; object-position: center 12%; }
+    .garage-preview { position: sticky; top: 0; background: linear-gradient(180deg, #0f172a, #1e293b); color: #fff; border: 3px solid #facc15; border-radius: 18px; padding: 10px 10px 12px; box-shadow: inset 0 0 0 1px rgba(255,255,255,0.08); }
+    .preview-label { font-size: 11px; font-weight: 800; color: #fde047; letter-spacing: 0.04em; margin-bottom: 6px; }
+    .preview-driver-img { width: 100%; aspect-ratio: 1; object-fit: cover; object-position: center 12%; border-radius: 14px; background: #1e293b; border: 2px solid rgba(250,204,21,0.45); display: block; }
+    .preview-driver-name, .preview-kart-name { font-size: 18px; font-weight: 900; color: #fef08a; margin-top: 6px; }
+    .preview-flavor { font-size: 12px; font-weight: 700; color: #cbd5e1; margin-top: 2px; margin-bottom: 10px; }
+    .preview-kart-canvas-wrap { width: 100%; height: 168px; border-radius: 12px; overflow: hidden; background: radial-gradient(circle at 50% 30%, #334155, #0f172a 72%); border: 2px solid rgba(148,163,184,0.45); position: relative; }
+    #preview-kart-canvas { width: 100%; height: 100%; display: block; }
+    .preview-kart-img { width: 100%; height: 120px; object-fit: cover; object-position: center; border-radius: 12px; margin-top: 8px; background: #e2e8f0; display: none; }
+    .preview-kart-img.has-art { display: block; }
+    .preview-plate { display: none; width: 100%; height: 120px; border-radius: 12px; margin-top: 8px; align-items: center; justify-content: center; flex-direction: column; background: #1e293b; border: 2px dashed #64748b; color: #e2e8f0; font-weight: 900; }
+    .preview-plate.show { display: flex; }
     .choice-card { background: #f1f5f9; border: 3px solid #cbd5e1; border-radius: 14px; padding: 6px 8px; text-align: center; cursor: pointer; transition: all 0.12s ease; }
     .choice-card:hover { background: #e2e8f0; }
     .choice-card.selected { background: #eff6ff; border-color: #2563eb; box-shadow: 0 0 0 3px rgba(37,99,235,0.24); transform: translateY(-2px); }
@@ -156,8 +173,13 @@
     .mp-stand-row { display: flex; justify-content: space-between; gap: 8px; font-size: 15px; font-weight: 800; color: #0f172a; padding: 4px 0; border-bottom: 1px dashed #bfdbfe; }
     .mp-stand-row:last-child { border-bottom: none; }
     #mp-wait-banner { position: fixed; top: 18%; left: 50%; transform: translateX(-50%); z-index: 20; display: none; background: rgba(15,23,42,0.9); color: #fef08a; font-weight: 900; font-size: 22px; padding: 12px 22px; border-radius: 16px; border: 3px solid #facc15; text-shadow: 0 2px 0 #000; pointer-events: none; white-space: nowrap; }
+    @media (max-width: 820px) {
+      .garage-layout { grid-template-columns: 1fr; }
+      .garage-preview { position: relative; order: -1; }
+    }
     @media (max-width: 760px) {
       .track-grid, .kart-style-grid { grid-template-columns: repeat(2, 1fr); }
+      .driver-grid { grid-template-columns: repeat(3, 1fr); }
       #question-text { font-size: 26px; } #question-banner { min-width: 230px; padding: 6px 14px 8px; }
       #mk-item-slot { width: 80px; height: 80px; } #item-icon { font-size: 34px; }
       #minimap-card { width: 138px; height: 138px; }
@@ -183,7 +205,7 @@
   <div id="ink-overlay"></div>
   <div id="flash-overlay"></div>
 
-  <!-- Mario Kart 8 四角 HUD -->
+  <!-- 賽車介面四角 HUD -->
   <div id="hud">
     <div class="mk-top-left">
       <button id="mk-item-slot" aria-label="使用道具">
@@ -256,6 +278,9 @@
     </div>
 
     <div class="garage-panel">
+      <div class="garage-hint">轉彎要自己撳左／右，唔撳就會直行，撞到賽道邊界會減速。</div>
+      <div class="garage-layout">
+      <div class="garage-selects">
       <div class="section-label">
         <span>1. 選擇大獎賽賽道（共 6 條立體主題賽道，點選即時預覽 3D 場景）</span>
         <span style="font-size:11px;color:#2563eb;">每圈 3 題・小心避開路肩減速與香蕉</span>
@@ -277,6 +302,21 @@
         <div class="choice-card" data-style="gt"><div class="icon">⚡</div><div class="name">閃電超跑 GT</div><div class="sub">均衡車重・寬體穩定</div></div>
         <div class="choice-card" data-style="monster"><div class="icon">🛞</div><div class="name">霸氣大腳越野</div><div class="sub">重裝耐撞・碰撞佔優</div></div>
         <div class="choice-card" data-style="star"><div class="icon">🚀</div><div class="name">星際噴射戰車</div><div class="sub">雙渦輪艙・高速穩定</div></div>
+        <div class="choice-card" data-style="bolt"><img class="choice-thumb" src="./assets/karts/bolt.jpg" alt="赤電號"><div class="name">赤電號</div><div class="sub">紅色活潑跑車・車窗雙眼・07 號</div></div>
+        <div class="choice-card" data-style="storm"><img class="choice-thumb" src="./assets/karts/storm.jpg" alt="蒼雷號"><div class="name">蒼雷號</div><div class="sub">未來方程式・白藍紅塗裝</div></div>
+        <div class="choice-card" data-style="taxi"><img class="choice-thumb" src="./assets/karts/taxi.jpg" alt="香港的士"><div class="name">香港的士</div><div class="sub">紅車身・白車頂・金輪圈</div></div>
+        <div class="choice-card" data-style="bike"><img class="choice-thumb" src="./assets/karts/bike.jpg" alt="冒險單車"><div class="name">冒險單車</div><div class="sub">綠色車架・黃色菜籃・靈敏</div></div>
+      </div>
+
+      <div class="section-label">
+        <span>3. 選擇車手（右方會即時顯示車手同賽車預覽）</span>
+      </div>
+      <div class="driver-grid" id="driver-selector">
+        <div class="choice-card selected" data-driver="wan"><img class="choice-thumb" src="./assets/drivers/wan.jpg" alt="小雲"><div class="name">小雲</div><div class="sub">白襯衫・藍短褲・校服車手</div></div>
+        <div class="choice-card" data-driver="qing"><img class="choice-thumb" src="./assets/drivers/qing.jpg" alt="小晴"><div class="name">小晴</div><div class="sub">白裙子・格子領帶・校服車手</div></div>
+        <div class="choice-card" data-driver="lee"><img class="choice-thumb" src="./assets/drivers/lee.jpg" alt="李主任"><div class="name">李主任</div><div class="sub">捲髮笑臉・深藍賽車外套</div></div>
+        <div class="choice-card" data-driver="zhe"><img class="choice-thumb" src="./assets/drivers/zhe.jpg" alt="小哲"><div class="name">小哲</div><div class="sub">紅白帽・藍背心・冒險精神</div></div>
+        <div class="choice-card" data-driver="jin"><img class="choice-thumb" src="./assets/drivers/jin.jpg" alt="疾風迅"><div class="name">疾風迅</div><div class="sub">銳利目光・藍白紅賽車服</div></div>
       </div>
 
       <div class="color-row">
@@ -305,6 +345,20 @@
           <button class="room-create-btn" id="create-room-btn">建立房間</button>
           <button class="room-join-btn" id="join-room-btn">輸入房號加入</button>
         </div>
+      </div>
+      </div>
+      <aside class="garage-preview" id="garage-preview">
+        <div class="preview-label">車手預覽</div>
+        <img class="preview-driver-img" id="preview-driver-img" src="./assets/drivers/wan.jpg" alt="小雲">
+        <div class="preview-driver-name" id="preview-driver-name">小雲</div>
+        <div class="preview-flavor" id="preview-driver-flavor">彩雲聖若瑟小學校服車手</div>
+        <div class="preview-label">賽車預覽</div>
+        <div class="preview-kart-canvas-wrap"><canvas id="preview-kart-canvas" width="512" height="336"></canvas></div>
+        <img class="preview-kart-img" id="preview-kart-img" alt="">
+        <div class="preview-plate" id="preview-kart-plate"><div id="preview-kart-plate-name">極速方程式</div><div style="font-size:11px;color:#94a3b8;margin-top:4px;">立體預覽</div></div>
+        <div class="preview-kart-name" id="preview-kart-name">極速方程式</div>
+        <div class="preview-flavor" id="preview-kart-flavor">輕巧靈敏・轉向極快</div>
+      </aside>
       </div>
     </div>
   </div>
@@ -408,7 +462,34 @@
       steerSpeed: 13.8, baseFov: 62, boostFov: 78
     };
 
-    const STYLE_MASS = { formula: 0.95, gt: 1.12, star: 1.08, monster: 1.38 };
+    const STYLE_MASS = { formula: 0.95, gt: 1.12, star: 1.08, monster: 1.38, bolt: 1.10, storm: 0.92, taxi: 1.20, bike: 0.80 };
+    const STYLE_STATS = {
+      formula: { yaw: 2.15, speed: 1.00 },
+      gt:      { yaw: 1.85, speed: 1.00 },
+      star:    { yaw: 1.90, speed: 1.02 },
+      monster: { yaw: 1.65, speed: 0.96 },
+      bolt:    { yaw: 1.85, speed: 1.00 },
+      storm:   { yaw: 2.20, speed: 1.02 },
+      taxi:    { yaw: 1.55, speed: 0.90 },
+      bike:    { yaw: 2.25, speed: 0.88 }
+    };
+    const DRIVER_DEFS = {
+      wan: { id: 'wan', name: '小雲', img: './assets/drivers/wan.jpg', flavor: '彩雲聖若瑟小學校服車手' },
+      qing:{ id: 'qing', name: '小晴', img: './assets/drivers/qing.jpg', flavor: '彩雲聖若瑟小學校服車手' },
+      lee: { id: 'lee', name: '李主任', img: './assets/drivers/lee.jpg', flavor: '捲髮笑臉・深藍賽車外套' },
+      zhe: { id: 'zhe', name: '小哲', img: './assets/drivers/zhe.jpg', flavor: '紅白帽・藍背心・晴天冒險精神' },
+      jin: { id: 'jin', name: '疾風迅', img: './assets/drivers/jin.jpg', flavor: '銳利目光・藍白紅賽車服' }
+    };
+    const KART_META = {
+      formula: { name: '極速方程式', flavor: '輕巧靈敏・轉向極快', img: '' },
+      gt:      { name: '閃電超跑 GT', flavor: '均衡車重・寬體穩定', img: '' },
+      monster: { name: '霸氣大腳越野', flavor: '重裝耐撞・碰撞佔優', img: '' },
+      star:    { name: '星際噴射戰車', flavor: '雙渦輪艙・高速穩定', img: '' },
+      bolt:    { name: '赤電號', flavor: '紅色活潑跑車・車窗雙眼・07 號', img: './assets/karts/bolt.jpg' },
+      storm:   { name: '蒼雷號', flavor: '未來方程式・白藍紅塗裝・轉向靈敏', img: './assets/karts/storm.jpg' },
+      taxi:    { name: '香港的士', flavor: '紅車身・白車頂・金輪圈・穩定舒適', img: './assets/karts/taxi.jpg' },
+      bike:    { name: '冒險單車', flavor: '綠色車架・黃色菜籃・轉向靈敏', img: './assets/karts/bike.jpg' }
+    };
 
     const PAINT_COLORS = [
       { name: '瑪利歐烈焰紅', hex: 0xef4444, css: '#ef4444', helmet: 0xffffff },
@@ -439,7 +520,7 @@
     };
     const ITEM_KEYS = Object.keys(ITEM_DEFS);
 
-    let selectedTrackId = 'meadow', selectedKartStyle = 'formula', selectedColorIdx = 0, mathRangeMode = '2-9', showTouchPads = true;
+    let selectedTrackId = 'meadow', selectedKartStyle = 'formula', selectedDriverId = 'wan', selectedColorIdx = 0, mathRangeMode = '2-9', showTouchPads = true, colorChosenAfterStyle = false;
     let raceMode = 'solo'; // 'solo' | 'multi'
     let independentQuestions = true;
     let localPlayerName = '你';
@@ -456,7 +537,7 @@
       { prog: -0.010, off: 3.6 },
       { prog: -0.015, off: -3.6 }
     ];
-    const STYLE_LABELS = { formula: '極速方程式', gt: '閃電超跑 GT', monster: '霸氣大腳越野', star: '星際噴射戰車' };
+    const STYLE_LABELS = { formula: '極速方程式', gt: '閃電超跑 GT', monster: '霸氣大腳越野', star: '星際噴射戰車', bolt: '赤電號', storm: '蒼雷號', taxi: '香港的士', bike: '冒險單車' };
     const net = new KartNetworkManager();
     const knownHazards = new Set();
     const knownProjectiles = new Set();
@@ -737,6 +818,25 @@
       const right = new THREE.Vector3().crossVectors(tangent, worldUp).normalize();
       const normal = new THREE.Vector3().crossVectors(right, tangent).normalize();
       return { point, tangent, right, normal };
+    }
+
+    function tangentHeading(tangent) {
+      return Math.atan2(tangent.x, tangent.z);
+    }
+    function shortestAngleDelta(from, to) {
+      return Math.atan2(Math.sin(to - from), Math.cos(to - from));
+    }
+    function initKartHeading(kart) {
+      if (!kart) return;
+      if (!trackCurve) { if (typeof kart.heading !== 'number') kart.heading = 0; return; }
+      const { tangent } = getTrackFrame(kart.totalProgress || 0);
+      kart.heading = tangentHeading(tangent);
+    }
+    function styleStatsOf(styleId) {
+      return STYLE_STATS[styleId] || { yaw: 1.85, speed: 1 };
+    }
+    function isSharedMap(map) {
+      return !map || map === contactShadowTex || !!(map.userData && map.userData.sharedDriver);
     }
 
     function clearTrackWorld() {
@@ -1077,8 +1177,119 @@
       return { group, ring };
     }
 
+    const driverTexCache = {};
+    function getDriverTexture(driverId) {
+      const id = DRIVER_DEFS[driverId] ? driverId : 'wan';
+      if (driverTexCache[id]) return driverTexCache[id];
+      const tex = new THREE.TextureLoader().load(DRIVER_DEFS[id].img);
+      tex.colorSpace = THREE.SRGBColorSpace;
+      tex.userData.sharedDriver = true;
+      driverTexCache[id] = tex;
+      return tex;
+    }
+    function makeLabelTexture(text, w, h, bg, fg, fontPx) {
+      const c = document.createElement('canvas'); c.width = w; c.height = h;
+      const ctx = c.getContext('2d');
+      ctx.fillStyle = bg; ctx.fillRect(0, 0, w, h);
+      ctx.fillStyle = fg; ctx.font = '900 ' + (fontPx || 48) + 'px "PingFang HK","Microsoft JhengHei",sans-serif';
+      ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      ctx.fillText(text, w / 2, h / 2 + 2);
+      const tex = new THREE.CanvasTexture(c); tex.colorSpace = THREE.SRGBColorSpace; return tex;
+    }
+    function addDriverFigure(driverGroup, driverId, helmetHex, primaryHex) {
+      const id = DRIVER_DEFS[driverId] ? driverId : 'wan';
+      const torsoCol = { wan: 0xf8fafc, qing: 0xf8fafc, lee: 0x1e3a8a, jin: 0xf8fafc, zhe: 0x2563eb };
+      const torso = new THREE.Mesh(new THREE.CylinderGeometry(0.30, 0.36, 0.50, 12), new THREE.MeshStandardMaterial({ color: torsoCol[id] || primaryHex, roughness: 0.5 }));
+      torso.position.y = 0.24; driverGroup.add(torso);
+      if (id === 'zhe') {
+        const vest = new THREE.Mesh(new THREE.BoxGeometry(0.62, 0.36, 0.42), new THREE.MeshStandardMaterial({ color: 0x1d4ed8 }));
+        vest.position.set(0, 0.28, 0.02); driverGroup.add(vest);
+        const shirt = new THREE.Mesh(new THREE.BoxGeometry(0.34, 0.26, 0.38), new THREE.MeshStandardMaterial({ color: 0xf8fafc }));
+        shirt.position.set(0, 0.22, 0.08); driverGroup.add(shirt);
+      } else if (id === 'lee') {
+        const jacket = new THREE.Mesh(new THREE.BoxGeometry(0.68, 0.42, 0.46), new THREE.MeshStandardMaterial({ color: 0x1e3a5f, roughness: 0.4 }));
+        jacket.position.set(0, 0.28, 0.02); driverGroup.add(jacket);
+        const gold = new THREE.Mesh(new THREE.BoxGeometry(0.10, 0.40, 0.08), new THREE.MeshStandardMaterial({ color: 0xeab308, metalness: 0.7, roughness: 0.3 }));
+        gold.position.set(0, 0.28, 0.24); driverGroup.add(gold);
+      } else if (id === 'jin') {
+        const suit = new THREE.Mesh(new THREE.BoxGeometry(0.66, 0.40, 0.44), new THREE.MeshStandardMaterial({ color: 0xf8fafc }));
+        suit.position.set(0, 0.28, 0.02); driverGroup.add(suit);
+        for (const s of [-0.22, 0.22]) {
+          const stripe = new THREE.Mesh(new THREE.BoxGeometry(0.08, 0.42, 0.08), new THREE.MeshStandardMaterial({ color: 0xdc2626 }));
+          stripe.position.set(s, 0.28, 0.22); driverGroup.add(stripe);
+        }
+        const blue = new THREE.Mesh(new THREE.BoxGeometry(0.36, 0.22, 0.12), new THREE.MeshStandardMaterial({ color: 0x2563eb }));
+        blue.position.set(0, 0.18, 0.22); driverGroup.add(blue);
+      }
+
+      const skin = new THREE.MeshStandardMaterial({ color: 0xf1c27d, roughness: 0.55 });
+      const head = new THREE.Mesh(new THREE.SphereGeometry(0.34, 16, 14), skin);
+      head.position.y = 0.70; head.castShadow = true; driverGroup.add(head);
+
+      if (id === 'lee') {
+        const hairMat = new THREE.MeshStandardMaterial({ color: 0x4a2e1a, roughness: 0.75 });
+        for (const [x, y, z, r] of [[-0.16,0.96,0.02,0.16],[0.16,0.97,0.00,0.15],[0.00,1.04,0.00,0.17],[-0.22,0.86,-0.08,0.13],[0.22,0.86,-0.08,0.13],[-0.08,0.92,-0.18,0.14],[0.10,0.94,-0.16,0.13],[-0.18,0.78,0.16,0.10],[0.18,0.78,0.16,0.10]]) {
+          const clump = new THREE.Mesh(new THREE.SphereGeometry(r, 10, 8), hairMat);
+          clump.position.set(x, y, z); driverGroup.add(clump);
+        }
+      } else if (id === 'jin') {
+        const hairMat = new THREE.MeshStandardMaterial({ color: 0x3b2414, roughness: 0.7 });
+        const cap = new THREE.Mesh(new THREE.SphereGeometry(0.36, 12, 10, 0, Math.PI * 2, 0, Math.PI * 0.55), hairMat);
+        cap.position.y = 0.80; driverGroup.add(cap);
+        for (const [x, z, rotZ] of [[-0.12,0.06,-0.35],[0,0.02,0],[0.12,0.06,0.35],[-0.22,-0.02,-0.7],[0.22,-0.02,0.7]]) {
+          const spike = new THREE.Mesh(new THREE.ConeGeometry(0.08, 0.32, 6), hairMat);
+          spike.position.set(x, 1.10, z); spike.rotation.z = rotZ; spike.rotation.x = -0.15; driverGroup.add(spike);
+        }
+        const rim = new THREE.Mesh(new THREE.TorusGeometry(0.30, 0.03, 8, 16), new THREE.MeshPhysicalMaterial({ color: helmetHex || 0xf8fafc, roughness: 0.2, metalness: 0.4 }));
+        rim.position.set(0, 0.78, 0.06); rim.rotation.x = Math.PI / 2.4; driverGroup.add(rim);
+      } else if (id === 'zhe') {
+        const hairMat = new THREE.MeshStandardMaterial({ color: 0x1a1a1a, roughness: 0.7 });
+        const hair = new THREE.Mesh(new THREE.SphereGeometry(0.36, 12, 10, 0, Math.PI * 2, 0, Math.PI * 0.55), hairMat);
+        hair.position.y = 0.80; driverGroup.add(hair);
+        const cap = new THREE.Mesh(new THREE.SphereGeometry(0.38, 12, 10, 0, Math.PI * 2, 0, Math.PI * 0.52), new THREE.MeshStandardMaterial({ color: 0xdc2626 }));
+        cap.position.set(0, 0.88, -0.04); cap.rotation.x = 0.35; driverGroup.add(cap);
+        const capBack = new THREE.Mesh(new THREE.BoxGeometry(0.22, 0.14, 0.10), new THREE.MeshStandardMaterial({ color: 0xf8fafc }));
+        capBack.position.set(0, 0.96, -0.28); driverGroup.add(capBack);
+        const brim = new THREE.Mesh(new THREE.BoxGeometry(0.42, 0.05, 0.22), new THREE.MeshStandardMaterial({ color: 0xb91c1c }));
+        brim.position.set(0, 0.78, -0.32); brim.rotation.x = 0.2; driverGroup.add(brim);
+      } else if (id === 'wan') {
+        const shirt = new THREE.Mesh(new THREE.BoxGeometry(0.64, 0.40, 0.44), new THREE.MeshStandardMaterial({ color: 0xf8fafc, roughness: 0.5 }));
+        shirt.position.set(0, 0.30, 0.02); driverGroup.add(shirt);
+        const shorts = new THREE.Mesh(new THREE.BoxGeometry(0.50, 0.18, 0.36), new THREE.MeshStandardMaterial({ color: 0x1e3a8a }));
+        shorts.position.set(0, 0.08, 0.00); driverGroup.add(shorts);
+        const collar = new THREE.Mesh(new THREE.BoxGeometry(0.36, 0.08, 0.16), new THREE.MeshStandardMaterial({ color: 0xffffff }));
+        collar.position.set(0, 0.50, 0.18); driverGroup.add(collar);
+        const badge = new THREE.Mesh(new THREE.CircleGeometry(0.06, 10), new THREE.MeshBasicMaterial({ color: 0x38bdf8 }));
+        badge.position.set(-0.16, 0.34, 0.25); driverGroup.add(badge);
+        const hairMat = new THREE.MeshStandardMaterial({ color: 0x1a1a1a, roughness: 0.7 });
+        const hair = new THREE.Mesh(new THREE.SphereGeometry(0.36, 12, 10, 0, Math.PI * 2, 0, Math.PI * 0.55), hairMat);
+        hair.position.y = 0.80; driverGroup.add(hair);
+        for (const [x, z, rotZ] of [[-0.10,0.04,-0.25],[0.02,0.00,0],[0.12,0.04,0.28]]) {
+          const spike = new THREE.Mesh(new THREE.ConeGeometry(0.07, 0.22, 6), hairMat);
+          spike.position.set(x, 1.06, z); spike.rotation.z = rotZ; driverGroup.add(spike);
+        }
+      } else if (id === 'qing') {
+        const dress = new THREE.Mesh(new THREE.BoxGeometry(0.66, 0.48, 0.44), new THREE.MeshStandardMaterial({ color: 0xf8fafc, roughness: 0.5 }));
+        dress.position.set(0, 0.24, 0.02); driverGroup.add(dress);
+        const collar = new THREE.Mesh(new THREE.CylinderGeometry(0.22, 0.16, 0.08, 10), new THREE.MeshStandardMaterial({ color: 0xffffff }));
+        collar.position.set(0, 0.50, 0.10); driverGroup.add(collar);
+        const tie = new THREE.Mesh(new THREE.BoxGeometry(0.12, 0.28, 0.06), new THREE.MeshStandardMaterial({ color: 0x0f766e }));
+        tie.position.set(0, 0.32, 0.24); driverGroup.add(tie);
+        const belt = new THREE.Mesh(new THREE.BoxGeometry(0.68, 0.08, 0.46), new THREE.MeshStandardMaterial({ color: 0x155e75 }));
+        belt.position.set(0, 0.10, 0.02); driverGroup.add(belt);
+        const hairMat = new THREE.MeshStandardMaterial({ color: 0x1a1a1a, roughness: 0.7 });
+        const hair = new THREE.Mesh(new THREE.SphereGeometry(0.38, 12, 10), hairMat);
+        hair.scale.set(1.05, 0.85, 1.0); hair.position.set(0, 0.74, -0.02); driverGroup.add(hair);
+        const band = new THREE.Mesh(new THREE.TorusGeometry(0.28, 0.035, 8, 16), new THREE.MeshStandardMaterial({ color: 0x111827 }));
+        band.position.set(0, 0.92, 0.0); band.rotation.x = Math.PI / 2.6; driverGroup.add(band);
+      }
+
+      const face = new THREE.Mesh(new THREE.PlaneGeometry(0.72, 0.80), new THREE.MeshBasicMaterial({ map: getDriverTexture(id), transparent: true, side: THREE.DoubleSide }));
+      face.position.set(0, 0.78, 0.30); driverGroup.add(face);
+    }
+
     // 賽車模型與 AI 頭頂所持道具氣泡標記
-    function createKartModel(styleId, primaryHex, helmetHex, withAiItemBadge = false) {
+    function createKartModel(styleId, primaryHex, helmetHex, withAiItemBadge = false, driverId = 'wan') {
       const root = new THREE.Group(), bodyGroup = new THREE.Group(); root.add(bodyGroup);
       const shadowPlane = new THREE.Mesh(new THREE.PlaneGeometry(2.65, 3.6), new THREE.MeshBasicMaterial({ map: contactShadowTex, transparent: true, depthWrite: false }));
       shadowPlane.rotation.x = -Math.PI / 2; shadowPlane.position.y = 0.05; root.add(shadowPlane);
@@ -1089,6 +1300,8 @@
       const chromeMat = new THREE.MeshStandardMaterial({ color: 0xf1f5f9, roughness: 0.12, metalness: 0.92 });
       const tireMat = new THREE.MeshStandardMaterial({ color: 0x111827, roughness: 0.82 });
       const glowCyanMat = new THREE.MeshBasicMaterial({ color: 0x38bdf8 }), headlightMat = new THREE.MeshBasicMaterial({ color: 0xfef9c3 });
+      const blueAcc = new THREE.MeshStandardMaterial({ color: 0x2563eb, roughness: 0.25, metalness: 0.2 });
+      const redAcc = new THREE.MeshStandardMaterial({ color: 0xdc2626, roughness: 0.25, metalness: 0.2 });
 
       if (styleId === 'gt') {
         const hull = new THREE.Mesh(new THREE.BoxGeometry(1.74, 0.34, 2.58), paintMat); hull.position.set(0, 0.38, 0.05); hull.castShadow = true; bodyGroup.add(hull);
@@ -1116,6 +1329,107 @@
           const tb = new THREE.Mesh(new THREE.CylinderGeometry(0.26, 0.3, 0.96, 12), chromeMat); tb.rotation.x = Math.PI / 2; tb.position.set(s * 0.64, 0.62, -0.88); bodyGroup.add(tb);
           const tf = new THREE.Mesh(new THREE.BoxGeometry(0.08, 0.7, 0.56), paintMat); tf.position.set(s * 0.64, 1.02, -0.98); tf.rotation.z = -s * 0.25; bodyGroup.add(tf);
         }
+      } else if (styleId === 'bolt') {
+        paintMat.color.setHex(primaryHex);
+        const hull = new THREE.Mesh(new THREE.BoxGeometry(1.95, 0.44, 2.85), paintMat); hull.position.set(0, 0.44, 0.02); hull.castShadow = true; bodyGroup.add(hull);
+        const cabin = new THREE.Mesh(new THREE.BoxGeometry(1.58, 0.40, 1.18), paintMat); cabin.position.set(0, 0.80, -0.18); bodyGroup.add(cabin);
+        const hood = new THREE.Mesh(new THREE.BoxGeometry(1.72, 0.20, 1.08), paintMat); hood.position.set(0, 0.60, 0.88); hood.rotation.x = 0.10; bodyGroup.add(hood);
+        const scoop = new THREE.Mesh(new THREE.BoxGeometry(0.36, 0.12, 0.42), paintMat); scoop.position.set(0, 1.06, -0.12); bodyGroup.add(scoop);
+        const ws = new THREE.Mesh(new THREE.BoxGeometry(1.40, 0.38, 0.08), new THREE.MeshPhysicalMaterial({ color: 0x7dd3fc, transparent: true, opacity: 0.55, roughness: 0.05, clearcoat: 1 }));
+        ws.position.set(0, 0.90, 0.40); ws.rotation.x = -0.48; bodyGroup.add(ws);
+        const eyeWhite = new THREE.MeshBasicMaterial({ color: 0xffffff }), irisMat = new THREE.MeshBasicMaterial({ color: 0x7c3a09 }), pupilMat = new THREE.MeshBasicMaterial({ color: 0x0f172a }), lidMat = new THREE.MeshStandardMaterial({ color: 0x1e293b });
+        for (const x of [-0.28, 0.28]) {
+          const w = new THREE.Mesh(new THREE.CircleGeometry(0.20, 16), eyeWhite); w.position.set(x, 0.92, 0.48); w.rotation.x = -0.2; bodyGroup.add(w);
+          const ir = new THREE.Mesh(new THREE.CircleGeometry(0.11, 16), irisMat); ir.position.set(x, 0.90, 0.495); ir.rotation.x = -0.2; bodyGroup.add(ir);
+          const pu = new THREE.Mesh(new THREE.CircleGeometry(0.055, 12), pupilMat); pu.position.set(x, 0.89, 0.51); pu.rotation.x = -0.2; bodyGroup.add(pu);
+          const lid = new THREE.Mesh(new THREE.BoxGeometry(0.42, 0.05, 0.04), lidMat); lid.position.set(x, 1.08, 0.44); lid.rotation.x = -0.2; bodyGroup.add(lid);
+        }
+        const grille = new THREE.Mesh(new THREE.BoxGeometry(0.95, 0.20, 0.12), chromeMat); grille.position.set(0, 0.38, 1.46); bodyGroup.add(grille);
+        const smile = new THREE.Mesh(new THREE.TorusGeometry(0.44, 0.05, 8, 18, Math.PI), chromeMat); smile.position.set(0, 0.36, 1.48); smile.rotation.x = Math.PI; bodyGroup.add(smile);
+        const fBumper = new THREE.Mesh(new THREE.BoxGeometry(1.72, 0.14, 0.28), darkMat); fBumper.position.set(0, 0.22, 1.42); bodyGroup.add(fBumper);
+        const rBumper = new THREE.Mesh(new THREE.BoxGeometry(1.70, 0.14, 0.22), darkMat); rBumper.position.set(0, 0.24, -1.42); bodyGroup.add(rBumper);
+        for (const s of [-1, 1]) {
+          const lp = new THREE.Mesh(new THREE.BoxGeometry(0.28, 0.12, 0.08), headlightMat); lp.position.set(s * 0.72, 0.50, 1.42); bodyGroup.add(lp);
+          const stripe = new THREE.Mesh(new THREE.BoxGeometry(0.05, 0.12, 1.7), new THREE.MeshStandardMaterial({ color: 0xeab308 })); stripe.position.set(s * 0.99, 0.52, -0.05); bodyGroup.add(stripe);
+        }
+        const numTex = makeLabelTexture('07', 128, 96, '#f8fafc', '#0f172a', 72);
+        for (const s of [-1, 1]) {
+          const decal = new THREE.Mesh(new THREE.PlaneGeometry(0.46, 0.34), new THREE.MeshBasicMaterial({ map: numTex, transparent: true, side: THREE.DoubleSide }));
+          decal.position.set(s * 0.99, 0.62, 0.12); decal.rotation.y = s * Math.PI / 2; bodyGroup.add(decal);
+        }
+      } else if (styleId === 'storm') {
+        const whiteBody = new THREE.MeshPhysicalMaterial({ color: 0xf8fafc, roughness: 0.18, metalness: 0.22, clearcoat: 0.8 });
+        whiteBody.color.lerp(new THREE.Color(primaryHex), 0.14);
+        paintMat.color.copy(whiteBody.color);
+        const tub = new THREE.Mesh(new THREE.BoxGeometry(0.78, 0.26, 2.15), paintMat); tub.position.set(0, 0.36, 0.05); tub.castShadow = true; bodyGroup.add(tub);
+        const nose = new THREE.Mesh(new THREE.CylinderGeometry(0.10, 0.34, 1.55, 10), whiteBody); nose.rotation.x = Math.PI / 2; nose.position.set(0, 0.32, 1.55); nose.castShadow = true; bodyGroup.add(nose);
+        const noseRed = new THREE.Mesh(new THREE.BoxGeometry(0.12, 0.04, 1.45), redAcc); noseRed.position.set(-0.07, 0.46, 1.40); bodyGroup.add(noseRed);
+        const noseBlue = new THREE.Mesh(new THREE.BoxGeometry(0.12, 0.04, 1.45), blueAcc); noseBlue.position.set(0.07, 0.46, 1.40); bodyGroup.add(noseBlue);
+        const fw = new THREE.Mesh(new THREE.BoxGeometry(1.95, 0.07, 0.42), blueAcc); fw.position.set(0, 0.18, 2.18); bodyGroup.add(fw);
+        for (const s of [-1, 1]) {
+          const tip = new THREE.Mesh(new THREE.BoxGeometry(0.28, 0.10, 0.55), s < 0 ? redAcc : whiteMat); tip.position.set(s * 0.98, 0.22, 2.16); bodyGroup.add(tip);
+          const pod = new THREE.Mesh(new THREE.BoxGeometry(0.42, 0.30, 1.15), whiteBody); pod.position.set(s * 0.72, 0.38, -0.15); bodyGroup.add(pod);
+          const podAcc = new THREE.Mesh(new THREE.BoxGeometry(0.18, 0.22, 0.70), s < 0 ? blueAcc : redAcc); podAcc.position.set(s * 0.86, 0.40, -0.10); bodyGroup.add(podAcc);
+          const st = new THREE.Mesh(new THREE.BoxGeometry(0.08, 0.70, 0.16), chromeMat); st.position.set(s * 0.55, 0.80, -1.12); bodyGroup.add(st);
+        }
+        const rw = new THREE.Mesh(new THREE.BoxGeometry(1.88, 0.42, 0.12), whiteBody); rw.position.set(0, 1.18, -1.18); bodyGroup.add(rw);
+        const rwBlue = new THREE.Mesh(new THREE.BoxGeometry(0.55, 0.42, 0.13), blueAcc); rwBlue.position.set(-0.55, 1.18, -1.18); bodyGroup.add(rwBlue);
+        const rwRed = new THREE.Mesh(new THREE.BoxGeometry(0.55, 0.42, 0.13), redAcc); rwRed.position.set(0.55, 1.18, -1.18); bodyGroup.add(rwRed);
+        const canopy = new THREE.Mesh(new THREE.SphereGeometry(0.38, 12, 10, 0, Math.PI * 2, 0, Math.PI * 0.55), new THREE.MeshPhysicalMaterial({ color: 0x0f172a, transparent: true, opacity: 0.55, roughness: 0.05, clearcoat: 1 }));
+        canopy.position.set(0, 0.62, 0.08); canopy.scale.set(1.05, 0.72, 1.35); bodyGroup.add(canopy);
+        const halo = new THREE.Mesh(new THREE.BoxGeometry(0.42, 0.08, 0.55), whiteBody); halo.position.set(0, 0.92, -0.05); bodyGroup.add(halo);
+      } else if (styleId === 'taxi') {
+        const taxiCol = new THREE.Color(0xdc2626); taxiCol.lerp(new THREE.Color(primaryHex), 0.16);
+        paintMat.color.copy(taxiCol);
+        const hull = new THREE.Mesh(new THREE.BoxGeometry(1.72, 0.52, 2.85), paintMat); hull.position.set(0, 0.58, 0); hull.castShadow = true; bodyGroup.add(hull);
+        const cabin = new THREE.Mesh(new THREE.BoxGeometry(1.56, 0.50, 1.38), paintMat); cabin.position.set(0, 1.02, -0.18); bodyGroup.add(cabin);
+        const roof = new THREE.Mesh(new THREE.BoxGeometry(1.54, 0.10, 1.40), whiteMat); roof.position.set(0, 1.30, -0.18); bodyGroup.add(roof);
+        const glassMat = new THREE.MeshPhysicalMaterial({ color: 0x334155, transparent: true, opacity: 0.48, roughness: 0.05, clearcoat: 1 });
+        const fWin = new THREE.Mesh(new THREE.BoxGeometry(1.40, 0.36, 0.08), glassMat); fWin.position.set(0, 1.02, 0.52); fWin.rotation.x = -0.35; bodyGroup.add(fWin);
+        const rWin = new THREE.Mesh(new THREE.BoxGeometry(1.40, 0.34, 0.08), glassMat); rWin.position.set(0, 1.02, -0.86); rWin.rotation.x = 0.20; bodyGroup.add(rWin);
+        for (const s of [-1, 1]) {
+          const sWin = new THREE.Mesh(new THREE.BoxGeometry(0.06, 0.30, 1.10), glassMat); sWin.position.set(s * 0.80, 1.02, -0.16); bodyGroup.add(sWin);
+        }
+        const bumper = new THREE.Mesh(new THREE.BoxGeometry(1.74, 0.28, 0.34), chromeMat); bumper.position.set(0, 0.36, 1.42); bodyGroup.add(bumper);
+        const rBumper = new THREE.Mesh(new THREE.BoxGeometry(1.72, 0.24, 0.28), chromeMat); rBumper.position.set(0, 0.36, -1.44); bodyGroup.add(rBumper);
+        const grille = new THREE.Mesh(new THREE.BoxGeometry(0.72, 0.16, 0.08), darkMat); grille.position.set(0, 0.48, 1.48); bodyGroup.add(grille);
+        for (const s of [-1, 1]) {
+          const lp = new THREE.Mesh(new THREE.BoxGeometry(0.36, 0.16, 0.10), headlightMat); lp.position.set(s * 0.58, 0.52, 1.48); bodyGroup.add(lp);
+          const mir = new THREE.Mesh(new THREE.BoxGeometry(0.16, 0.10, 0.12), darkMat); mir.position.set(s * 0.92, 0.92, 0.42); bodyGroup.add(mir);
+        }
+        const signMat = new THREE.MeshStandardMaterial({ color: 0xf5e6c8, roughness: 0.55 });
+        const sign = new THREE.Mesh(new THREE.BoxGeometry(0.58, 0.22, 0.28), signMat); sign.position.set(0, 1.52, -0.08); bodyGroup.add(sign);
+        const taxiTex = makeLabelTexture('TAXI', 256, 96, '#f5e6c8', '#0f172a', 64);
+        for (const s of [-1, 1]) {
+          const plate = new THREE.Mesh(new THREE.PlaneGeometry(0.54, 0.18), new THREE.MeshBasicMaterial({ map: taxiTex, side: THREE.DoubleSide }));
+          plate.position.set(s * 0.30, 1.52, -0.08); plate.rotation.y = s * Math.PI / 2; bodyGroup.add(plate);
+        }
+        const frontPlate = new THREE.Mesh(new THREE.PlaneGeometry(0.50, 0.16), new THREE.MeshBasicMaterial({ map: taxiTex }));
+        frontPlate.position.set(0, 1.52, 0.07); bodyGroup.add(frontPlate);
+      } else if (styleId === 'bike') {
+        const frameCol = new THREE.Color(0x4ade80); frameCol.lerp(new THREE.Color(primaryHex), 0.18);
+        paintMat.color.copy(frameCol);
+        const yellowMat = new THREE.MeshStandardMaterial({ color: 0xfacc15, roughness: 0.42 });
+        const addTube = (len, x, y, z, rx, ry, rz) => {
+          const t = new THREE.Mesh(new THREE.CylinderGeometry(0.045, 0.045, len, 8), paintMat);
+          t.position.set(x, y, z); t.rotation.set(rx || 0, ry || 0, rz || 0); t.castShadow = true; bodyGroup.add(t);
+        };
+        addTube(1.05, 0, 0.78, 0.08, Math.PI / 2.6, 0, 0);
+        addTube(0.95, 0, 0.70, 0.28, -Math.PI / 3.2, 0, 0);
+        addTube(0.85, 0, 0.78, -0.12, 0, 0, 0);
+        addTube(0.80, 0, 0.58, -0.42, Math.PI / 2.4, 0, 0);
+        addTube(0.70, 0, 0.70, 0.62, 0.15, 0, 0);
+        const bar = new THREE.Mesh(new THREE.CylinderGeometry(0.035, 0.035, 0.85, 8), chromeMat); bar.rotation.z = Math.PI / 2; bar.position.set(0, 1.18, 0.62); bodyGroup.add(bar);
+        for (const s of [-1, 1]) {
+          const grip = new THREE.Mesh(new THREE.CylinderGeometry(0.04, 0.04, 0.16, 8), darkMat); grip.rotation.z = Math.PI / 2; grip.position.set(s * 0.42, 1.18, 0.62); bodyGroup.add(grip);
+        }
+        const basket = new THREE.Mesh(new THREE.BoxGeometry(0.50, 0.28, 0.38), yellowMat); basket.position.set(0, 0.98, 0.88); bodyGroup.add(basket);
+        const basketHole = new THREE.Mesh(new THREE.BoxGeometry(0.40, 0.18, 0.28), new THREE.MeshStandardMaterial({ color: 0xca8a04 })); basketHole.position.set(0, 1.04, 0.88); bodyGroup.add(basketHole);
+        const fFender = new THREE.Mesh(new THREE.TorusGeometry(0.46, 0.04, 8, 16, Math.PI), yellowMat); fFender.position.set(0, 0.42, 0.82); fFender.rotation.y = Math.PI / 2; fFender.rotation.z = 0.15; bodyGroup.add(fFender);
+        const rFender = new THREE.Mesh(new THREE.TorusGeometry(0.46, 0.04, 8, 16, Math.PI), yellowMat); rFender.position.set(0, 0.42, -0.70); rFender.rotation.y = Math.PI / 2; rFender.rotation.z = -0.2; bodyGroup.add(rFender);
+        const seat = new THREE.Mesh(new THREE.BoxGeometry(0.22, 0.08, 0.38), darkMat); seat.position.set(0, 1.18, -0.12); bodyGroup.add(seat);
+        const pedalArm = new THREE.Mesh(new THREE.BoxGeometry(0.06, 0.28, 0.06), chromeMat); pedalArm.position.set(0, 0.42, 0.02); bodyGroup.add(pedalArm);
+        const pedal = new THREE.Mesh(new THREE.BoxGeometry(0.16, 0.04, 0.08), darkMat); pedal.position.set(0.10, 0.30, 0.02); bodyGroup.add(pedal);
       } else {
         const ch = new THREE.Mesh(new THREE.BoxGeometry(1.4, 0.36, 2.4), paintMat); ch.position.set(0, 0.40, 0); ch.castShadow = true; bodyGroup.add(ch);
         const nose = new THREE.Mesh(new THREE.CylinderGeometry(0.28, 0.62, 1.18, 14), paintMat); nose.rotation.x = Math.PI / 2; nose.position.set(0, 0.38, 1.38); nose.castShadow = true; bodyGroup.add(nose);
@@ -1125,28 +1439,58 @@
         const sp = new THREE.Mesh(new THREE.BoxGeometry(1.74, 0.12, 0.48), whiteMat); sp.position.set(0, 1.12, -1.12); bodyGroup.add(sp);
       }
 
-      const dBaseY = styleId === 'monster' ? 0.84 : 0.64, driverGroup = new THREE.Group();
-      driverGroup.position.set(0, dBaseY, -0.12);
-      const torso = new THREE.Mesh(new THREE.CylinderGeometry(0.30, 0.36, 0.50, 12), new THREE.MeshStandardMaterial({ color: primaryHex })); torso.position.y = 0.24; driverGroup.add(torso);
-      const helmet = new THREE.Mesh(new THREE.SphereGeometry(0.38, 18, 16), new THREE.MeshPhysicalMaterial({ color: helmetHex, roughness: 0.12, clearcoat: 1 })); helmet.position.y = 0.70; helmet.castShadow = true; driverGroup.add(helmet);
-      const visor = new THREE.Mesh(new THREE.BoxGeometry(0.52, 0.19, 0.28), new THREE.MeshPhysicalMaterial({ color: 0x0f172a, roughness: 0.04, metalness: 0.9, clearcoat: 1 })); visor.position.set(0, 0.71, 0.25); driverGroup.add(visor);
+      let dBaseY = 0.64, dBaseZ = -0.12;
+      if (styleId === 'monster') dBaseY = 0.84;
+      else if (styleId === 'taxi') { dBaseY = 0.78; dBaseZ = 0.02; }
+      else if (styleId === 'bike') { dBaseY = 0.70; dBaseZ = -0.08; }
+      else if (styleId === 'storm') { dBaseY = 0.50; dBaseZ = -0.02; }
+      const driverGroup = new THREE.Group();
+      driverGroup.position.set(0, dBaseY, dBaseZ);
+      if (styleId === 'bike') driverGroup.scale.setScalar(0.88);
+      else if (styleId === 'taxi' || styleId === 'storm') driverGroup.scale.setScalar(0.86);
+      addDriverFigure(driverGroup, driverId, helmetHex, primaryHex);
       bodyGroup.add(driverGroup);
+      if (styleId === 'bolt') driverGroup.visible = false;
 
       const flames = [], flameMat = new THREE.MeshBasicMaterial({ color: 0x38bdf8 }), innerFlameMat = new THREE.MeshBasicMaterial({ color: 0xfacc15 });
-      for (const s of [-1, 1]) {
-        const pipe = new THREE.Mesh(new THREE.CylinderGeometry(0.11, 0.14, 0.64, 12), chromeMat); pipe.rotation.x = -Math.PI / 2 + 0.2; pipe.position.set(s * 0.36, 0.54, -1.26); bodyGroup.add(pipe);
-        const fh = new THREE.Group(); fh.position.set(s * 0.36, 0.60, -1.58);
-        const oc = new THREE.Mesh(new THREE.ConeGeometry(0.24, 1.5, 10), flameMat); oc.rotation.x = -Math.PI / 2; oc.position.z = -0.65;
-        const ic = new THREE.Mesh(new THREE.ConeGeometry(0.14, 0.92, 8), innerFlameMat); ic.rotation.x = -Math.PI / 2; ic.position.z = -0.44;
-        fh.add(oc, ic); fh.visible = false; bodyGroup.add(fh); flames.push(fh);
+      if (styleId !== 'bike') {
+        for (const s of [-1, 1]) {
+          const pipe = new THREE.Mesh(new THREE.CylinderGeometry(0.11, 0.14, 0.64, 12), chromeMat); pipe.rotation.x = -Math.PI / 2 + 0.2; pipe.position.set(s * 0.36, 0.54, styleId === 'taxi' || styleId === 'bolt' ? -1.42 : -1.26); bodyGroup.add(pipe);
+          const fh = new THREE.Group(); fh.position.set(s * 0.36, 0.60, styleId === 'taxi' || styleId === 'bolt' ? -1.72 : -1.58);
+          const oc = new THREE.Mesh(new THREE.ConeGeometry(0.24, 1.5, 10), flameMat); oc.rotation.x = -Math.PI / 2; oc.position.z = -0.65;
+          const ic = new THREE.Mesh(new THREE.ConeGeometry(0.14, 0.92, 8), innerFlameMat); ic.rotation.x = -Math.PI / 2; ic.position.z = -0.44;
+          fh.add(oc, ic); fh.visible = false; bodyGroup.add(fh); flames.push(fh);
+        }
       }
 
       const axles = [], frontPivots = [], wScale = styleId === 'monster' ? 1.32 : 1.0;
-      for (const ws of [{ x: 0.92, y: 0.36 * wScale, z: 0.88, f: true }, { x: -0.92, y: 0.36 * wScale, z: 0.88, f: true }, { x: 0.96, y: 0.40 * wScale, z: -0.82, f: false }, { x: -0.96, y: 0.40 * wScale, z: -0.82, f: false }]) {
+      let wheelSpecs;
+      if (styleId === 'bike') {
+        wheelSpecs = [
+          { x: 0, y: 0.42, z: 0.82, f: true, r: 0.42, w: 0.12 },
+          { x: 0, y: 0.42, z: -0.70, f: false, r: 0.42, w: 0.12 }
+        ];
+      } else if (styleId === 'taxi' || styleId === 'bolt') {
+        wheelSpecs = [
+          { x: 0.88, y: 0.32, z: 0.95, f: true, r: 0.32, w: 0.28 },
+          { x: -0.88, y: 0.32, z: 0.95, f: true, r: 0.32, w: 0.28 },
+          { x: 0.90, y: 0.34, z: -0.92, f: false, r: 0.34, w: 0.30 },
+          { x: -0.90, y: 0.34, z: -0.92, f: false, r: 0.34, w: 0.30 }
+        ];
+      } else {
+        wheelSpecs = [
+          { x: 0.92, y: 0.36 * wScale, z: 0.88, f: true },
+          { x: -0.92, y: 0.36 * wScale, z: 0.88, f: true },
+          { x: 0.96, y: 0.40 * wScale, z: -0.82, f: false },
+          { x: -0.96, y: 0.40 * wScale, z: -0.82, f: false }
+        ];
+      }
+      const hubMat = (styleId === 'taxi') ? new THREE.MeshStandardMaterial({ color: 0xeab308, metalness: 0.65, roughness: 0.35 }) : chromeMat;
+      for (const ws of wheelSpecs) {
         const pivot = new THREE.Group(); pivot.position.set(ws.x, ws.y, ws.z);
-        const axle = new THREE.Group(), r = (ws.f ? 0.36 : 0.41) * wScale, w = (ws.f ? 0.34 : 0.42) * wScale;
+        const axle = new THREE.Group(), r = (ws.r != null ? ws.r : (ws.f ? 0.36 : 0.41) * wScale), w = (ws.w != null ? ws.w : (ws.f ? 0.34 : 0.42) * wScale);
         const tire = new THREE.Mesh(new THREE.CylinderGeometry(r, r, w, 18), tireMat); tire.rotation.z = Math.PI / 2; tire.castShadow = true;
-        tire.add(new THREE.Mesh(new THREE.CylinderGeometry(r * 0.6, r * 0.6, w + 0.02, 14), chromeMat));
+        tire.add(new THREE.Mesh(new THREE.CylinderGeometry(r * 0.6, r * 0.6, w + 0.02, 14), hubMat));
         const sp1 = new THREE.Mesh(new THREE.BoxGeometry(r * 1.05, w + 0.04, r * 0.16), darkMat); tire.add(sp1);
         const sp2 = sp1.clone(); sp2.rotation.y = Math.PI / 2; tire.add(sp2);
         axle.add(tire); pivot.add(axle); bodyGroup.add(pivot); axles.push(axle); if (ws.f) frontPivots.push(pivot);
@@ -1160,7 +1504,8 @@
         badgeSprite.position.set(0, 2.55, 0); badgeSprite.scale.set(1.25, 1.25, 1); badgeSprite.visible = false;
         root.add(badgeSprite);
       }
-      return { root, bodyGroup, driverGroup, paintMat, axles, frontPivots, flames, badgeCanvas, badgeTex, badgeSprite };
+      const restPaintHex = paintMat.color.getHex();
+      return { root, bodyGroup, driverGroup, paintMat, axles, frontPivots, flames, badgeCanvas, badgeTex, badgeSprite, restPaintHex, driverId };
     }
 
     function updateAiItemBadgeVisual(ai) {
@@ -1191,9 +1536,9 @@
 
     // 玩家與 3 位高智慧 AI 車手
     const player = {
-      isPlayer: true, name: '你', style: 'formula', mass: STYLE_MASS.formula,
+      isPlayer: true, name: '你', style: 'formula', driver: 'wan', mass: STYLE_MASS.formula,
       visual: null, baseColorHex: PAINT_COLORS[0].hex, mapColor: '#ef4444',
-      totalProgress: -0.012, offset: 0, speed: 0, smoothSteer: 0,
+      totalProgress: -0.012, offset: 0, speed: 0, smoothSteer: 0, heading: 0,
       bumpVel: 0, bumpRoll: 0, bumpSoundCd: 0, wallHitCd: 0, rumbleCd: 0, edgeJitter: 0,
       boostTimer: 0, goldenTimer: 0, slowTimer: 0, starTimer: 0, shrinkTimer: 0, inkTimer: 0, hurtImmunity: 0,
       spinAngle: 0, heldItem: null, rouletteTimer: 0, finished: false, finishOrder: 0
@@ -1201,13 +1546,19 @@
 
     function rebuildPlayerKart() {
       if (player.visual) {
-        player.visual.root.traverse((o) => { if (o.geometry) o.geometry.dispose(); if (o.material && o.material.map !== contactShadowTex) o.material.dispose(); });
+        player.visual.root.traverse((o) => {
+          if (o.geometry) o.geometry.dispose();
+          if (o.material) {
+            const mats = Array.isArray(o.material) ? o.material : [o.material];
+            for (const m of mats) { if (m.map && !isSharedMap(m.map)) m.map.dispose(); m.dispose(); }
+          }
+        });
         scene.remove(player.visual.root);
       }
       const cObj = PAINT_COLORS[selectedColorIdx] || PAINT_COLORS[0];
-      player.style = selectedKartStyle; player.mass = STYLE_MASS[selectedKartStyle] || 1.0;
+      player.style = selectedKartStyle; player.driver = selectedDriverId; player.mass = STYLE_MASS[selectedKartStyle] || 1.0;
       player.baseColorHex = cObj.hex; player.mapColor = cObj.css;
-      player.visual = createKartModel(selectedKartStyle, cObj.hex, cObj.helmet, false);
+      player.visual = createKartModel(selectedKartStyle, cObj.hex, cObj.helmet, false, selectedDriverId);
       scene.add(player.visual.root);
       if (typeof isMulti === 'function' && isMulti() && typeof attachOrUpdateNameTag === 'function') {
         attachOrUpdateNameTag(player, player.name || localPlayerName, true);
@@ -1216,20 +1567,20 @@
     }
 
     const aiConfigs = [
-      { style: 'gt',      color: 0x22c55e, mapCol: '#22c55e', helmet: 0xfef08a, gridProg: -0.008, gridOff: -3.6, pace: 0.985, accuracy: 0.82 },
-      { style: 'star',    color: 0x38bdf8, mapCol: '#38bdf8', helmet: 0xffffff, gridProg: -0.010, gridOff: 3.6,  pace: 0.960, accuracy: 0.72 },
-      { style: 'monster', color: 0xf59e0b, mapCol: '#f59e0b', helmet: 0xffffff, gridProg: -0.015, gridOff: -3.6, pace: 0.935, accuracy: 0.64 }
+      { style: 'gt',      color: 0x22c55e, mapCol: '#22c55e', helmet: 0xfef08a, gridProg: -0.008, gridOff: -3.6, pace: 0.985, accuracy: 0.82, driver: 'jin' },
+      { style: 'star',    color: 0x38bdf8, mapCol: '#38bdf8', helmet: 0xffffff, gridProg: -0.010, gridOff: 3.6,  pace: 0.960, accuracy: 0.72, driver: 'lee' },
+      { style: 'monster', color: 0xf59e0b, mapCol: '#f59e0b', helmet: 0xffffff, gridProg: -0.015, gridOff: -3.6, pace: 0.935, accuracy: 0.64, driver: 'zhe' }
     ];
 
     let aiKarts = aiConfigs.map((cfg, idx) => {
-      const vis = createKartModel(cfg.style, cfg.color, cfg.helmet, true); scene.add(vis.root);
+      const vis = createKartModel(cfg.style, cfg.color, cfg.helmet, true, cfg.driver || 'zhe'); scene.add(vis.root);
       return {
-        isPlayer: false, name: `對手 ${idx + 1}`, style: cfg.style, mass: STYLE_MASS[cfg.style] || 1.0,
+        isPlayer: false, name: `對手 ${idx + 1}`, style: cfg.style, driver: cfg.driver || 'zhe', mass: STYLE_MASS[cfg.style] || 1.0,
         visual: vis, baseColorHex: cfg.color, mapColor: cfg.mapCol,
         totalProgress: cfg.gridProg, offset: cfg.gridOff, targetOffset: cfg.gridOff,
         laneTimer: 0.8 + idx * 0.5, basePace: cfg.pace, mathAccuracy: cfg.accuracy,
         decidedGateKey: '', chosenMathLane: 1, heldItem: null, itemUseTimer: 0,
-        speed: 0, smoothSteer: 0, bumpVel: 0, bumpRoll: 0, bumpSoundCd: 0, wallHitCd: 0, rumbleCd: 0, edgeJitter: 0,
+        speed: 0, smoothSteer: 0, heading: 0, bumpVel: 0, bumpRoll: 0, bumpSoundCd: 0, wallHitCd: 0, rumbleCd: 0, edgeJitter: 0,
         boostTimer: 0, goldenTimer: 0, slowTimer: 0, starTimer: 0, shrinkTimer: 0, inkTimer: 0, hurtImmunity: 0,
         spinAngle: 0, finished: false, finishOrder: 0
       };
@@ -1245,7 +1596,11 @@
       const { point, tangent, right, normal } = getTrackFrame(kart.totalProgress);
       const worldPos = point.clone().addScaledVector(right, kart.offset).addScaledVector(normal, kart.edgeJitter);
       kart.visual.root.position.copy(worldPos);
-      kart.visual.root.lookAt(worldPos.clone().add(tangent.clone().addScaledVector(right, kart.smoothSteer * 0.24).normalize()));
+      const isRailAi = !kart.isPlayer && !kart.isRemoteHuman;
+      if (isRailAi) kart.heading = tangentHeading(tangent) + (kart.smoothSteer || 0) * 0.22;
+      else if (typeof kart.heading !== 'number') kart.heading = tangentHeading(tangent);
+      const hx = Math.sin(kart.heading), hz = Math.cos(kart.heading);
+      kart.visual.root.lookAt(worldPos.clone().add(new THREE.Vector3(hx, 0, hz)));
 
       const targetScale = kart.shrinkTimer > 0 ? 0.56 : 1.0;
       kart.visual.root.scale.setScalar(THREE.MathUtils.lerp(kart.visual.root.scale.x, targetScale, dt > 0 ? 1 - Math.exp(-10 * dt) : 1));
@@ -1264,7 +1619,7 @@
       } else if (kart.inkTimer > 0) {
         kart.visual.paintMat.color.setHex(0x1e293b); kart.visual.paintMat.emissive.setHex(0x000000);
       } else {
-        kart.visual.paintMat.color.setHex(kart.baseColorHex); kart.visual.paintMat.emissive.setHex(0x000000);
+        kart.visual.paintMat.color.setHex(kart.visual.restPaintHex != null ? kart.visual.restPaintHex : kart.baseColorHex); kart.visual.paintMat.emissive.setHex(0x000000);
       }
 
       const boosting = kart.boostTimer > 0 || kart.starTimer > 0 || kart.goldenTimer > 0;
@@ -1323,9 +1678,10 @@
         minimapCtx.fillStyle = k.mapColor || '#94a3b8'; minimapCtx.fill(); minimapCtx.lineWidth = 3; minimapCtx.strokeStyle = k.isRemoteHuman ? '#fde047' : '#ffffff'; minimapCtx.stroke();
       }
 
-      const pFrame = getTrackFrame(player.totalProgress), pPos = player.visual.root.position;
+      const pPos = player.visual.root.position;
       const mp = worldToMinimapXY(pPos.x, pPos.z, pad, w, h);
-      const pAhead = worldToMinimapXY(pPos.x + pFrame.tangent.x * 20, pPos.z + pFrame.tangent.z * 20, pad, w, h);
+      const hx = Math.sin(player.heading || 0), hz = Math.cos(player.heading || 0);
+      const pAhead = worldToMinimapXY(pPos.x + hx * 20, pPos.z + hz * 20, pad, w, h);
       const heading = Math.atan2(pAhead.y - mp.y, pAhead.x - mp.x);
 
       minimapCtx.beginPath(); minimapCtx.arc(mp.x, mp.y, 14 + Math.sin(elapsed * 7) * 3, 0, Math.PI * 2);
@@ -1338,26 +1694,104 @@
 
     buildWorldForTrack(selectedTrackId);
     rebuildPlayerKart();
-    allKarts.forEach((k) => syncKartTransform(k, 0));
+    allKarts.forEach((k) => { initKartHeading(k); syncKartTransform(k, 0); });
 
     // 車庫互動選單
+    const previewCanvas = document.getElementById('preview-kart-canvas');
+    let previewRenderer = null, previewScene = null, previewCamera = null, previewKart = null, previewReady = false;
+    try {
+      if (previewCanvas) {
+        previewRenderer = new THREE.WebGLRenderer({ canvas: previewCanvas, antialias: true, alpha: true, powerPreference: 'low-power' });
+        previewRenderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
+        previewRenderer.setSize(512, 336, false);
+        previewRenderer.setClearColor(0x000000, 0);
+        previewScene = new THREE.Scene();
+        previewCamera = new THREE.PerspectiveCamera(38, 512 / 336, 0.1, 40);
+        previewCamera.position.set(2.8, 1.7, 4.2);
+        previewCamera.lookAt(0, 0.6, 0);
+        previewScene.add(new THREE.AmbientLight(0xffffff, 0.85));
+        const pKey = new THREE.DirectionalLight(0xffffff, 1.15); pKey.position.set(3, 6, 4); previewScene.add(pKey);
+        previewScene.add(new THREE.HemisphereLight(0xbfdbfe, 0x334155, 0.5));
+        previewReady = true;
+      }
+    } catch (err) {
+      previewReady = false;
+      if (previewCanvas) previewCanvas.style.display = 'none';
+    }
+    function disposePreviewKart() {
+      if (!previewKart || !previewScene) return;
+      previewScene.remove(previewKart.root);
+      previewKart.root.traverse((o) => {
+        if (o.geometry) o.geometry.dispose();
+        if (o.material) {
+          const mats = Array.isArray(o.material) ? o.material : [o.material];
+          for (const m of mats) { if (m.map && !isSharedMap(m.map)) m.map.dispose(); m.dispose(); }
+        }
+      });
+      previewKart = null;
+    }
+    function updateGaragePreview() {
+      const d = DRIVER_DEFS[selectedDriverId] || DRIVER_DEFS.wan;
+      const km = KART_META[selectedKartStyle] || KART_META.formula;
+      const dimg = document.getElementById('preview-driver-img');
+      if (dimg) { dimg.src = d.img; dimg.alt = d.name; }
+      const dn = document.getElementById('preview-driver-name'); if (dn) dn.textContent = d.name;
+      const df = document.getElementById('preview-driver-flavor'); if (df) df.textContent = d.flavor;
+      const kn = document.getElementById('preview-kart-name'); if (kn) kn.textContent = km.name;
+      const kf = document.getElementById('preview-kart-flavor'); if (kf) kf.textContent = km.flavor;
+      const kimg = document.getElementById('preview-kart-img');
+      if (kimg) {
+        if (km.img) { kimg.src = km.img; kimg.alt = km.name; kimg.classList.add('has-art'); }
+        else { kimg.removeAttribute('src'); kimg.alt = ''; kimg.classList.remove('has-art'); }
+      }
+      const plate = document.getElementById('preview-kart-plate');
+      const pn = document.getElementById('preview-kart-plate-name'); if (pn) pn.textContent = km.name;
+      if (previewReady) {
+        if (plate) plate.classList.remove('show');
+        disposePreviewKart();
+        const cObj = PAINT_COLORS[selectedColorIdx] || PAINT_COLORS[0];
+        previewKart = createKartModel(selectedKartStyle, cObj.hex, cObj.helmet, false, selectedDriverId);
+        previewKart.root.position.set(0, 0, 0);
+        previewScene.add(previewKart.root);
+      } else if (plate) {
+        plate.classList.add('show');
+      }
+    }
+    function renderGaragePreview(elapsed) {
+      if (!previewReady || gameState !== 'MENU' || !previewKart) return;
+      previewKart.root.rotation.y = elapsed * 0.55;
+      previewRenderer.render(previewScene, previewCamera);
+    }
+
     const colorSelectorEl = document.getElementById('color-selector');
     PAINT_COLORS.forEach((c, idx) => {
       const dot = document.createElement('button');
       dot.className = 'color-dot' + (idx === 0 ? ' selected' : ''); dot.style.background = c.css; dot.title = c.name;
       dot.addEventListener('click', () => {
-        sfx.playClick(); selectedColorIdx = idx;
+        sfx.playClick(); selectedColorIdx = idx; colorChosenAfterStyle = true;
         Array.from(colorSelectorEl.children).forEach((el, i) => el.classList.toggle('selected', i === idx));
-        rebuildPlayerKart();
+        rebuildPlayerKart(); updateGaragePreview();
       });
       colorSelectorEl.appendChild(dot);
     });
 
     document.querySelectorAll('#style-selector .choice-card').forEach((card) => {
       card.addEventListener('click', () => {
-        sfx.playClick(); selectedKartStyle = card.dataset.style;
+        sfx.playClick(); selectedKartStyle = card.dataset.style; colorChosenAfterStyle = false;
+        if (selectedKartStyle === 'bolt') {
+          selectedColorIdx = 0;
+          Array.from(colorSelectorEl.children).forEach((el, i) => el.classList.toggle('selected', i === 0));
+        }
         document.querySelectorAll('#style-selector .choice-card').forEach((c) => c.classList.toggle('selected', c === card));
-        rebuildPlayerKart();
+        rebuildPlayerKart(); updateGaragePreview();
+      });
+    });
+
+    document.querySelectorAll('#driver-selector .choice-card').forEach((card) => {
+      card.addEventListener('click', () => {
+        sfx.playClick(); selectedDriverId = card.dataset.driver;
+        document.querySelectorAll('#driver-selector .choice-card').forEach((c) => c.classList.toggle('selected', c === card));
+        rebuildPlayerKart(); updateGaragePreview();
       });
     });
 
@@ -1365,9 +1799,13 @@
       card.addEventListener('click', () => {
         sfx.playClick(); selectedTrackId = card.dataset.track;
         document.querySelectorAll('#track-selector .choice-card').forEach((c) => c.classList.toggle('selected', c === card));
-        buildWorldForTrack(selectedTrackId); allKarts.forEach((k) => syncKartTransform(k, 0));
+        buildWorldForTrack(selectedTrackId);
+        allKarts.forEach((k) => { initKartHeading(k); syncKartTransform(k, 0); });
+        updateGaragePreview();
       });
     });
+
+    updateGaragePreview();
 
     document.getElementById('toggle-pad-btn').addEventListener('click', (e) => {
       showTouchPads = !showTouchPads;
@@ -1595,12 +2033,14 @@
 
     const camCurrentPos = new THREE.Vector3(), camCurrentLook = new THREE.Vector3();
     function computeDesiredCamera() {
-      const { point, tangent, right } = getTrackFrame(player.totalProgress);
+      const { point, right } = getTrackFrame(player.totalProgress);
       const kartPos = point.clone().addScaledVector(right, player.offset);
+      const h = typeof player.heading === 'number' ? player.heading : 0;
+      const fwd = new THREE.Vector3(Math.sin(h), 0, Math.cos(h));
       return {
         kartPos,
-        desiredPos: kartPos.clone().addScaledVector(tangent, -9.2).add(new THREE.Vector3(0, 4.35, 0)),
-        desiredLook: kartPos.clone().addScaledVector(tangent, 12.8).add(new THREE.Vector3(0, 1.38, 0))
+        desiredPos: kartPos.clone().addScaledVector(fwd, -9.2).add(new THREE.Vector3(0, 4.35, 0)),
+        desiredLook: kartPos.clone().addScaledVector(fwd, 12.8).add(new THREE.Vector3(0, 1.38, 0))
       };
     }
     function snapCameraImmediate() {
@@ -1645,7 +2085,7 @@
     }
     function currentLocalProfile() {
       const cObj = PAINT_COLORS[selectedColorIdx] || PAINT_COLORS[0];
-      return { name: localPlayerName || readPlayerName() || '同學', style: selectedKartStyle, color: cObj.css, colorHex: cObj.hex, ready: true };
+      return { name: localPlayerName || readPlayerName() || '同學', style: selectedKartStyle, driver: selectedDriverId, color: cObj.css, colorHex: cObj.hex, ready: true };
     }
     function attachOrUpdateNameTag(kart, name, highlightLocal = false) {
       if (!kart || !kart.visual || !kart.visual.root) return;
@@ -1678,53 +2118,55 @@
         if (o.geometry) o.geometry.dispose();
         if (o.material) {
           const mats = Array.isArray(o.material) ? o.material : [o.material];
-          for (const m of mats) { if (m.map && m.map !== contactShadowTex) m.map.dispose(); if (m !== undefined) m.dispose(); }
+          for (const m of mats) { if (m.map && !isSharedMap(m.map)) m.map.dispose(); if (m !== undefined) m.dispose(); }
         }
       });
       scene.remove(kart.visual.root);
       kart.visual = null;
     }
-    function makeKartRecord({ isPlayer, isAi, isRemoteHuman, slot, name, style, color, grid, pace, accuracy }) {
+    function makeKartRecord({ isPlayer, isAi, isRemoteHuman, slot, name, style, color, grid, pace, accuracy, driver }) {
       const paint = paintByCssOrHex(color);
-      const vis = createKartModel(style || 'formula', paint.hex, paint.helmet, !!isAi);
+      const driverId = driver || 'wan';
+      const vis = createKartModel(style || 'formula', paint.hex, paint.helmet, !!isAi, driverId);
       scene.add(vis.root);
       const g = grid || GRID_SLOTS[slot] || GRID_SLOTS[0];
       const kart = {
         isPlayer: !!isPlayer, isAi: !!isAi, isRemote: !!isRemoteHuman || (!!isAi && !net.isHost && isMulti()),
         isRemoteHuman: !!isRemoteHuman, slot, name: name || (isAi ? `電腦 AI ${slot}` : '同學'),
-        style: style || 'formula', mass: STYLE_MASS[style] || 1.0, visual: vis,
+        style: style || 'formula', driver: driverId, mass: STYLE_MASS[style] || 1.0, visual: vis,
         baseColorHex: paint.hex, mapColor: paint.css,
         totalProgress: g.prog, offset: g.off, targetOffset: g.off,
         laneTimer: 0.8 + slot * 0.5, basePace: pace ?? 0.96, mathAccuracy: accuracy ?? 0.72,
         decidedGateKey: '', chosenMathLane: 1, heldItem: null, itemUseTimer: 0,
-        speed: 0, smoothSteer: 0, bumpVel: 0, bumpRoll: 0, bumpSoundCd: 0, wallHitCd: 0, rumbleCd: 0, edgeJitter: 0,
+        speed: 0, smoothSteer: 0, heading: 0, bumpVel: 0, bumpRoll: 0, bumpSoundCd: 0, wallHitCd: 0, rumbleCd: 0, edgeJitter: 0,
         boostTimer: 0, goldenTimer: 0, slowTimer: 0, starTimer: 0, shrinkTimer: 0, inkTimer: 0, hurtImmunity: 0,
         spinAngle: 0, finished: false, finishOrder: 0, correct: 0, answered: 0, finishTime: 0,
         renderP: g.prog, renderO: g.off, snappedNet: false
       };
       if (isAi) updateAiItemBadgeVisual(kart);
       if (!isAi) attachOrUpdateNameTag(kart, kart.name, !!isPlayer);
+      initKartHeading(kart);
       return kart;
     }
     function restoreShowroomAi() {
       for (const k of allKarts) { if (k !== player) disposeKartVisual(k); }
       aiKarts = aiConfigs.map((cfg, idx) => {
-        const vis = createKartModel(cfg.style, cfg.color, cfg.helmet, true); scene.add(vis.root);
+        const vis = createKartModel(cfg.style, cfg.color, cfg.helmet, true, cfg.driver || 'wan'); scene.add(vis.root);
         const ai = {
           isPlayer: false, isAi: true, isRemote: false, isRemoteHuman: false, slot: idx + 1,
-          name: `對手 ${idx + 1}`, style: cfg.style, mass: STYLE_MASS[cfg.style] || 1.0,
+          name: `對手 ${idx + 1}`, style: cfg.style, driver: cfg.driver || 'wan', mass: STYLE_MASS[cfg.style] || 1.0,
           visual: vis, baseColorHex: cfg.color, mapColor: cfg.mapCol,
           totalProgress: cfg.gridProg, offset: cfg.gridOff, targetOffset: cfg.gridOff,
           laneTimer: 0.8 + idx * 0.5, basePace: cfg.pace, mathAccuracy: cfg.accuracy,
           decidedGateKey: '', chosenMathLane: 1, heldItem: null, itemUseTimer: 0,
-          speed: 0, smoothSteer: 0, bumpVel: 0, bumpRoll: 0, bumpSoundCd: 0, wallHitCd: 0, rumbleCd: 0, edgeJitter: 0,
+          speed: 0, smoothSteer: 0, heading: 0, bumpVel: 0, bumpRoll: 0, bumpSoundCd: 0, wallHitCd: 0, rumbleCd: 0, edgeJitter: 0,
           boostTimer: 0, goldenTimer: 0, slowTimer: 0, starTimer: 0, shrinkTimer: 0, inkTimer: 0, hurtImmunity: 0,
           spinAngle: 0, finished: false, finishOrder: 0, correct: 0, answered: 0, finishTime: 0, snappedNet: false
         };
         return ai;
       });
       allKarts = [player, ...aiKarts];
-      if (trackCurve) allKarts.forEach((k) => syncKartTransform(k, 0));
+      if (trackCurve) allKarts.forEach((k) => { initKartHeading(k); syncKartTransform(k, 0); });
     }
     function setupRaceGrid(roster, fillAi) {
       for (const k of allKarts) { if (k !== player) disposeKartVisual(k); }
@@ -1734,13 +2176,14 @@
       player.slot = mySlot; player.isAi = false; player.isRemote = false; player.isRemoteHuman = false;
       player.name = localPlayerName || '你';
       player.totalProgress = grid.prog; player.offset = grid.off;
+      initKartHeading(player);
       attachOrUpdateNameTag(player, isMulti() ? player.name : '', true);
       const others = [];
       for (const h of humans) {
         if (h.slot === mySlot) continue;
         others.push(makeKartRecord({
           isPlayer: false, isAi: false, isRemoteHuman: true, slot: h.slot,
-          name: h.name, style: h.style, color: h.color || h.colorHex, grid: GRID_SLOTS[h.slot]
+          name: h.name, style: h.style, driver: h.driver, color: h.color || h.colorHex, grid: GRID_SLOTS[h.slot]
         }));
       }
       const used = new Set(humans.map((h) => h.slot));
@@ -1754,7 +2197,7 @@
         const rec = makeKartRecord({
           isPlayer: false, isAi: true, isRemoteHuman: false, slot,
           name: spec.name || `電腦 AI ${slot}`, style: spec.style || cfg.style,
-          color: spec.color || cfg.mapCol, grid: GRID_SLOTS[slot],
+          color: spec.color || cfg.mapCol, driver: spec.driver || cfg.driver, grid: GRID_SLOTS[slot],
           pace: spec.pace ?? cfg.pace, accuracy: spec.accuracy ?? cfg.accuracy
         });
         rec.isRemote = isMulti() && !net.isHost;
@@ -1766,8 +2209,9 @@
     }
     function packKartState(kart) {
       return {
-        slot: kart.slot, name: kart.name, style: kart.style, color: kart.mapColor,
+        slot: kart.slot, name: kart.name, style: kart.style, driver: kart.driver, color: kart.mapColor,
         p: +kart.totalProgress.toFixed(5), o: +kart.offset.toFixed(3), v: +kart.speed.toFixed(2), s: +kart.smoothSteer.toFixed(3),
+        h: +(typeof kart.heading === 'number' ? kart.heading : 0).toFixed(4),
         flags: {
           boost: kart.boostTimer > 0, star: kart.starTimer > 0, gold: kart.goldenTimer > 0,
           shrink: kart.shrinkTimer > 0, slow: kart.slowTimer > 0, ink: kart.inkTimer > 0,
@@ -1800,13 +2244,16 @@
       if (!st || typeof st.p !== 'number') return;
       const age = Math.max(0, (performance.now() - (st.recvTime || performance.now())) / 1000);
       const pTarget = st.p + ((st.v || 0) * age) / Math.max(1, trackLength);
+      const fallbackH = trackCurve ? tangentHeading(getTrackFrame(typeof st.p === 'number' ? st.p : kart.totalProgress).tangent) : 0;
+      const hTarget = (typeof st.h === 'number') ? st.h : fallbackH;
       if (!kart.snappedNet) {
-        kart.totalProgress = pTarget; kart.offset = st.o; kart.speed = st.v || 0; kart.smoothSteer = st.s || 0; kart.snappedNet = true;
+        kart.totalProgress = pTarget; kart.offset = st.o; kart.speed = st.v || 0; kart.smoothSteer = st.s || 0; kart.heading = hTarget; kart.snappedNet = true;
       } else {
         const alpha = 1 - Math.exp(-12 * dt);
         kart.totalProgress += (pTarget - kart.totalProgress) * alpha;
         kart.offset += ((st.o || 0) - kart.offset) * alpha;
         kart.smoothSteer += ((st.s || 0) - kart.smoothSteer) * alpha;
+        kart.heading = (typeof kart.heading === 'number' ? kart.heading : hTarget) + shortestAngleDelta(kart.heading || hTarget, hTarget) * alpha;
         kart.speed = st.v || kart.speed;
       }
       applyRemoteFlags(kart, st);
@@ -1858,7 +2305,8 @@
       rows.forEach((p) => {
         const paint = paintByCssOrHex(p.color || p.colorHex);
         const row = document.createElement('div'); row.className = 'roster-row';
-        row.innerHTML = `<div style="display:flex;align-items:center;gap:10px;"><span class="roster-dot" style="background:${paint.css}"></span><div><div class="who">${p.name || '同學'} ${p.slot === net.mySlot ? '（你）' : ''}</div><div class="meta">${STYLE_LABELS[p.style] || p.style || '賽車'}　車位 P${(p.slot || 0) + 1}${p.isHost ? '　房主' : ''}</div></div></div><div class="meta">${p.ready ? '已就緒' : '等候中'}</div>`;
+        const driverLabel = (DRIVER_DEFS[p.driver] && DRIVER_DEFS[p.driver].name) ? DRIVER_DEFS[p.driver].name : '';
+        row.innerHTML = `<div style="display:flex;align-items:center;gap:10px;"><span class="roster-dot" style="background:${paint.css}"></span><div><div class="who">${p.name || '同學'} ${p.slot === net.mySlot ? '（你）' : ''}</div><div class="meta">${STYLE_LABELS[p.style] || p.style || '賽車'}${driverLabel ? '　' + driverLabel : ''}　車位 P${(p.slot || 0) + 1}${p.isHost ? '　房主' : ''}</div></div></div><div class="meta">${p.ready ? '已就緒' : '等候中'}</div>`;
         list.appendChild(row);
       });
       const empty = 4 - rows.length;
@@ -2214,7 +2662,9 @@
       }
       Object.assign(player, { totalProgress: -0.008, offset: 0, speed: 0, smoothSteer: 0, bumpVel: 0, bumpRoll: 0, edgeJitter: 0, boostTimer: 0, goldenTimer: 0, starTimer: 0, shrinkTimer: 0, inkTimer: 0, spinAngle: 0, name: localPlayerName || '你', slot: 0 });
       attachOrUpdateNameTag(player, '', true);
+      initKartHeading(player);
       if (trackCurve) syncKartTransform(player, 0);
+      if (typeof updateGaragePreview === 'function') updateGaragePreview();
     }
 
     function startNewRace(opts = {}) {
@@ -2242,7 +2692,7 @@
         boostTimer: 0, goldenTimer: 0, slowTimer: 0, starTimer: 0, shrinkTimer: 0, inkTimer: 0, hurtImmunity: 0, spinAngle: 0, heldItem: null, rouletteTimer: 0, finished: false, finishOrder: 0,
         name: raceMode === 'multi' ? (localPlayerName || '你') : (localPlayerName || '你')
       });
-      if (raceMode === 'solo') { player.totalProgress = -0.012; player.offset = 0; player.slot = 0; attachOrUpdateNameTag(player, '', true); }
+      if (raceMode === 'solo') { player.totalProgress = -0.012; player.offset = 0; player.slot = 0; attachOrUpdateNameTag(player, '', true); initKartHeading(player); }
       else { attachOrUpdateNameTag(player, player.name, true); }
       updateItemHud();
 
@@ -2251,9 +2701,10 @@
           Object.assign(ai, {
             totalProgress: aiConfigs[idx].gridProg, offset: aiConfigs[idx].gridOff, targetOffset: aiConfigs[idx].gridOff,
             decidedGateKey: '', chosenMathLane: 1, heldItem: null, itemUseTimer: 0,
-            speed: 0, smoothSteer: 0, bumpVel: 0, bumpRoll: 0, bumpSoundCd: 0, wallHitCd: 0, rumbleCd: 0, edgeJitter: 0,
+            speed: 0, smoothSteer: 0, heading: 0, bumpVel: 0, bumpRoll: 0, bumpSoundCd: 0, wallHitCd: 0, rumbleCd: 0, edgeJitter: 0,
             boostTimer: 0, goldenTimer: 0, slowTimer: 0, starTimer: 0, shrinkTimer: 0, inkTimer: 0, hurtImmunity: 0, spinAngle: 0, finished: false, finishOrder: 0
           });
+          initKartHeading(ai);
           updateAiItemBadgeVisual(ai);
         });
       }
@@ -2263,7 +2714,7 @@
       correctCount = 0; answeredCount = 0; comboCount = 0; wrongRecords.length = 0; raceElapsed = 0; finishedCount = 0; currentLapDisplay = 1;
       lapTextEl.textContent = `1/${CONFIG.totalLaps}`; scoreTextEl.textContent = '0 / 0'; comboValEl.textContent = 'x0'; rankTextEl.textContent = '4th';
       qBannerEl.classList.remove('visible'); speedLinesEl.classList.remove('active'); inkOverlayEl.classList.remove('active'); edgeVignetteEl.classList.remove('active');
-      allKarts.forEach((k) => { k.snappedNet = false; syncKartTransform(k, 0); }); snapCameraImmediate();
+      allKarts.forEach((k) => { initKartHeading(k); k.snappedNet = false; syncKartTransform(k, 0); }); snapCameraImmediate();
 
       document.getElementById('start-modal').style.display = 'none'; document.getElementById('finish-modal').style.display = 'none'; document.getElementById('quiz-modal').style.display = 'none';
       hideLobby();
@@ -2462,10 +2913,19 @@
       }
 
       if (absOff >= CONFIG.maxLateralOffset) {
-        const sign = Math.sign(kart.offset);
+        const sign = Math.sign(kart.offset) || 1;
         kart.offset = sign * CONFIG.maxLateralOffset;
         kart.bumpVel = -sign * 8.2; kart.bumpRoll = -sign * 0.22;
         if (!hasImmunity) kart.speed *= 0.76;
+        if (typeof kart.heading === 'number' && trackCurve) {
+          const wallFrame = getTrackFrame(kart.totalProgress);
+          const tHead = tangentHeading(wallFrame.tangent);
+          const fx = Math.sin(kart.heading), fz = Math.cos(kart.heading);
+          const intoWall = (fx * wallFrame.right.x + fz * wallFrame.right.z) * sign;
+          if (intoWall > 0) kart.heading += sign * 0.42;
+          const dang = shortestAngleDelta(kart.heading, tHead);
+          if (Math.abs(dang) > 1.75) kart.heading += Math.sign(dang) * (Math.abs(dang) - 1.75);
+        }
         for (let k = 0; k < 4; k++) spawnParticle(kart.visual.root.position, 0xf97316, 2.4, 3.2);
         if (kart.isPlayer && kart.wallHitCd <= 0) {
           sfx.playWallHit(); kart.wallHitCd = 0.38;
@@ -2647,6 +3107,7 @@
         const focus = point.clone().addScaledVector(right, player.offset);
         camera.position.set(focus.x + Math.sin(elapsed * 0.5) * 8.6, focus.y + 3.25, focus.z + Math.cos(elapsed * 0.5) * 8.6);
         camera.lookAt(focus.x, focus.y + 0.95, focus.z);
+        renderGaragePreview(elapsed);
         renderer.render(scene, camera);
         return;
       }
@@ -2676,6 +3137,8 @@
         const rawSteer = ((inputState.rightKey || inputState.rightTouch) ? 1 : 0) - ((inputState.leftKey || inputState.leftTouch) ? 1 : 0);
         player.smoothSteer = THREE.MathUtils.lerp(player.smoothSteer, rawSteer, 1 - Math.exp(-12 * dt));
         player.hurtImmunity = Math.max(0, player.hurtImmunity - dt);
+        const pStats = styleStatsOf(player.style);
+        if (Math.abs(rawSteer) > 0.05) player.heading += rawSteer * pStats.yaw * dt;
 
         if (player.inkTimer > 0) {
           player.inkTimer = Math.max(0, player.inkTimer - dt);
@@ -2685,28 +3148,21 @@
           inkOverlayEl.classList.remove('active');
         }
 
-        player.offset += (player.smoothSteer * CONFIG.steerSpeed + player.bumpVel) * dt;
-        if (Math.abs(rawSteer) < 0.05 && Math.abs(player.bumpVel) < 0.6 && Math.abs(player.offset) <= CONFIG.edgeSlowStart) {
-          let nearCenter = 0, minD = Infinity;
-          for (const c of CONFIG.laneCenters) { const d = Math.abs(player.offset - c); if (d < minD) { minD = d; nearCenter = c; } }
-          if (minD < 1.35) player.offset = THREE.MathUtils.lerp(player.offset, nearCenter, 1.8 * dt);
-        }
-        player.offset = THREE.MathUtils.clamp(player.offset, -CONFIG.maxLateralOffset, CONFIG.maxLateralOffset);
         player.bumpVel = THREE.MathUtils.lerp(player.bumpVel, 0, 1 - Math.exp(-7 * dt));
         player.bumpRoll = THREE.MathUtils.lerp(player.bumpRoll, 0, 1 - Math.exp(-8 * dt));
 
-        let targetSpeed = CONFIG.baseSpeed;
+        let targetSpeed = CONFIG.baseSpeed * pStats.speed;
         if (player.starTimer > 0) {
           player.starTimer = Math.max(0, player.starTimer - dt);
-          targetSpeed = CONFIG.baseSpeed * 1.62;
+          targetSpeed = CONFIG.baseSpeed * 1.62 * pStats.speed;
           spawnParticle(player.visual.root.position, 0xf472b6, 1.8, 3.0);
         } else if (player.goldenTimer > 0) {
           player.goldenTimer = Math.max(0, player.goldenTimer - dt);
-          targetSpeed = CONFIG.baseSpeed * 1.65;
+          targetSpeed = CONFIG.baseSpeed * 1.65 * pStats.speed;
           spawnParticle(player.visual.root.position, 0xfacc15, 1.8, 3.0);
         } else if (player.boostTimer > 0) {
           player.boostTimer = Math.max(0, player.boostTimer - dt);
-          targetSpeed = CONFIG.baseSpeed * CONFIG.boostMultiplier;
+          targetSpeed = CONFIG.baseSpeed * CONFIG.boostMultiplier * pStats.speed;
           spawnParticle(player.visual.root.position, 0x38bdf8, 1.6, 2.8);
         } else if (player.slowTimer > 0) {
           player.slowTimer = Math.max(0, player.slowTimer - dt);
@@ -2724,11 +3180,14 @@
         camera.fov = THREE.MathUtils.lerp(camera.fov, highSpeedActive ? CONFIG.boostFov : CONFIG.baseFov, 1 - Math.exp(-7 * dt));
         camera.updateProjectionMatrix();
 
+        const prevProgress = player.totalProgress;
+        const moveFrame = getTrackFrame(player.totalProgress);
+        const fwdX = Math.sin(player.heading) * player.speed, fwdZ = Math.cos(player.heading) * player.speed;
+        player.totalProgress += ((fwdX * moveFrame.tangent.x + fwdZ * moveFrame.tangent.z) * dt) / trackLength;
+        player.offset += (fwdX * moveFrame.right.x + fwdZ * moveFrame.right.z) * dt + player.bumpVel * dt;
+
         targetSpeed = applyTrackEdgePhysics(player, targetSpeed, dt);
         player.speed = THREE.MathUtils.lerp(player.speed, targetSpeed, 1 - Math.exp(-5.5 * dt));
-
-        const prevProgress = player.totalProgress;
-        player.totalProgress += (player.speed * dt) / trackLength;
         speedNumEl.textContent = String(Math.round(player.speed * 2.9));
 
         const playerNormT = ((player.totalProgress % 1) + 1) % 1;
