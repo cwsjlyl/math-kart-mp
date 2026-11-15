@@ -1,0 +1,360 @@
+3D 乘數衝鋒車：多人連線版（Multiplayer）升級技術指南
+將單機網頁     3D 賽車改為支援 GitHub Pages 純靜態部署 與 iPad 課堂連線對戰，最關鍵的考量是「免自建後端伺服器」、「穿透學校 Wi-Fi 防
+火牆」以及「消除網路延遲造成的車輛瞬移」。以下為針對現有                v4.0 程式碼量身設計的完整升級方案。
+
+一、三種免費連線技術方案對比（支援                        GitHub Pages）
+由於   GitHub Pages 只支援靜態網頁（HTML / CSS / JS），無法直接執行傳統 Node.js 伺服器，業界通常採用以下三種無須自架主機的連線架
+構：
+
+
+
+ 方案名稱            運作原理                   優點                                             校園網路限制與注意事項               推薦指數
+
+
+
+ 1. PeerJS       由開房學生（或教師）的裝
+
+                         Host），其他
+                                        完全零設定、免申請帳號與       API
+                                        Key、單一 index.html 直接
+                                                                                       部分學校防火牆會封鎖
+
+                                                                                       UDP 連接埠；若跨網段連
+                                                                                                                 ⭐⭐⭐⭐⭐
+ （WebRTC 點對點
+                 置擔任房主（
+                                                                                                                 （最快實作首
+
+ 連線）
+                 iPad 輸入 4 位數房間碼直接      上線、校內同網段延遲極低（約                                 線受阻，需加掛免費 TURN
+                                                                                                                 選）
+                 點對點傳輸資料                10–25 ms ）                                     中繼設定
+
+
+ 2. Supabase
+ Realtime
+                 前端直接透過加密
+
+                 WebSocket（連接埠 443）
+                                        100% 穿透學校防火牆（與一般
+                                        瀏覽 HTTPS 網頁相同）、免費
+                                                                                       需免費註冊專案並將公開
+
+                                                                                       anonKey 填入
+                                                                                                                 ⭐⭐⭐⭐⭐
+                                                                                                                 （課堂穩定首
+ Broadcast（或     連接雲端頻道廣播封包，不           額度足以應付全班 30–40 人同                              index.html（約需 5 分鐘
+                                                                                                                 選）
+ Firebase）       寫入硬碟資料庫                時分組比賽                                          設定）
+
+
+ 3. PartyKit /
+ Colyseus（邊緣權
+                 將遊戲物理與道具判定放在           房主跳出遊戲也不會斷線、完全
+                                                                                       需分開維護前端（
+
+                                                                                       與後端腳本，開發與除錯時
+                                                                                                       GitHub）   ⭐⭐⭐  （大型跨
+
+                 雲端邊緣節點統一運算             防作弊、支援 8–12 人大混戰                                                         校賽適用）
+ 威伺服器）                                                                                 間較長
+
+
+
+     實戰建議：
+
+
+          如果你想零註冊、改完    index.html 馬上推上 GitHub 測試，建議先用 PeerJS（方案 1）。
+          如果在學校實測時發現學校 iPad 的防火牆阻擋點對點連線，只需把底層通訊層換成 Supabase Realtime Broadcast（方案
+          2），上層賽車同步邏輯完全共用！
+
+二、為甚麼現有          v4.0 架構天生適合改連線版？
+一般   3D 賽車若同步真實物理剛體，每幀需傳送三維座標 (x, y, z )、四元數旋轉 (q , q , q , q ) 與線速度向量，封包龐大且容易穿模。
+                                                               x
+                                                                   ​
+
+
+
+
+                                                                       y
+                                                                           ​
+
+
+
+
+                                                                               z
+                                                                                   ​
+
+
+
+
+                                                                                       w
+                                                                                           ​
+
+
+
+
+但在我們的     v4.0 賽道曲線架構 中，任何一輛賽車在 3D 空間的精確位置與姿態，完全由以下極簡狀態決定：
+                               KartState = {p, o, v, s, style, color, flags}
+
+
+
+     p（ totalProgress）：單調遞增賽道進度值（例如 1.4285 代表第 2 圈的 42.85% 位置）。
+     o（ offset）：橫向車道偏移量（介乎 −7.25 至 +7.25）。
+     v （speed）：當前車速（用於預測下一幀位置與滾動車輪）。
+
+     s（smoothSteer）：方向盤轉角（用於表現車頭轉向與車身傾側）。
+
+     flags ：狀態位元（加速火焰、無敵彩虹星、黃金蘑菇、縮小、打滑旋轉中、頭頂所持道具圖示）。
+
+
+
+每個封包壓縮後不到 80 bytes ，以每秒 15–20 Hz （每 50–66 ms 一次）的頻率發送，                     iPad 完全不會發熱或卡頓！
+
+三、五大連線核心機制與課堂防呆設計
+
+1. 4 位數房間碼大廳 ＋ AI 自動補位機制
+在主選單「開始比賽」旁新增兩個按鈕：「建立房間」 與 「輸入房號加入」：
+
+
+     房主（  Host）：產生一組 4 位數房間碼（如 3829），選定賽道（例如「星光霓虹彩虹道」）與乘法範圍（如 2 至 9），畫面即時顯示已
+     加入的同學名稱與車款。
+
+     自動補滿 4 車：若只有 2 位同學連線，房主按下「開始比賽」時，系統自動派 2 部高智慧                                             AI 電腦車手補滿 4 個車位（由房主統一運算 AI
+     位置並廣播），無論 2 人、3 人或 4 人都能熱鬧開跑！
+2. 網路平滑插值與航位推算（消除對手車輛瞬移）
+網路封包每隔約 50 ms 才到達一次，而畫面以 60 FPS（每 16.6 ms 一幀）渲染。為了讓遠端同學的賽車看起來像單機版一樣絲滑，渲染遠端
+
+車輛時採用速度外推 ＋ 指數平滑插值（          Dead Reckoning + Lerp）：
+                                                                            vnet ⋅ Δtage
+                                                                                  ​            ​
+
+
+
+
+                                            p
+                                            ^target ( t) = p net +
+                                                    ​   ​           ​                              ​
+
+
+
+
+                                                                                 L track   ​
+
+
+
+
+                                                                                                       −12⋅dt
+                               p render ← p render + (p
+                                        ​             ^target − p render ) ⋅ (1 − e
+                                                            ​   ​       ​             ​                         )
+
+
+
+即使學校   Wi-Fi 偶爾出現 100 ms 波動，對手車輛依然會順暢沿著彎道滑行，絕不跳格。
+3. 課堂專屬教學設計：「防跟車抄答案」獨立題目機制
+在多人連線版中，有一個非常重要的教學細節：
+
+
+    如果全場所有學生看到完全相同的光門數字，排在第 2、3 名的學生只要死跟在成績好的第 1 名車尾穿過同一個閘門，不用心算就能答對
+
+    加速！
+
+    解決方案（建議預設開啟）：賽道上光門的物理位置完全同步，但每位學生                                                 iPad 畫面上的數學題與左、中、右正確車道由各自裝置獨立
+    隨機產生！
+
+         在學生   A 眼中，正確答案在「左車道」；在學生 B 眼中，同一道光門的正確答案在「右車道」。
+         每個人都必須靠自己心算個位數乘法才能獲得渦輪加速，徹底杜絕跟車抄襲！
+
+
+4. 道具與香蕉皮事件同步（Event-Driven RPC）
+除了每 50 ms 的位置同步外，當任何玩家使用道具時，立即發送一則高優先級事件訊息：
+
+
+    BANANA_DROP：包含拋出者的起點 p 、落點 p 、橫向偏移 o 與唯一編號 hazardId。所有人的畫面上都會同步看到香蕉皮拋物線飛出
+                                0
+                                    ​
+
+
+
+
+                                            1
+                                                ​
+
+
+
+
+    並落在地上；當有人踩中時廣播 BANANA_REMOVE，全場同步移除該香蕉並播放打滑動畫。
+
+    SHELL_SPAWN / BOBOMB_SPAWN：全場同步生成紅/綠/藍龜殼或炸彈兵。為免雙端判定衝突，採用**「受擊端自主判定（Victim-
+    Authoritative Hit）」或「房主統一判定」**：當某位玩家被龜殼擊中時廣播 KART_HIT，其他人的畫面即時看到他旋轉冒煙。
+                              🦑
+    GLOBAL_ITEM（閃電 ⚡ / 墨汁魷魚 ）：發動瞬間廣播全體事件，其他所有真人玩家的 iPad 立即閃黃光縮小減速或噴上黑墨汁！
+
+5. 車體碰撞與賽後個人化 4× 錯題特訓
+    連線車體碰撞：當本地玩家的賽車與遠端玩家的預測座標距離小於碰撞閾值（∣Δz ∣ < 2.55 且 ∣Δx∣ < 1.78），雙方各自根據車重屬性
+
+    （如「霸氣大腳越野」質量 1.38）即時計算彈開衝量                          bumpVel，手感零延遲！
+    衝線等待與成績榜：第 1 名衝線後會觸發 15 秒倒數（或全體完賽即結算），公布 1st–4th 真人排行榜與答對率；隨後每位學生的                                              iPad
+                   **
+    各自進入屬於自己的 「答錯 W 題出 4W 題」個人化鞏固選擇題特訓 ！                                    **
+
+四、嵌入      index.html 的連線模組程式碼架構（PeerJS 範例）
+只需在現有   index.html 引入輕量級 PeerJS CDN，即可加入以下 NetworkManager 模組與現有 allKarts 無縫接合：
+
+<!-- 1. 在 <head> 加入 PeerJS 輕量連線庫 -->
+<script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script>
+// 2. 多人連線管理模組（支援 4 位數房間碼、20Hz 賽車同步、道具與香蕉事件廣播）
+class KartNetworkManager {
+  constructor() {
+    this.peer = null;
+    this.isHost = false;
+    this.roomCode = '';
+    this.mySlot = 0; // 0: 房主, 1~3: 加入的同學
+    this.connections = new Map(); // peerId -> DataConnection
+    this.hostConn = null;
+    this.remoteStates = new Map(); // slot -> 最新網路封包
+    this.syncAccumulator = 0;
+  }
+
+ // 房主建立 4 位數房間（例如 5821 -> Peer ID: cwsj-mk8-5821）
+ createRoom(playerProfile, onRoomReady, onLobbyUpdate) {
+   this.isHost = true;
+   this.mySlot = 0;
+   this.roomCode = String(Math.floor(1000 + Math.random() * 9000));
+   const peerId = `cwsj-mk8-${this.roomCode}`;
+
+     this.peer = new Peer(peerId);
+     this.peer.on('open', () => onRoomReady(this.roomCode));
+
+     this.peer.on('connection', (conn) => {
+       if (this.connections.size >= 3) {
+         conn.on('open', () => conn.send({ type: 'ROOM_FULL' }));
+         return;
+       }
+       const assignedSlot = this.connections.size + 1;
+       conn.slot = assignedSlot;
+       this.connections.set(conn.peer, conn);
+
+       conn.on('data', (msg) => this.handleHostMessage(conn, msg, onLobbyUpdate));
+       conn.on('close', () => {
+         this.connections.delete(conn.peer);
+         onLobbyUpdate(this.getLobbyRoster());
+       });
+     });
+ }
+
+ // 學生輸入 4 位數房間碼加入
+ joinRoom(code, playerProfile, onJoined, onMessage) {
+   this.isHost = false;
+   this.roomCode = code.trim();
+   this.peer = new Peer();
+
+     this.peer.on('open', () => {
+       const conn = this.peer.connect(`cwsj-mk8-${this.roomCode}`, { reliable: false });
+       this.hostConn = conn;
+       conn.on('open', () => {
+         conn.send({ type: 'JOIN_REQ', profile: playerProfile });
+       });
+       conn.on('data', (msg) => {
+         if (msg.type === 'WELCOME') {
+           this.mySlot = msg.slot;
+           onJoined(msg);
+         } else {
+           onMessage(msg);
+         }
+      });
+    });
+}
+
+// 每幀呼叫：控制以 20Hz（每 0.05 秒）發送本地賽車座標狀態
+tickSync(dt, localKart) {
+  this.syncAccumulator += dt;
+  if (this.syncAccumulator < 0.05) return;
+  this.syncAccumulator = 0;
+
+    const statePacket = {
+      type: 'KART_STATE',
+      slot: this.mySlot,
+      p: Number(localKart.totalProgress.toFixed(5)),
+      o: Number(localKart.offset.toFixed(2)),
+      v: Number(localKart.speed.toFixed(1)),
+      s: Number(localKart.smoothSteer.toFixed(2)),
+      boost: localKart.boostTimer > 0 ? 1 : 0,
+      star: localKart.starTimer > 0 ? 1 : 0,
+      gold: localKart.goldenTimer > 0 ? 1 : 0,
+      shrink: localKart.shrinkTimer > 0 ? 1 : 0,
+      slow: localKart.slowTimer > 0 ? 1 : 0,
+      item: localKart.heldItem || ''
+    };
+
+    this.broadcastOrSendToHost(statePacket);
+}
+
+// 廣播道具事件（拋出香蕉皮、發射紅藍綠龜殼、閃電、墨汁）
+sendItemEvent(eventPayload) {
+  this.broadcastOrSendToHost({
+    type: 'ITEM_EVENT',
+    senderSlot: this.mySlot,
+    ...eventPayload
+  });
+}
+
+broadcastOrSendToHost(packet) {
+  if (this.isHost) {
+    for (const conn of this.connections.values()) {
+      if (conn.open) conn.send(packet);
+    }
+  } else if (this.hostConn && this.hostConn.open) {
+    this.hostConn.send(packet);
+  }
+}
+
+handleHostMessage(conn, msg, onLobbyUpdate) {
+  if (msg.type === 'JOIN_REQ') {
+    conn.profile = msg.profile;
+    conn.send({ type: 'WELCOME', slot: conn.slot, trackId: selectedTrackId, mathRange: mathRangeMode });
+    const roster = this.getLobbyRoster();
+    this.broadcastOrSendToHost({ type: 'LOBBY_ROSTER', roster });
+    if (onLobbyUpdate) onLobbyUpdate(roster);
+    return;
+  }
+  // 房主收到某位學生的賽車座標或道具事件後，立即轉發給房間內其他同學
+  for (const otherConn of this.connections.values()) {
+    if (otherConn !== conn && otherConn.open) otherConn.send(msg);
+        }
+        this.applyIncomingPacket(msg);
+    }
+
+    applyIncomingPacket(msg) {
+      if (msg.type === 'KART_STATE') {
+        this.remoteStates.set(msg.slot, { ...msg, recvTime: performance.now() });
+      }
+    }
+
+    getLobbyRoster() {
+      const list = [{ slot: 0, name: '房主 (P1)' }];
+      for (const conn of this.connections.values()) {
+        list.push({ slot: conn.slot, ...(conn.profile || { name: `同學 P${conn.slot + 1}` }) });
+      }
+      return list;
+    }
+}
+
+
+五、      iPad 課堂實戰三大避坑要點
+    1. 防止房主切換分頁導致休眠（Background Throttling）：
+          在 iPad Safari 上，若擔任「房主（Host ）」的學生按了 Home 鍵或切換分頁，瀏覽器會暫停 requestAnimationFrame，導致
+
+          其他同學收不到 AI 與轉發封包。
+
+             解法：房主的網絡轉發邏輯綁定在             PeerJS 的 conn.on('data') 事件回呼與 Web Worker 計時器上，即使畫面短暫縮小仍能持
+             續轉發封包；並使用Wake Lock API（navigator.wakeLock.request('screen')）防止比賽中途螢幕自動變暗鎖機。
+    2. 名字輸入與車頂名牌（Name Tag Sprite）：
+          進入房間前讓學生輸入簡短姓名或學號（例如 4A 陳小明），利用 Three.js CanvasTexture + Sprite 懸浮顯示在每輛賽車頭
+
+          頂上方（與現有 v4.0 的 AI 道具氣泡並列），比賽時一眼認出旁邊擦撞自己的是哪位同學！
+
+    3. 單機與連線雙模式並存：
+          保留原本的「單人挑戰 AI」按鈕，當學生在家溫習或沒有同學在線時，依然能隨時單人開跑並進行賽後 4 倍錯題特訓。
+
