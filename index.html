@@ -24,7 +24,7 @@
     #flash-overlay { position: fixed; inset: 0; background: #fef08a; opacity: 0; pointer-events: none; transition: opacity 0.25s ease; z-index: 18; }
 
     #hud { position: fixed; inset: 0; pointer-events: none; z-index: 10; display: none; }
-    .mk-top-left { position: fixed; top: max(14px, env(safe-area-inset-top)); left: max(18px, env(safe-area-inset-left)); display: flex; align-items: flex-start; gap: 12px; z-index: 12; }
+    .mk-top-left { position: fixed; top: max(8px, calc(var(--vv-top, 0px) + 8px), env(safe-area-inset-top)); left: max(10px, calc(var(--vv-left, 0px) + 10px), env(safe-area-inset-left)); display: flex; align-items: flex-start; gap: 12px; z-index: 12; }
     #mk-item-slot { pointer-events: auto; width: 96px; height: 96px; border-radius: 50%; background: radial-gradient(circle at 35% 30%, rgba(30,41,59,0.92), rgba(2,6,23,0.95)); border: 5px solid rgba(255,255,255,0.92); box-shadow: 0 0 0 4px rgba(15,23,42,0.82), 0 10px 26px rgba(0,0,0,0.5); display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; position: relative; transition: transform 0.12s ease; }
     #mk-item-slot.roulette { background: conic-gradient(from 0deg, #ef4444, #eab308, #22c55e, #06b6d4, #a855f7, #ef4444); animation: spinBorder 0.55s linear infinite; }
     @keyframes spinBorder { 0% { filter: hue-rotate(0deg); } 100% { filter: hue-rotate(360deg); } }
@@ -37,7 +37,7 @@
     .top-mini-actions { display: flex; flex-direction: column; gap: 6px; }
     .menu-mini-btn { pointer-events: auto; background: rgba(15,23,42,0.82); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); border: 2px solid rgba(255,255,255,0.82); color: #f8fafc; font-size: 12px; font-weight: 900; border-radius: 12px; padding: 7px 12px; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.35); }
 
-    .mk-top-right { position: fixed; top: max(14px, env(safe-area-inset-top)); right: max(18px, env(safe-area-inset-right)); display: flex; align-items: center; gap: 10px; z-index: 12; }
+    .mk-top-right { position: fixed; top: max(8px, calc(var(--vv-top, 0px) + 8px), env(safe-area-inset-top)); right: max(10px, calc(var(--vv-right, 0px) + 10px), env(safe-area-inset-right)); display: flex; align-items: center; gap: 10px; z-index: 12; }
     .mk-score-pill { background: linear-gradient(135deg, rgba(15,23,42,0.86), rgba(30,41,59,0.86)); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border: 3px solid rgba(255,255,255,0.9); border-radius: 18px; padding: 7px 15px; display: flex; align-items: center; gap: 14px; color: #fff; box-shadow: 0 8px 22px rgba(0,0,0,0.38); transform: skewX(-8deg); }
     .mk-score-pill > * { transform: skewX(8deg); }
     .stat-col { display: flex; flex-direction: column; align-items: center; }
@@ -46,15 +46,16 @@
     #combo-val { color: #4ade80; }
     .hud-school-crest { width: 46px; height: 46px; border-radius: 12px; background: #ffffff; border: 3px solid #facc15; padding: 3px; object-fit: contain; box-shadow: 0 6px 16px rgba(0,0,0,0.35); }
 
-    #question-banner { position: fixed; top: max(12px, calc(var(--vv-top, 0px) + 8px), env(safe-area-inset-top)); left: 50%; transform: translateX(-50%) scale(0.96); background: linear-gradient(135deg, rgba(30,58,138,0.95), rgba(88,28,135,0.95)); border: 4px solid #facc15; border-radius: 24px; padding: 8px 26px 11px; color: #fff; text-align: center; box-shadow: 0 12px 30px rgba(0,0,0,0.52); opacity: 0; transition: opacity 0.22s ease, transform 0.22s cubic-bezier(0.34,1.56,0.64,1); min-width: 285px; max-width: min(92%, 560px); z-index: 20; pointer-events: none; }
-    #question-banner.visible { opacity: 1; transform: translateX(-50%) scale(1); }
+    #mk-alert-stack { position: fixed; left: 50%; transform: translateX(-50%); top: max(10px, calc(var(--vv-top, 0px) + 10px), env(safe-area-inset-top)); width: min(92%, 560px); max-width: min(92%, 560px); z-index: 45; pointer-events: none; display: flex; flex-direction: column; align-items: stretch; gap: 5px; }
+    #question-banner { position: relative; top: auto; left: auto; transform: scale(0.98); background: linear-gradient(135deg, rgba(30,58,138,0.95), rgba(88,28,135,0.95)); border: 4px solid #facc15; border-radius: 20px; padding: 6px 18px 8px; color: #fff; text-align: center; box-shadow: 0 8px 22px rgba(0,0,0,0.48); opacity: 0; transition: opacity 0.22s ease, transform 0.22s cubic-bezier(0.34,1.56,0.64,1); width: 100%; min-width: 0; max-width: 100%; pointer-events: none; }
+    #question-banner.visible { opacity: 1; transform: none; }
     #question-title { font-size: 11px; font-weight: 900; color: #fde047; letter-spacing: 1px; }
-    #question-text { font-size: 34px; font-weight: 900; letter-spacing: 2px; text-shadow: 0 3px 0 rgba(0,0,0,0.5); }
-    .lane-hints { display: flex; justify-content: center; gap: 9px; margin-top: 5px; }
-    .lane-chip { padding: 3px 12px; border-radius: 999px; font-size: 14px; font-weight: 900; color: #fff; border: 2px solid rgba(255,255,255,0.9); min-width: 64px; }
+    #question-text { font-size: 30px; font-weight: 900; letter-spacing: 2px; text-shadow: 0 3px 0 rgba(0,0,0,0.5); line-height: 1.15; }
+    .lane-hints { display: flex; justify-content: center; gap: 8px; margin-top: 4px; flex-wrap: nowrap; }
+    .lane-chip { padding: 3px 10px; border-radius: 999px; font-size: 14px; font-weight: 900; color: #fff; border: 2px solid rgba(255,255,255,0.9); min-width: 60px; }
     .chip-left { background: #0284c7; } .chip-center { background: #ca8a04; } .chip-right { background: #e11d48; }
 
-    .mk-bottom-left { position: fixed; bottom: max(16px, env(safe-area-inset-bottom)); left: max(18px, env(safe-area-inset-left)); display: flex; align-items: flex-end; gap: 12px; z-index: 12; }
+    .mk-bottom-left { position: fixed; bottom: max(10px, calc(var(--vv-bottom, 0px) + 10px), env(safe-area-inset-bottom)); left: max(10px, calc(var(--vv-left, 0px) + 10px), env(safe-area-inset-left)); display: flex; align-items: flex-end; gap: 12px; z-index: 12; }
     .mk-rank-cluster { background: linear-gradient(145deg, rgba(15,23,42,0.86), rgba(30,41,59,0.72)); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border: 3px solid rgba(255,255,255,0.88); border-radius: 22px; padding: 8px 18px 10px; box-shadow: 0 10px 26px rgba(0,0,0,0.45); display: flex; align-items: baseline; gap: 14px; }
     #rank-text { font-size: 54px; font-style: italic; font-weight: 900; line-height: 0.95; background: linear-gradient(180deg, #fffbeb 0%, #facc15 48%, #d97706 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; filter: drop-shadow(0 4px 0 #451a03) drop-shadow(0 6px 12px rgba(0,0,0,0.6)); padding-right: 4px; }
     .mk-lap-speed { display: flex; flex-direction: column; gap: 3px; }
@@ -76,21 +77,33 @@
     .steer-btn.pressed { transform: scale(0.9); background: radial-gradient(circle at 30% 30%, #fde047, #f59e0b); border-color: #ffffff; }
     .quick-item-btn { width: 82px; height: 48px; border-radius: 15px; background: rgba(15,23,42,0.85); border: 3px solid #facc15; color: #fef08a; font-size: 12px; font-weight: 900; cursor: pointer; box-shadow: 0 6px 16px rgba(0,0,0,0.4); display: flex; align-items: center; justify-content: center; }
 
-    #feedback-toast { position: fixed; top: 46%; left: 50%; transform: translate(-50%, -50%) scale(0.7); font-size: 18px; font-weight: 900; padding: 12px 22px; border-radius: 22px; color: #fff; opacity: 0; pointer-events: none; transition: all 0.2s cubic-bezier(0.34,1.56,0.64,1); text-shadow: 0 3px 8px rgba(0,0,0,0.45); white-space: normal; text-align: center; max-width: min(90%, 520px); z-index: 45; border: 3px solid rgba(255,255,255,0.9); }
-    #feedback-toast.show { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+    #feedback-toast { position: relative; top: auto; left: auto; transform: none; font-size: 14px; font-weight: 900; padding: 6px 14px; border-radius: 12px; color: #fff; opacity: 0; pointer-events: none; display: none; transition: opacity 0.18s ease; text-shadow: 0 2px 6px rgba(0,0,0,0.45); white-space: normal; text-align: center; width: 100%; max-width: 100%; z-index: 45; border: 2px solid rgba(255,255,255,0.9); line-height: 1.3; box-sizing: border-box; }
+    #feedback-toast.show { display: block; opacity: 1; transform: none; }
     #fs-btn { display: none; position: fixed; top: max(10px, calc(var(--vv-top, 0px) + 10px), env(safe-area-inset-top)); right: max(10px, env(safe-area-inset-right)); z-index: 32; pointer-events: auto; min-height: 44px; min-width: 108px; padding: 8px 14px; border-radius: 14px; border: 3px solid #facc15; background: rgba(15,23,42,0.92); color: #fef08a; font-size: 15px; font-weight: 900; cursor: pointer; box-shadow: 0 6px 16px rgba(0,0,0,0.4); }
     html.is-embed #fs-btn, html.is-short #fs-btn, html.is-narrow #fs-btn, html.is-touch #fs-btn, html.is-tablet #fs-btn { display: flex; align-items: center; justify-content: center; }
-    html.is-embed #question-banner,
-    html.is-short #question-banner {
-      top: max(56px, calc(var(--vv-top, 0px) + 10%), calc(env(safe-area-inset-top) + 44px));
-      width: min(94%, 520px);
-      min-width: 0;
-      padding: 10px 12px 12px;
+    html.is-touch #mk-alert-stack,
+    html.is-tablet #mk-alert-stack,
+    html.is-embed #mk-alert-stack,
+    html.is-short #mk-alert-stack,
+    html.is-narrow #mk-alert-stack {
+      top: max(50px, calc(var(--vv-top, 0px) + 48px), calc(env(safe-area-inset-top) + 44px));
+      width: min(calc(100% - 24px), 520px);
+      max-width: min(calc(100% - 24px), 520px);
     }
-    html.is-embed #question-title, html.is-short #question-title { font-size: 12px; }
-    html.is-embed #question-text, html.is-short #question-text { font-size: clamp(22px, 6.4vw, 34px); letter-spacing: 1px; }
-    html.is-embed .lane-chip, html.is-short .lane-chip { font-size: clamp(14px, 3.8vw, 18px); padding: 7px 12px; min-width: 72px; }
-    html.is-embed .lane-hints, html.is-short .lane-hints { margin-top: 8px; gap: 6px; flex-wrap: wrap; }
+    html.is-embed #question-banner, html.is-short #question-banner, html.is-narrow #question-banner,
+    html.is-touch #question-banner, html.is-tablet #question-banner {
+      padding: 5px 12px 6px; border-width: 3px; border-radius: 16px;
+    }
+    html.is-embed #question-title, html.is-short #question-title, html.is-narrow #question-title,
+    html.is-touch #question-title, html.is-tablet #question-title { font-size: 11px; }
+    html.is-embed #question-text, html.is-short #question-text, html.is-narrow #question-text,
+    html.is-touch #question-text, html.is-tablet #question-text { font-size: clamp(20px, 5.6vw, 28px); letter-spacing: 1px; }
+    html.is-embed .lane-chip, html.is-short .lane-chip, html.is-narrow .lane-chip,
+    html.is-touch .lane-chip, html.is-tablet .lane-chip { font-size: clamp(12px, 3.2vw, 15px); padding: 3px 8px; min-width: 56px; }
+    html.is-embed .lane-hints, html.is-short .lane-hints, html.is-narrow .lane-hints,
+    html.is-touch .lane-hints, html.is-tablet .lane-hints { margin-top: 3px; gap: 5px; flex-wrap: nowrap; }
+    html.is-embed #feedback-toast, html.is-short #feedback-toast, html.is-narrow #feedback-toast,
+    html.is-touch #feedback-toast, html.is-tablet #feedback-toast { font-size: 13px; padding: 5px 10px; border-radius: 10px; }
     #entry-modal { z-index: 42; }
     #entry-modal .modal-card { max-width: 420px; width: 100%; }
     .entry-field { width: 100%; background: #ffffff; border: 3px solid #cbd5e1; border-radius: 14px; padding: 12px 14px; font-size: 20px; font-weight: 900; color: #0f172a; margin: 8px 0 12px; outline: none; }
@@ -254,9 +267,9 @@
     @media (max-width: 760px) {
       .track-grid, .kart-style-grid { grid-template-columns: repeat(2, 1fr); }
       .driver-grid { grid-template-columns: repeat(3, 1fr); }
-      #question-banner { top: max(52px, calc(var(--vv-top, 0px) + 8%), calc(env(safe-area-inset-top) + 40px)); width: min(94%, 520px); min-width: 0; padding: 10px 12px 12px; }
-      #question-text { font-size: clamp(22px, 6.5vw, 32px); letter-spacing: 1px; }
-      .lane-chip { font-size: clamp(14px, 3.8vw, 18px); padding: 6px 12px; }
+      #question-banner { padding: 5px 12px 6px; }
+      #question-text { font-size: clamp(20px, 6vw, 28px); letter-spacing: 1px; }
+      .lane-chip { font-size: clamp(12px, 3.4vw, 15px); padding: 3px 8px; }
       #mk-item-slot { width: 80px; height: 80px; } #item-icon { font-size: 34px; }
       #minimap-card { width: 138px; height: 138px; }
       .thumb-right-zone { bottom: calc(max(14px, env(safe-area-inset-bottom)) + 148px); }
@@ -316,14 +329,30 @@
       .preview-flavor { display: none; }
     }
 
-    /* t31: thumb-friendly item button + gyro layout */
+    /* t33: bottom-right cluster (minimap + item) so the button cannot cover the map */
+    #mk-br-cluster {
+      position: fixed;
+      right: max(8px, env(safe-area-inset-right), calc(var(--vv-right, 0px) + 8px));
+      bottom: max(8px, env(safe-area-inset-bottom), calc(var(--vv-bottom, 0px) + 8px));
+      display: flex;
+      flex-direction: row;
+      align-items: flex-end;
+      gap: 10px;
+      z-index: 26;
+      pointer-events: none;
+      padding-bottom: 2px;
+    }
+    #mk-br-cluster > * { pointer-events: auto; position: relative; right: auto; bottom: auto; left: auto; top: auto; flex: 0 0 auto; }
+    #minimap-card { position: relative; right: auto; bottom: auto; width: 176px; height: 176px; }
     #mk-item-use {
       display: none;
-      position: fixed;
-      z-index: 26;
+      position: relative;
+      z-index: 2;
       pointer-events: auto;
-      width: 112px;
-      height: 112px;
+      width: 100px;
+      height: 100px;
+      min-width: 72px;
+      min-height: 72px;
       border-radius: 50%;
       background: radial-gradient(circle at 35% 30%, rgba(30,41,59,0.94), rgba(2,6,23,0.96));
       border: 5px solid rgba(255,255,255,0.95);
@@ -333,16 +362,15 @@
       justify-content: center;
       cursor: pointer;
       color: #f8fafc;
-      right: max(10px, env(safe-area-inset-right), calc(var(--vv-right, 0px) + 10px));
-      bottom: max(12px, env(safe-area-inset-bottom), calc(var(--vv-bottom, 0px) + 12px));
       transition: transform 0.12s ease;
+      margin-bottom: 10px;
     }
     #mk-item-use:active { transform: scale(0.92); }
     #mk-item-use.roulette { background: conic-gradient(from 0deg, #ef4444, #eab308, #22c55e, #06b6d4, #a855f7, #ef4444); animation: spinBorder 0.55s linear infinite; }
     #mk-item-use.ready { background: radial-gradient(circle at 30% 30%, #f59e0b, #dc2626 65%, #7c2d12 100%); border-color: #fef08a; box-shadow: 0 0 0 4px rgba(250,204,21,0.45), 0 0 28px rgba(250,204,21,0.85); animation: itemPulse 0.75s infinite alternate; }
-    #mk-item-use-icon { font-size: 36px; line-height: 1; }
-    #mk-item-use-name { font-size: 11px; font-weight: 900; margin-top: 2px; text-shadow: 0 1px 3px #000; max-width: 96px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    #mk-item-use-label { position: absolute; bottom: -12px; background: #0f172a; color: #fef08a; border: 2px solid #facc15; border-radius: 999px; font-size: 12px; font-weight: 900; padding: 2px 10px; white-space: nowrap; }
+    #mk-item-use-icon { font-size: 32px; line-height: 1; }
+    #mk-item-use-name { font-size: 11px; font-weight: 900; margin-top: 2px; text-shadow: 0 1px 3px #000; max-width: 90px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    #mk-item-use-label { position: absolute; bottom: -11px; background: #0f172a; color: #fef08a; border: 2px solid #facc15; border-radius: 999px; font-size: 12px; font-weight: 900; padding: 2px 10px; white-space: nowrap; }
     html.is-touch #hud #mk-item-use,
     html.is-tablet #hud #mk-item-use,
     html.is-embed #hud #mk-item-use,
@@ -353,14 +381,6 @@
     html.is-embed #hud .mk-top-left #mk-item-slot,
     html.is-short #hud .mk-top-left #mk-item-slot,
     html.is-narrow #hud .mk-top-left #mk-item-slot { display: none; }
-    html.is-touch #hud #minimap-card,
-    html.is-tablet #hud #minimap-card,
-    html.is-embed #hud #minimap-card,
-    html.is-short #hud #minimap-card,
-    html.is-narrow #hud #minimap-card {
-      right: max(10px, env(safe-area-inset-right), calc(var(--vv-right, 0px) + 126px));
-      bottom: max(12px, env(safe-area-inset-bottom), calc(var(--vv-bottom, 0px) + 12px));
-    }
     html.is-touch #hud .quick-item-btn,
     html.is-tablet #hud .quick-item-btn,
     html.is-embed #hud .quick-item-btn,
@@ -375,28 +395,29 @@
     #gyro-hud {
       display: none;
       position: fixed;
-      left: 50%;
-      transform: translateX(-50%);
-      bottom: max(128px, calc(var(--vv-bottom, 0px) + 128px), calc(env(safe-area-inset-bottom) + 120px));
+      left: max(10px, env(safe-area-inset-left), calc(var(--vv-left, 0px) + 10px));
+      right: auto;
+      transform: none;
+      bottom: max(108px, calc(var(--vv-bottom, 0px) + 108px), calc(env(safe-area-inset-bottom) + 100px));
       z-index: 27;
       pointer-events: none;
       flex-direction: column;
-      align-items: center;
+      align-items: flex-start;
       gap: 6px;
-      max-width: min(92%, 420px);
-      text-align: center;
+      max-width: min(46%, 280px);
+      text-align: left;
     }
     html.is-touch #hud #gyro-hud,
     html.is-tablet #hud #gyro-hud { display: flex; }
     #gyro-enable-btn, #gyro-recal-btn {
       pointer-events: auto;
-      min-height: 40px;
-      padding: 6px 14px;
-      border-radius: 14px;
+      min-height: 36px;
+      padding: 5px 12px;
+      border-radius: 12px;
       border: 3px solid #facc15;
       background: rgba(15,23,42,0.92);
       color: #fef08a;
-      font-size: 14px;
+      font-size: 13px;
       font-weight: 900;
       cursor: pointer;
       box-shadow: 0 6px 16px rgba(0,0,0,0.4);
@@ -408,30 +429,75 @@
       color: #fde68a;
       border: 2px solid #f59e0b;
       border-radius: 12px;
-      font-size: 12px;
+      font-size: 11px;
       font-weight: 800;
-      padding: 6px 10px;
+      padding: 5px 8px;
       line-height: 1.35;
     }
-    @media (orientation: landscape) and (max-height: 500px) {
-      #mk-item-use { width: 96px; height: 96px; }
-      #mk-item-use-icon { font-size: 30px; }
+    #gyro-note .gyro-note-short { display: none; }
+    html.is-embed #gyro-note .gyro-note-full,
+    html.is-short #gyro-note .gyro-note-full { display: none; }
+    html.is-embed #gyro-note .gyro-note-short,
+    html.is-short #gyro-note .gyro-note-short { display: inline; }
+    html.is-embed #gyro-note, html.is-short #gyro-note { font-size: 10px; padding: 3px 6px; }
+    html.is-embed #gyro-hud, html.is-short #gyro-hud { max-width: min(36%, 160px); }
+    html.is-touch #hud #minimap-card,
+    html.is-tablet #hud #minimap-card,
+    html.is-embed #hud #minimap-card,
+    html.is-short #hud #minimap-card,
+    html.is-narrow #hud #minimap-card { width: 120px; height: 120px; }
+    .thumb-right-zone { bottom: calc(max(10px, env(safe-area-inset-bottom), var(--vv-bottom, 0px) + 10px) + 132px); }
+    .thumb-left-zone { bottom: calc(max(10px, env(safe-area-inset-bottom), var(--vv-bottom, 0px) + 10px) + 100px); }
+
+    /* Phone / iPad / short landscape: keep banner between side HUD, toast under it, kart visible */
+    @media (orientation: landscape) and (max-height: 820px) {
+      html.is-touch #mk-alert-stack,
+      html.is-tablet #mk-alert-stack,
+      html.is-embed #mk-alert-stack,
+      html.is-short #mk-alert-stack,
+      html.is-narrow #mk-alert-stack,
+      html.is-landscape #mk-alert-stack {
+        top: max(8px, calc(var(--vv-top, 0px) + 6px), env(safe-area-inset-top));
+        width: min(calc(100% - 240px), 480px);
+        max-width: min(calc(100% - 240px), 480px);
+      }
+      html.is-touch #question-title, html.is-tablet #question-title,
+      html.is-embed #question-title, html.is-short #question-title, html.is-narrow #question-title { display: none; }
+      html.is-touch #question-text, html.is-tablet #question-text,
+      html.is-embed #question-text, html.is-short #question-text, html.is-narrow #question-text { font-size: clamp(18px, 5.2vh, 24px); }
+      html.is-touch #question-banner, html.is-tablet #question-banner,
+      html.is-embed #question-banner, html.is-short #question-banner { padding: 4px 10px 5px; border-radius: 14px; }
+      html.is-touch #hud #minimap-card, html.is-tablet #hud #minimap-card,
+      html.is-embed #hud #minimap-card, html.is-short #hud #minimap-card, html.is-narrow #hud #minimap-card { width: 108px; height: 108px; }
+      #mk-item-use { width: 84px; height: 84px; margin-bottom: 10px; }
+      #mk-item-use-icon { font-size: 26px; }
       #mk-item-use-label { font-size: 11px; padding: 1px 8px; }
-      html.is-touch #hud #minimap-card,
-      html.is-tablet #hud #minimap-card,
-      html.is-embed #hud #minimap-card,
-      html.is-short #hud #minimap-card,
-      html.is-narrow #hud #minimap-card { width: 96px; height: 96px; right: max(8px, env(safe-area-inset-right), calc(var(--vv-right, 0px) + 110px)); }
-      #gyro-hud { bottom: max(14px, calc(var(--vv-bottom, 0px) + 14px), env(safe-area-inset-bottom)); left: 50%; transform: translateX(-50%); }
+      #gyro-hud { bottom: max(96px, calc(var(--vv-bottom, 0px) + 96px), calc(env(safe-area-inset-bottom) + 88px)); max-width: min(38%, 240px); }
+      #rank-text { font-size: 36px; }
+      .mk-rank-cluster { padding: 5px 12px 6px; }
+    }
+    @media (orientation: landscape) and (max-height: 430px) {
+      html.is-touch #mk-alert-stack, html.is-tablet #mk-alert-stack,
+      html.is-embed #mk-alert-stack, html.is-short #mk-alert-stack, html.is-narrow #mk-alert-stack {
+        width: min(calc(100% - 220px), 420px);
+        max-width: min(calc(100% - 220px), 420px);
+      }
+      html.is-touch #hud #minimap-card, html.is-tablet #hud #minimap-card,
+      html.is-embed #hud #minimap-card, html.is-short #hud #minimap-card, html.is-narrow #hud #minimap-card { width: 92px; height: 92px; }
+      #mk-item-use { width: 76px; height: 76px; min-width: 72px; min-height: 72px; }
+      #mk-br-cluster { gap: 8px; }
+      #feedback-toast { font-size: 12px; padding: 4px 8px; }
+      .lane-chip { font-size: 11px; padding: 2px 7px; min-width: 50px; }
     }
     @media (max-width: 420px) {
-      #mk-item-use { width: 96px; height: 96px; }
-      html.is-touch #hud #minimap-card,
-      html.is-tablet #hud #minimap-card,
-      html.is-embed #hud #minimap-card,
-      html.is-short #hud #minimap-card,
-      html.is-narrow #hud #minimap-card { width: 100px; height: 100px; right: max(8px, env(safe-area-inset-right), calc(var(--vv-right, 0px) + 108px)); }
+      html.is-touch #hud #minimap-card, html.is-tablet #hud #minimap-card,
+      html.is-embed #hud #minimap-card, html.is-short #hud #minimap-card, html.is-narrow #hud #minimap-card { width: 110px; height: 110px; }
+      #mk-item-use { width: 84px; height: 84px; }
+      #mk-br-cluster { gap: 8px; }
     }
+    /* Very short / narrow embed: still side-by-side, slightly smaller */
+    html.is-embed #hud #minimap-card { width: 96px; height: 96px; }
+    html.is-embed #hud #mk-item-use { width: 76px; height: 76px; }
 
     .trait-bars { display: flex; flex-direction: column; gap: 3px; margin-top: 4px; text-align: left; }
     .trait-row { display: grid; grid-template-columns: 2.2em 1fr; align-items: center; gap: 4px; }
@@ -486,16 +552,6 @@
       </div>
     </div>
 
-    <div id="question-banner">
-      <div id="question-title">前方數學加速閘門！請駛入正確車道</div>
-      <div id="question-text">7 &times; 8 = ?</div>
-      <div class="lane-hints">
-        <div class="lane-chip chip-left" id="chip-0">左: 54</div>
-        <div class="lane-chip chip-center" id="chip-1">中: 56</div>
-        <div class="lane-chip chip-right" id="chip-2">右: 64</div>
-      </div>
-    </div>
-
     <div class="mk-top-right">
       <div class="mk-score-pill">
         <div class="stat-col"><span class="stat-label">答對 SCORE</span><span class="stat-val" id="score-text">0 / 0</span></div>
@@ -514,20 +570,24 @@
       </div>
     </div>
 
-    <div id="minimap-card">
-      <canvas id="minimap-canvas" width="352" height="352"></canvas>
-      <div id="minimap-track-label">陽光蘑菇賽車場</div>
+    <div id="mk-br-cluster">
+      <div id="minimap-card">
+        <canvas id="minimap-canvas" width="352" height="352"></canvas>
+        <div id="minimap-track-label">陽光蘑菇賽車場</div>
+      </div>
+      <button type="button" id="mk-item-use" aria-label="使用道具">
+        <div id="mk-item-use-icon">🎲</div>
+        <div id="mk-item-use-name">道具箱</div>
+        <div id="mk-item-use-label">使用道具</div>
+      </button>
     </div>
-
-    <button type="button" id="mk-item-use" aria-label="使用道具">
-      <div id="mk-item-use-icon">🎲</div>
-      <div id="mk-item-use-name">道具箱</div>
-      <div id="mk-item-use-label">使用道具</div>
-    </button>
     <div id="gyro-hud">
       <button type="button" id="gyro-enable-btn" hidden>📱 啟用體感</button>
       <button type="button" id="gyro-recal-btn" hidden>🎯 重新校正</button>
-      <div id="gyro-note" hidden>此頁未能使用體感。可在瀏覽器開啟遊戲網址以使用體感轉向；而家先用小型轉向鍵。</div>
+      <div id="gyro-note" hidden>
+        <span class="gyro-note-full">此頁未能使用體感。可在瀏覽器開啟遊戲網址以使用體感轉向；而家先用小型轉向鍵。</span>
+        <span class="gyro-note-short">未能使用體感。可在瀏覽器開啟遊戲網址，先用小型轉向鍵。</span>
+      </div>
     </div>
     <div id="touch-layer">
       <div class="thumb-left-zone">
@@ -540,7 +600,18 @@
     </div>
   </div>
 
-  <div id="feedback-toast">TURBO BOOST!</div>
+  <div id="mk-alert-stack">
+    <div id="question-banner">
+      <div id="question-title">前方數學加速閘門！請駛入正確車道</div>
+      <div id="question-text">7 &times; 8 = ?</div>
+      <div class="lane-hints">
+        <div class="lane-chip chip-left" id="chip-0">左: 54</div>
+        <div class="lane-chip chip-center" id="chip-1">中: 56</div>
+        <div class="lane-chip chip-right" id="chip-2">右: 64</div>
+      </div>
+    </div>
+    <div id="feedback-toast">TURBO BOOST!</div>
+  </div>
   <div id="countdown-overlay">3</div>
   <div id="mp-wait-banner">等待其他同學完賽…</div>
 
@@ -3175,9 +3246,18 @@
       if (note) note.hidden = !showNote;
       const html = document.documentElement;
       const gyroOn = !!(gyro.wanted && gyro.active && !gyro.forcePads);
-      html.classList.toggle('gyro-active', gyroOn);
-      html.classList.toggle('gyro-fallback', !!(gyro.wanted && !gyroOn && !gyro.forcePads && (gyro.blocked || showNote)));
-      html.classList.toggle('gyro-forced-pads', !!gyro.forcePads && isTouchLikeDevice(m));
+      if (window.__mkHudLock && (window.__mkHudLock.gyro || window.__mkHudLock.fallback)) {
+        html.classList.toggle('gyro-active', !!window.__mkHudLock.gyro);
+        html.classList.toggle('gyro-fallback', !!window.__mkHudLock.fallback);
+        html.classList.toggle('gyro-forced-pads', false);
+        if (note) note.hidden = !window.__mkHudLock.fallback;
+        if (recalBtn) recalBtn.hidden = !window.__mkHudLock.gyro;
+        if (enableBtn) enableBtn.hidden = true;
+      } else {
+        html.classList.toggle('gyro-active', gyroOn);
+        html.classList.toggle('gyro-fallback', !!(gyro.wanted && !gyroOn && !gyro.forcePads && (gyro.blocked || showNote)));
+        html.classList.toggle('gyro-forced-pads', !!gyro.forcePads && isTouchLikeDevice(m));
+      }
       const layer = document.getElementById('touch-layer');
       if (layer) {
         // Keep the layer for item button fallback; steer pads are CSS-hidden when gyro works.
@@ -3252,11 +3332,44 @@
     const toastEl = document.getElementById('feedback-toast'), countdownEl = document.getElementById('countdown-overlay');
 
     let toastTimeout = null;
+    function isCompactHud() {
+      const cl = document.documentElement.classList;
+      const h = (window.visualViewport && window.visualViewport.height) || window.innerHeight || 0;
+      const w = (window.visualViewport && window.visualViewport.width) || window.innerWidth || 0;
+      return cl.contains('is-short') || cl.contains('is-embed') || cl.contains('is-narrow') || cl.contains('is-touch') || h <= 700 || w <= 900;
+    }
+    function wallHitToastText() {
+      return isCompactHud() ? '⚠️ 擦撞護欄減速！請保持賽道中央' : '⚠️ 擦撞賽道邊緣護欄減速！請保持在賽道中央！';
+    }
     function showFeedbackToast(text, bgColor) {
       toastEl.textContent = text; toastEl.style.background = bgColor; toastEl.classList.add('show');
       if (toastTimeout) clearTimeout(toastTimeout);
       toastTimeout = setTimeout(() => toastEl.classList.remove('show'), 1750);
     }
+    window.__mkDebugHud = function(opts = {}) {
+      window.__mkHudLock = { banner: true, gyro: !!opts.gyro, fallback: !!opts.fallback };
+      const q = document.getElementById('question-banner');
+      const qt = document.getElementById('question-text');
+      if (q) q.classList.add('visible');
+      if (qt) qt.textContent = opts.q || '8 × 7 = ?';
+      const chips = [['chip-0', '左: 54'], ['chip-1', '中: 56'], ['chip-2', '右: 64']];
+      for (const [id, label] of chips) { const el = document.getElementById(id); if (el) el.textContent = label; }
+      showFeedbackToast(opts.toast || wallHitToastText(), 'linear-gradient(135deg, #ea580c, #9a3412)');
+      if (toastTimeout) { clearTimeout(toastTimeout); toastTimeout = null; }
+      const recal = document.getElementById('gyro-recal-btn');
+      if (recal) recal.hidden = !!opts.hideRecal;
+      const html = document.documentElement;
+      if (opts.gyro) { html.classList.add('gyro-active'); html.classList.remove('gyro-fallback', 'gyro-forced-pads'); }
+      else if (opts.fallback) { html.classList.remove('gyro-active'); html.classList.add('gyro-fallback'); }
+      try {
+        if (opts.skipCountdown) {
+          gameState = 'RACING';
+          countdownTimer = 0;
+          if (countdownEl) countdownEl.style.display = 'none';
+        }
+      } catch (e) {}
+      if (typeof updateViewportMode === 'function') updateViewportMode();
+    };
 
     function formatTime(sec) { return `${String(Math.floor(sec / 60)).padStart(2, '0')}:${String(Math.floor(sec % 60)).padStart(2, '0')}`; }
     function ordinalSuffix(r) { return ['1st', '2nd', '3rd', '4th'][r - 1] || `${r}th`; }
@@ -3355,12 +3468,12 @@
     }
     function updateViewportMode() {
       const vv = window.visualViewport;
-      const w = (vv && vv.width) || window.innerWidth || 1;
-      const h = (vv && vv.height) || window.innerHeight || 1;
-      const top = (vv && typeof vv.offsetTop === 'number') ? vv.offsetTop : 0;
-      const left = (vv && typeof vv.offsetLeft === 'number') ? vv.offsetLeft : 0;
-      const right = Math.max(0, (window.innerWidth || w) - left - w);
-      const bottom = Math.max(0, (window.innerHeight || h) - top - h);
+      let w = (vv && vv.width) || window.innerWidth || 1;
+      let h = (vv && vv.height) || window.innerHeight || 1;
+      let top = (vv && typeof vv.offsetTop === 'number') ? vv.offsetTop : 0;
+      let left = (vv && typeof vv.offsetLeft === 'number') ? vv.offsetLeft : 0;
+      let right = Math.max(0, (window.innerWidth || w) - left - w);
+      let bottom = Math.max(0, (window.innerHeight || h) - top - h);
       const embedded = isEmbeddedFrame();
       const short = h <= 620;
       const narrow = w <= 820;
@@ -3371,6 +3484,12 @@
       document.documentElement.classList.toggle('is-narrow', narrow);
       document.documentElement.classList.toggle('is-touch', !!touch);
       document.documentElement.classList.toggle('is-tablet', !!tablet);
+      document.documentElement.classList.toggle('is-landscape', w > h);
+      if (window.__mkVvLock && typeof window.__mkVvLock === 'object') {
+        if (window.__mkVvLock.top != null) top = window.__mkVvLock.top;
+        if (window.__mkVvLock.bottom != null) bottom = window.__mkVvLock.bottom;
+        if (window.__mkVvLock.height != null) h = window.__mkVvLock.height;
+      }
       document.documentElement.style.setProperty('--vv-top', top + 'px');
       document.documentElement.style.setProperty('--vv-left', left + 'px');
       document.documentElement.style.setProperty('--vv-right', right + 'px');
@@ -4437,7 +4556,7 @@
         for (let k = 0; k < 4; k++) spawnParticle(kart.visual.root.position, 0xf97316, 2.4, 3.2);
         if (kart.isPlayer && kart.wallHitCd <= 0) {
           sfx.playWallHit(); kart.wallHitCd = 0.38;
-          showFeedbackToast('⚠️ 擦撞賽道邊緣護欄減速！請保持在賽道中央！', 'linear-gradient(135deg, #ea580c, #9a3412)');
+          showFeedbackToast(wallHitToastText(), 'linear-gradient(135deg, #ea580c, #9a3412)');
         }
       }
 
@@ -4766,14 +4885,16 @@
           }
         }
 
-        if (upcomingGate && upcomingGate.question) {
-          qTextEl.textContent = upcomingGate.question.displayText;
-          chipEls[0].textContent = `左: ${upcomingGate.question.options[0]}`;
-          chipEls[1].textContent = `中: ${upcomingGate.question.options[1]}`;
-          chipEls[2].textContent = `右: ${upcomingGate.question.options[2]}`;
-          qBannerEl.classList.add('visible');
-        } else {
-          qBannerEl.classList.remove('visible');
+        if (!(window.__mkHudLock && window.__mkHudLock.banner)) {
+          if (upcomingGate && upcomingGate.question) {
+            qTextEl.textContent = upcomingGate.question.displayText;
+            chipEls[0].textContent = `左: ${upcomingGate.question.options[0]}`;
+            chipEls[1].textContent = `中: ${upcomingGate.question.options[1]}`;
+            chipEls[2].textContent = `右: ${upcomingGate.question.options[2]}`;
+            qBannerEl.classList.add('visible');
+          } else {
+            qBannerEl.classList.remove('visible');
+          }
         }
 
         // 更新飛行龜殼與炸彈兵（支援雙向命中玩家或 AI）
