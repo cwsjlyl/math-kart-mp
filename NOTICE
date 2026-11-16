@@ -1,13 +1,13 @@
 3D 乘數衝鋒車大獎賽 Math Kart 8 DX v4.0 課堂連線版
 NOTICE — 授權與來源說明
 
-本專案係彩雲聖若瑟小學課堂學習用途嘅原創網頁遊戲，並非任天堂、Mario Kart 或其他商業賽車遊戲嘅官方產品。畫面上嘅道具名稱（蘑菇、龜殼、香蕉皮等）沿用原 v4.0 課堂版既有稱呼，立體模型為本專案原創，並無使用任天堂官方精靈圖、音樂或商標素材。
+本專案係彩雲聖若瑟小學課堂學習用途嘅原創網頁遊戲，並非任天堂、Mario Kart 或其他商業賽車遊戲嘅官方產品。畫面上嘅道具名稱（蘑菇、龜殼、香蕉皮等）沿用原 v4.0 課堂版既有稱呼。立體賽車改自免費 CC0 模型並加上課堂原創細節（見下方），並無使用任天堂官方精靈圖、音樂或商標素材。
 
 第三方開源元件（全部為免費開源授權，已本地放置於 vendor/，執行時不依賴 CDN）：
 
 1. Three.js r160
    授權：MIT
-   位置：vendor/three/three.module.js、vendor/three/BufferGeometryUtils.js
+   位置：vendor/three/three.module.js、vendor/three/BufferGeometryUtils.js、vendor/three/GLTFLoader.js
    授權全文：vendor/three/LICENSE
 
 2. @supabase/supabase-js 2.119.0
@@ -18,3 +18,14 @@ NOTICE — 授權與來源說明
 學校校徽：
 - assets/logo.png 為彩雲聖若瑟小學既有校徽，僅供本校課堂網頁使用。
 - 程式亦會嘗試載入學校官方網站校徽作為備援。
+
+3. Kenney Car Kit 3.1（formula / gt / monster / star / bolt / storm / taxi 車身來源）
+   作者：Kenney (www.kenney.nl)
+   授權：Creative Commons CC0 1.0
+   本專案已重新上色、縮放並加入赤電號窗眼與 07 等課堂原創細節。
+   說明：assets/models/karts/SOURCES.txt
+
+4. Pixor library bicycle（冒險單車來源）
+   來源：https://pixor.art/library/vehicles/bicycle/
+   授權：Creative Commons CC0 1.0
+   本專案已改為綠色車架並加上黃色菜籃。
