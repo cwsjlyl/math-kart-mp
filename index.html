@@ -8,8 +8,11 @@
   <title>3D 乘數衝鋒車大獎賽 Math Kart 8 DX v4.0 課堂連線版</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; -webkit-user-select: none; -webkit-touch-callout: none; }
-    html, body { width: 100%; height: 100%; overflow: hidden; background: #090d16; font-family: -apple-system, BlinkMacSystemFont, "PingFang HK", "Microsoft JhengHei", sans-serif; touch-action: none; }
-    #game-canvas { position: fixed; inset: 0; display: block; width: 100vw; height: 100vh; z-index: 1; }
+    html, body { width: 100%; height: 100%; height: 100dvh; overflow: hidden; background: #090d16; font-family: -apple-system, BlinkMacSystemFont, "PingFang HK", "Microsoft JhengHei", sans-serif; touch-action: none; }
+    input, textarea, select { user-select: text; -webkit-user-select: text; touch-action: manipulation; }
+    button { touch-action: manipulation; }
+    #game-root { position: fixed; inset: 0; width: 100%; height: 100%; height: 100dvh; overflow: hidden; }
+    #game-canvas { position: absolute; inset: 0; display: block; width: 100%; height: 100%; z-index: 1; }
     #speed-lines { position: fixed; inset: 0; pointer-events: none; opacity: 0; transition: opacity 0.18s ease; background: radial-gradient(circle at center, transparent 46%, rgba(255,255,255,0.34) 88%, rgba(56,189,248,0.62) 100%); z-index: 4; }
     #speed-lines.active { opacity: 1; animation: pulseLines 0.13s infinite alternate; }
     @keyframes pulseLines { from { transform: scale(1); } to { transform: scale(1.035); } }
@@ -42,7 +45,7 @@
     #combo-val { color: #4ade80; }
     .hud-school-crest { width: 46px; height: 46px; border-radius: 12px; background: #ffffff; border: 3px solid #facc15; padding: 3px; object-fit: contain; box-shadow: 0 6px 16px rgba(0,0,0,0.35); }
 
-    #question-banner { position: fixed; top: max(12px, env(safe-area-inset-top)); left: 50%; transform: translateX(-50%) scale(0.9); background: linear-gradient(135deg, rgba(30,58,138,0.95), rgba(88,28,135,0.95)); border: 4px solid #facc15; border-radius: 24px; padding: 8px 26px 11px; color: #fff; text-align: center; box-shadow: 0 12px 30px rgba(0,0,0,0.52); opacity: 0; transition: opacity 0.22s ease, transform 0.22s cubic-bezier(0.34,1.56,0.64,1); min-width: 285px; z-index: 13; }
+    #question-banner { position: fixed; top: max(12px, calc(var(--vv-top, 0px) + 8px), env(safe-area-inset-top)); left: 50%; transform: translateX(-50%) scale(0.96); background: linear-gradient(135deg, rgba(30,58,138,0.95), rgba(88,28,135,0.95)); border: 4px solid #facc15; border-radius: 24px; padding: 8px 26px 11px; color: #fff; text-align: center; box-shadow: 0 12px 30px rgba(0,0,0,0.52); opacity: 0; transition: opacity 0.22s ease, transform 0.22s cubic-bezier(0.34,1.56,0.64,1); min-width: 285px; max-width: min(92%, 560px); z-index: 20; pointer-events: none; }
     #question-banner.visible { opacity: 1; transform: translateX(-50%) scale(1); }
     #question-title { font-size: 11px; font-weight: 900; color: #fde047; letter-spacing: 1px; }
     #question-text { font-size: 34px; font-weight: 900; letter-spacing: 2px; text-shadow: 0 3px 0 rgba(0,0,0,0.5); }
@@ -72,8 +75,35 @@
     .steer-btn.pressed { transform: scale(0.9); background: radial-gradient(circle at 30% 30%, #fde047, #f59e0b); border-color: #ffffff; }
     .quick-item-btn { width: 82px; height: 48px; border-radius: 15px; background: rgba(15,23,42,0.85); border: 3px solid #facc15; color: #fef08a; font-size: 12px; font-weight: 900; cursor: pointer; box-shadow: 0 6px 16px rgba(0,0,0,0.4); display: flex; align-items: center; justify-content: center; }
 
-    #feedback-toast { position: fixed; top: 29%; left: 50%; transform: translate(-50%, -50%) scale(0.7); font-size: 20px; font-weight: 900; padding: 10px 24px; border-radius: 999px; color: #fff; opacity: 0; pointer-events: none; transition: all 0.2s cubic-bezier(0.34,1.56,0.64,1); text-shadow: 0 3px 8px rgba(0,0,0,0.45); white-space: nowrap; z-index: 15; border: 3px solid rgba(255,255,255,0.9); }
+    #feedback-toast { position: fixed; top: 46%; left: 50%; transform: translate(-50%, -50%) scale(0.7); font-size: 18px; font-weight: 900; padding: 12px 22px; border-radius: 22px; color: #fff; opacity: 0; pointer-events: none; transition: all 0.2s cubic-bezier(0.34,1.56,0.64,1); text-shadow: 0 3px 8px rgba(0,0,0,0.45); white-space: normal; text-align: center; max-width: min(90%, 520px); z-index: 45; border: 3px solid rgba(255,255,255,0.9); }
     #feedback-toast.show { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+    #fs-btn { display: none; position: fixed; top: max(10px, calc(var(--vv-top, 0px) + 10px), env(safe-area-inset-top)); right: max(10px, env(safe-area-inset-right)); z-index: 32; pointer-events: auto; min-height: 44px; min-width: 108px; padding: 8px 14px; border-radius: 14px; border: 3px solid #facc15; background: rgba(15,23,42,0.92); color: #fef08a; font-size: 15px; font-weight: 900; cursor: pointer; box-shadow: 0 6px 16px rgba(0,0,0,0.4); }
+    html.is-embed #fs-btn, html.is-short #fs-btn { display: flex; align-items: center; justify-content: center; }
+    html.is-embed #question-banner,
+    html.is-short #question-banner {
+      top: max(56px, calc(var(--vv-top, 0px) + 10%), calc(env(safe-area-inset-top) + 44px));
+      width: min(94%, 520px);
+      min-width: 0;
+      padding: 10px 12px 12px;
+    }
+    html.is-embed #question-title, html.is-short #question-title { font-size: 12px; }
+    html.is-embed #question-text, html.is-short #question-text { font-size: clamp(22px, 6.4vw, 34px); letter-spacing: 1px; }
+    html.is-embed .lane-chip, html.is-short .lane-chip { font-size: clamp(14px, 3.8vw, 18px); padding: 7px 12px; min-width: 72px; }
+    html.is-embed .lane-hints, html.is-short .lane-hints { margin-top: 8px; gap: 6px; flex-wrap: wrap; }
+    #entry-modal { z-index: 42; }
+    #entry-modal .modal-card { max-width: 420px; width: 100%; }
+    .entry-field { width: 100%; background: #ffffff; border: 3px solid #cbd5e1; border-radius: 14px; padding: 12px 14px; font-size: 20px; font-weight: 900; color: #0f172a; margin: 8px 0 12px; outline: none; }
+    .entry-field:focus { border-color: #2563eb; box-shadow: 0 0 0 3px rgba(37,99,235,0.2); }
+    .entry-field.input-attention { border-color: #dc2626; box-shadow: 0 0 0 3px rgba(220,38,38,0.25); }
+    .player-name-input.input-attention { border-color: #dc2626; box-shadow: 0 0 0 3px rgba(220,38,38,0.25); }
+    #entry-error, #garage-status { display: none; }
+    #garage-status { margin: 0 0 8px; padding: 8px 12px; border-radius: 12px; font-size: 13px; font-weight: 800; text-align: center; }
+    #garage-status.show { display: block; }
+    #garage-status.is-wait { background: #eff6ff; border: 2px solid #93c5fd; color: #1e3a8a; }
+    #garage-status.is-err { background: #fef2f2; border: 2px solid #f87171; color: #991b1b; }
+    .room-join-wrap { display: flex; flex: 1; min-width: 180px; gap: 6px; align-items: center; }
+    .room-code-input { min-width: 0; flex: 1; max-width: 132px; text-align: center; letter-spacing: 3px; font-size: 16px; font-weight: 900; }
+    .lobby-wait { background: #eff6ff; border: 2px solid #60a5fa; color: #1e3a8a; border-radius: 14px; padding: 8px 12px; font-size: 13px; font-weight: 800; margin-bottom: 12px; }
     #countdown-overlay { position: fixed; top: 42%; left: 50%; transform: translate(-50%, -50%); font-size: 96px; font-style: italic; font-weight: 900; color: #facc15; text-shadow: 0 6px 0 #b45309, 0 14px 28px rgba(0,0,0,0.55); z-index: 16; pointer-events: none; display: none; }
 
     #start-modal { position: fixed; inset: 0; display: flex; flex-direction: column; justify-content: space-between; align-items: center; padding: max(10px, env(safe-area-inset-top)) 14px max(12px, env(safe-area-inset-bottom)); z-index: 30; pointer-events: none; background: linear-gradient(180deg, rgba(15,23,42,0.38) 0%, rgba(15,23,42,0.0) 30%, rgba(2,6,23,0.78) 66%); }
@@ -208,7 +238,9 @@
     @media (max-width: 760px) {
       .track-grid, .kart-style-grid { grid-template-columns: repeat(2, 1fr); }
       .driver-grid { grid-template-columns: repeat(3, 1fr); }
-      #question-text { font-size: 26px; } #question-banner { min-width: 230px; padding: 6px 14px 8px; }
+      #question-banner { top: max(52px, calc(var(--vv-top, 0px) + 8%), calc(env(safe-area-inset-top) + 40px)); width: min(94%, 520px); min-width: 0; padding: 10px 12px 12px; }
+      #question-text { font-size: clamp(22px, 6.5vw, 32px); letter-spacing: 1px; }
+      .lane-chip { font-size: clamp(14px, 3.8vw, 18px); padding: 6px 12px; }
       #mk-item-slot { width: 80px; height: 80px; } #item-icon { font-size: 34px; }
       #minimap-card { width: 138px; height: 138px; }
       .thumb-right-zone { bottom: calc(max(14px, env(safe-area-inset-bottom)) + 148px); }
@@ -227,6 +259,7 @@
     });
   </script>
 
+  <div id="game-root">
   <canvas id="game-canvas"></canvas>
   <div id="speed-lines"></div>
   <div id="edge-vignette"></div>
@@ -244,6 +277,7 @@
       <div class="top-mini-actions">
         <button class="menu-mini-btn" id="back-garage-hud-btn">🏠 車庫</button>
         <button class="menu-mini-btn" id="toggle-pad-btn">🎮 觸控鍵: 開</button>
+        <button class="menu-mini-btn" id="fs-btn-hud" type="button">⛶ 全螢幕</button>
       </div>
     </div>
 
@@ -390,12 +424,16 @@
       </div>
       </div>
 
+      <div id="garage-status" role="status"></div>
       <div class="garage-nav is-page-1" id="garage-nav">
         <button type="button" class="garage-prev-btn" id="garage-prev-btn" hidden>◀ 上一頁</button>
         <div class="garage-actions" id="garage-actions" hidden>
           <button class="start-race-btn" id="start-btn">單人挑戰 AI ▶</button>
           <button class="room-create-btn" id="create-room-btn">建立房間</button>
-          <button class="room-join-btn" id="join-room-btn">輸入房號加入</button>
+          <div class="room-join-wrap">
+            <input class="player-name-input room-code-input" id="room-code-input" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="4" placeholder="房號 4 位" autocomplete="off" aria-label="4 位數房號">
+            <button class="room-join-btn" id="join-room-btn" type="button">加入房間</button>
+          </div>
         </div>
         <button type="button" class="garage-next-btn" id="garage-next-btn">下一頁 ▶</button>
       </div>
@@ -480,6 +518,24 @@
     </div>
   </div>
 
+  <button type="button" id="fs-btn" aria-label="全螢幕">⛶ 全螢幕</button>
+
+  <div class="modal-backdrop" id="entry-modal" style="display:none;">
+    <div class="modal-card">
+      <h2 class="modal-title" id="entry-title">請輸入短名或學號</h2>
+      <p style="font-size:14px;font-weight:800;color:#334155;" id="entry-sub">開房或加入前，請先填短名／學號。唔會彈出系統對話框。</p>
+      <input class="entry-field" id="entry-name-input" type="text" maxlength="16" placeholder="例如 4A 陳小明" autocomplete="nickname" />
+      <input class="entry-field" id="entry-code-input" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="4" placeholder="4 位數房號" autocomplete="off" style="display:none;" />
+      <div class="lobby-warn" id="entry-error"></div>
+      <div class="btn-row">
+        <button class="primary-btn" id="entry-ok-btn" type="button">確定</button>
+        <button class="secondary-btn" id="entry-cancel-btn" type="button">取消</button>
+      </div>
+    </div>
+  </div>
+
+  </div>
+
   <script type="module">
     import * as THREE from './vendor/three/three.module.js';
     import { SUPABASE_URL, SUPABASE_ANON_KEY } from './js/net-config.js';
@@ -488,6 +544,7 @@
     const SCHOOL_REMOTE_LOGO = 'https://cwsj.edu.hk/sites/all/themes/cwsj/images/logo.png';
     const SCHOOL_LOCAL_LOGO = './assets/logo.png';
 
+    const SPEED_SCALE = 0.8;
     const CONFIG = {
       totalLaps: 3, gatesPerLap: 3,
       gateBasePositions: [0.26, 0.56, 0.86],
@@ -495,7 +552,8 @@
       boostPadPositions: [0.03, 0.31, 0.61],
       roadWidth: 15.2, laneCenters: [-5.0, 0.0, 5.0],
       edgeSlowStart: 5.85, maxLateralOffset: 7.25,
-      baseSpeed: 43.0, gatePreviewDist: 215,
+      speedScale: SPEED_SCALE,
+      baseSpeed: 43.0 * SPEED_SCALE, gatePreviewDist: 215,
       boostMultiplier: 1.56, boostDuration: 2.5,
       slowMultiplier: 0.50, slowDuration: 1.55,
       steerSpeed: 13.8, baseFov: 62, boostFov: 78
@@ -933,7 +991,7 @@
       const ctx = canvasEl.getContext('2d'); ctx.clearRect(0, 0, 256, 256);
       ctx.fillStyle = '#' + bgHex.toString(16).padStart(6, '0'); roundRectPath(ctx, 16, 24, 224, 208, 42); ctx.fill();
       ctx.strokeStyle = '#ffffff'; ctx.lineWidth = 14; roundRectPath(ctx, 16, 24, 224, 208, 42); ctx.stroke();
-      ctx.fillStyle = '#ffffff'; ctx.font = '900 116px sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      ctx.fillStyle = '#ffffff'; ctx.font = '900 128px sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
       ctx.shadowColor = 'rgba(0,0,0,0.45)'; ctx.shadowBlur = 8; ctx.shadowOffsetY = 5; ctx.fillText(String(numberVal), 128, 132);
     }
 
@@ -1169,11 +1227,11 @@
         for (const dx of [-7.5, -2.5, 2.5, 7.5]) { const post = new THREE.Mesh(new THREE.CylinderGeometry(0.24, 0.3, 4.9, 10), postMat); post.position.set(dx, 2.45, 0); group.add(post); }
         for (let laneIdx = 0; laneIdx < 3; laneIdx++) {
           const lx = CONFIG.laneCenters[laneIdx], col = laneColors[laneIdx];
-          const portal = new THREE.Mesh(new THREE.PlaneGeometry(4.75, 4.3), new THREE.MeshBasicMaterial({ color: col, transparent: true, opacity: 0.38, side: THREE.DoubleSide, depthWrite: false })); portal.position.set(lx, 2.25, 0); group.add(portal); portalMeshes.push(portal);
-          const topBar = new THREE.Mesh(new THREE.BoxGeometry(4.95, 0.46, 0.46), new THREE.MeshStandardMaterial({ color: col, emissive: col, emissiveIntensity: 0.45 })); topBar.position.set(lx, 4.6, 0); group.add(topBar);
+          const portal = new THREE.Mesh(new THREE.PlaneGeometry(5.4, 4.9), new THREE.MeshBasicMaterial({ color: col, transparent: true, opacity: 0.38, side: THREE.DoubleSide, depthWrite: false })); portal.position.set(lx, 2.45, 0); group.add(portal); portalMeshes.push(portal);
+          const topBar = new THREE.Mesh(new THREE.BoxGeometry(5.5, 0.5, 0.5), new THREE.MeshStandardMaterial({ color: col, emissive: col, emissiveIntensity: 0.45 })); topBar.position.set(lx, 5.05, 0); group.add(topBar);
           const c = document.createElement('canvas'); c.width = 256; c.height = 256;
           const tex = new THREE.CanvasTexture(c); tex.colorSpace = THREE.SRGBColorSpace;
-          const sprite = new THREE.Sprite(new THREE.SpriteMaterial({ map: tex })); sprite.position.set(lx, 3.05, 0.16); sprite.scale.set(2.95, 2.95, 1); group.add(sprite);
+          const sprite = new THREE.Sprite(new THREE.SpriteMaterial({ map: tex })); sprite.position.set(lx, 3.25, 0.16); sprite.scale.set(3.55, 3.55, 1); group.add(sprite);
           canvases.push(c); textures.push(tex);
         }
         trackWorldGroup.add(group);
@@ -2179,17 +2237,181 @@
       const raw = ((el && el.value) || '').trim().replace(/\s+/g, ' ');
       return raw.slice(0, 16);
     }
-    function ensurePlayerName() {
-      const name = readPlayerName();
-      if (name) { localPlayerName = name; player.name = name; return name; }
-      const typed = window.prompt('請輸入短名或學號（例如 4A 陳小明）：', localPlayerName === '你' ? '' : localPlayerName);
-      const cleaned = (typed || '').trim().replace(/\s+/g, ' ').slice(0, 16);
-      if (!cleaned) { showFeedbackToast('請先輸入短名或學號先可以開房／加入。', 'linear-gradient(135deg, #dc2626, #7c2d12)'); return ''; }
+    function cleanPlayerName(raw) {
+      return String(raw || '').trim().replace(/\s+/g, ' ').slice(0, 16);
+    }
+    function applyPlayerName(name) {
+      const cleaned = cleanPlayerName(name);
+      if (!cleaned) return '';
       localPlayerName = cleaned;
       const el = document.getElementById('player-name-input');
-      if (el) el.value = cleaned;
+      if (el) { el.value = cleaned; el.classList.remove('input-attention'); }
+      const entry = document.getElementById('entry-name-input');
+      if (entry) entry.value = cleaned;
       player.name = cleaned;
       return cleaned;
+    }
+    function ensurePlayerName() {
+      const name = applyPlayerName(readPlayerName() || (localPlayerName !== '你' ? localPlayerName : ''));
+      return name;
+    }
+    function setGarageStatus(kind, message) {
+      const el = document.getElementById('garage-status');
+      if (!el) return;
+      if (!message) { el.className = ''; el.textContent = ''; el.style.display = 'none'; return; }
+      el.style.display = 'block';
+      el.className = 'show ' + (kind === 'err' ? 'is-err' : 'is-wait');
+      el.textContent = message;
+    }
+    function describeNetError(err, action) {
+      const code = err && err.code;
+      const status = err && err.status;
+      const act = action === 'join' ? '加入房間' : '建立房間';
+      if (code === 'NOT_CONFIGURED') return '連線尚未設定，未能真正開房。單人挑戰 AI 仍然可以照常開跑。';
+      if (code === 'INVALID_CODE') return '房號必須係 4 位數字。';
+      if (code === 'SUBSCRIBE_FAILED' && status === 'TIMED_OUT') return act + '逾時，未能連上課堂伺服器。可能係學校網絡或 Google 協作平台封鎖咗連線。請稍後再試，或用瀏覽器直接開啟遊戲網址。';
+      if (code === 'SUBSCRIBE_FAILED' && status === 'CHANNEL_ERROR') return act + '失敗：課堂伺服器拒絕連線。請稍後再試，或用瀏覽器直接開啟遊戲網址。';
+      if (code === 'SUBSCRIBE_FAILED' || code === 'CHANNEL_DROPPED') return '同課堂伺服器嘅連線中斷或失敗。請檢查網絡後再試；若喺 Google 協作平台內嵌，亦可改用瀏覽器直接開啟遊戲網址。';
+      return act + '失敗，請確認網絡後再試，或改用單人模式。';
+    }
+    function readMathRangeMode() {
+      const sel = document.getElementById('math-range-select');
+      return (sel && sel.value) || mathRangeMode || '2-9';
+    }
+    function readIndependentQuestions() {
+      const tg = document.getElementById('independent-q-toggle');
+      return tg ? !!tg.checked : !!independentQuestions;
+    }
+    function syncMathSettingsFromForm() {
+      independentQuestions = readIndependentQuestions();
+      mathRangeMode = readMathRangeMode();
+    }
+    function isEmbeddedFrame() {
+      try { return window.self !== window.top; } catch (_) { return true; }
+    }
+    function updateViewportMode() {
+      const vv = window.visualViewport;
+      const w = (vv && vv.width) || window.innerWidth || 1;
+      const h = (vv && vv.height) || window.innerHeight || 1;
+      const top = (vv && typeof vv.offsetTop === 'number') ? vv.offsetTop : 0;
+      const embedded = isEmbeddedFrame();
+      const short = h <= 620;
+      const narrow = w <= 820;
+      document.documentElement.classList.toggle('is-embed', embedded);
+      document.documentElement.classList.toggle('is-short', short || (embedded && h <= 740));
+      document.documentElement.classList.toggle('is-narrow', narrow);
+      document.documentElement.style.setProperty('--vv-top', top + 'px');
+      document.documentElement.style.setProperty('--vv-height', h + 'px');
+      document.documentElement.style.setProperty('--vv-width', w + 'px');
+      return { w, h, embedded, short, narrow };
+    }
+    function getViewSize() {
+      const mode = updateViewportMode();
+      return { w: mode.w, h: mode.h };
+    }
+    let entryDialogResolver = null;
+    function closeEntryDialog(result) {
+      const modal = document.getElementById('entry-modal');
+      if (modal) modal.style.display = 'none';
+      const resolve = entryDialogResolver;
+      entryDialogResolver = null;
+      if (resolve) resolve(result);
+    }
+    function openEntryDialog({ needName = false, needCode = false, title, sub, presetName = '', presetCode = '' } = {}) {
+      return new Promise((resolve) => {
+        if (entryDialogResolver) closeEntryDialog(null);
+        entryDialogResolver = resolve;
+        const modal = document.getElementById('entry-modal');
+        const titleEl = document.getElementById('entry-title');
+        const subEl = document.getElementById('entry-sub');
+        const nameEl = document.getElementById('entry-name-input');
+        const codeEl = document.getElementById('entry-code-input');
+        const errEl = document.getElementById('entry-error');
+        if (titleEl) titleEl.textContent = title || (needCode ? '請輸入房號' : '請輸入短名或學號');
+        if (subEl) subEl.textContent = sub || (needCode ? '請填 4 位數房號（同短名）。唔會彈出系統對話框。' : '開房或加入前，請先填短名／學號。唔會彈出系統對話框。');
+        if (errEl) { errEl.style.display = 'none'; errEl.textContent = ''; }
+        if (nameEl) {
+          nameEl.style.display = needName ? 'block' : 'none';
+          nameEl.value = presetName || readPlayerName() || '';
+          nameEl.classList.remove('input-attention');
+        }
+        if (codeEl) {
+          codeEl.style.display = needCode ? 'block' : 'none';
+          codeEl.value = presetCode || '';
+          codeEl.classList.remove('input-attention');
+        }
+        if (modal) modal.style.display = 'flex';
+        setTimeout(() => {
+          const focusEl = needName && !(nameEl && nameEl.value) ? nameEl : (needCode ? codeEl : nameEl);
+          if (focusEl && focusEl.style.display !== 'none') { try { focusEl.focus(); focusEl.select(); } catch (_) {} }
+        }, 40);
+      });
+    }
+    function bindEntryDialog() {
+      const ok = document.getElementById('entry-ok-btn');
+      const cancel = document.getElementById('entry-cancel-btn');
+      const nameEl = document.getElementById('entry-name-input');
+      const codeEl = document.getElementById('entry-code-input');
+      const errEl = document.getElementById('entry-error');
+      const submit = () => {
+        if (!entryDialogResolver) return;
+        const needName = nameEl && nameEl.style.display !== 'none';
+        const needCode = codeEl && codeEl.style.display !== 'none';
+        const name = cleanPlayerName(nameEl ? nameEl.value : '');
+        const code = String(codeEl ? codeEl.value : '').trim();
+        if (needName && !name) {
+          if (nameEl) nameEl.classList.add('input-attention');
+          if (errEl) { errEl.style.display = 'block'; errEl.textContent = '請先輸入短名或學號。'; }
+          return;
+        }
+        if (needCode && !/^\d{4}$/.test(code)) {
+          if (codeEl) codeEl.classList.add('input-attention');
+          if (errEl) { errEl.style.display = 'block'; errEl.textContent = '房號必須係 4 位數字。'; }
+          return;
+        }
+        if (name) applyPlayerName(name);
+        const roomEl = document.getElementById('room-code-input');
+        if (roomEl && code) roomEl.value = code;
+        closeEntryDialog({ name, code });
+      };
+      if (ok) ok.addEventListener('click', submit);
+      if (cancel) cancel.addEventListener('click', () => closeEntryDialog(null));
+      [nameEl, codeEl].forEach((el) => {
+        if (!el) return;
+        el.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); submit(); } });
+      });
+    }
+    async function requestFullscreenPlay() {
+      const root = document.getElementById('game-root') || document.documentElement;
+      try {
+        if (document.fullscreenElement) {
+          if (document.exitFullscreen) await document.exitFullscreen();
+        } else if (root.requestFullscreen) {
+          await root.requestFullscreen();
+        } else if (root.webkitRequestFullscreen) {
+          root.webkitRequestFullscreen();
+        } else {
+          throw new Error('NO_FS');
+        }
+      } catch (_) {
+        const msg = '此瀏覽器或嵌入頁面唔准全螢幕。請用瀏覽器直接開啟遊戲網址再試。';
+        setGarageStatus('err', msg);
+        showFeedbackToast(msg, 'linear-gradient(135deg, #b45309, #7c2d12)');
+      }
+    }
+    function bindFullscreenButtons() {
+      const handler = (e) => { e.preventDefault(); requestFullscreenPlay(); };
+      const a = document.getElementById('fs-btn');
+      const b = document.getElementById('fs-btn-hud');
+      if (a) a.addEventListener('click', handler);
+      if (b) b.addEventListener('click', handler);
+      const syncLabel = () => {
+        const on = !!document.fullscreenElement;
+        const label = on ? '⛶ 離開全螢幕' : '⛶ 全螢幕';
+        if (a) a.textContent = label;
+        if (b) b.textContent = label;
+      };
+      document.addEventListener('fullscreenchange', syncLabel);
     }
     function currentLocalProfile() {
       const cObj = PAINT_COLORS[selectedColorIdx] || PAINT_COLORS[0];
@@ -2384,13 +2606,28 @@
     function paintLobby(opts = {}) {
       const modal = document.getElementById('lobby-modal');
       const configured = isNetConfigured();
-      const preview = opts.preview || net.previewOnly || !configured;
-      document.getElementById('lobby-role-badge').textContent = net.isHost ? '房主 HOST' : '同學 JOIN';
-      document.getElementById('lobby-title').textContent = net.isHost ? '已建立比賽房間' : '已加入比賽房間';
-      document.getElementById('lobby-sub').textContent = net.isHost ? '請把下面 4 位數房號告訴同學（最多 4 人）' : '等待房主開始比賽；唔夠 4 人會由電腦車補位';
+      const connecting = !!opts.connecting;
+      const errorText = opts.error || '';
+      const isHost = (opts.isHost != null) ? opts.isHost : net.isHost;
+      const preview = !connecting && !errorText && (opts.preview || net.previewOnly || !configured);
+      document.getElementById('lobby-role-badge').textContent = isHost ? '房主 HOST' : '同學 JOIN';
+      document.getElementById('lobby-title').textContent = connecting
+        ? (isHost ? '正在建立房間…' : '正在加入房間…')
+        : (errorText ? (isHost ? '建立房間失敗' : '加入房間失敗') : (isHost ? '已建立比賽房間' : '已加入比賽房間'));
+      document.getElementById('lobby-sub').textContent = connecting
+        ? '請稍候，正在連線課堂伺服器。'
+        : (isHost ? '請把下面 4 位數房號告訴同學（最多 4 人）' : '等待房主開始比賽；唔夠 4 人會由電腦車補位');
       document.getElementById('lobby-code-display').textContent = net.roomCode || opts.code || '----';
       const banner = document.getElementById('lobby-net-banner');
-      if (!configured || preview) {
+      if (errorText) {
+        banner.style.display = 'block';
+        banner.className = 'lobby-warn';
+        banner.textContent = errorText;
+      } else if (connecting) {
+        banner.style.display = 'block';
+        banner.className = 'lobby-wait';
+        banner.textContent = isHost ? '正在建立房間，請稍候…' : '正在加入房間，等候房主確認…';
+      } else if (!configured || preview) {
         banner.style.display = 'block';
         banner.className = 'lobby-warn';
         banner.textContent = '連線尚未設定：請先喺 js/net-config.js 填入免費 Supabase 專案網址同 anon key。而家只能預覽大廳畫面，未能真正連線。單人挑戰 AI 仍然可以照常開跑。';
@@ -2402,8 +2639,8 @@
       const def = TRACK_DEFS[selectedTrackId] || TRACK_DEFS.meadow;
       const rangeLabel = { '1-9': '1 至 9', '2-9': '2 至 9', '6-9': '6 至 9' }[mathRangeMode] || mathRangeMode;
       document.getElementById('lobby-track-line').textContent = `賽道：${def.name}　題庫：${rangeLabel}　防跟車抄答案：${independentQuestions ? '開' : '關'}`;
-      document.getElementById('lobby-start-btn').style.display = net.isHost ? 'inline-block' : 'none';
-      document.getElementById('lobby-start-btn').disabled = preview && !configured;
+      document.getElementById('lobby-start-btn').style.display = isHost && !connecting && !errorText ? 'inline-block' : 'none';
+      document.getElementById('lobby-start-btn').disabled = connecting || !!errorText || (preview && !configured);
       const list = document.getElementById('lobby-roster'); list.innerHTML = '';
       const roster = (opts.roster || roomRoster || []).slice(0, 4);
       if (roster.length === 0 && net.isHost) {
@@ -2435,48 +2672,87 @@
     }
     async function beginCreateRoom() {
       sfx.init(); sfx.playClick();
-      const name = ensurePlayerName(); if (!name) return;
-      independentQuestions = document.getElementById('independent-q-toggle').checked;
-      mathRangeMode = document.getElementById('math-range-select').value;
+      let name = ensurePlayerName();
+      if (!name) {
+        const entered = await openEntryDialog({
+          needName: true, needCode: false,
+          title: '請輸入短名或學號',
+          sub: '建立房間前請先填短名／學號。唔會彈出系統對話框。'
+        });
+        if (!entered) return;
+        name = applyPlayerName(entered.name);
+        if (!name) { setGarageStatus('err', '請先輸入短名或學號先可以開房。'); return; }
+      }
+      syncMathSettingsFromForm();
       raceMode = 'multi';
       roomRoster = [{ slot: 0, ...currentLocalProfile(), isHost: true, ready: true }];
+      setGarageStatus('wait', '正在建立房間，請稍候…');
+      paintLobby({ connecting: true, isHost: true, roster: roomRoster, code: '----' });
       try {
-        const res = await net.createRoom(currentLocalProfile(), { onRoomReady, onLobbyUpdate: applyLobbyPacket, onMessage: handleNetMessage, onError: handleNetError, onJoined() {}, onDisconnect() {} });
-        paintLobby({ preview: !!(res && res.preview), roster: roomRoster });
+        const res = await net.createRoom(currentLocalProfile(), { onRoomReady, onLobbyUpdate: applyLobbyPacket, onMessage: handleNetMessage, onError: handleNetError, onJoined() {}, onDisconnect() {}, onReconnect() { paintLobby({ roster: roomRoster }); } });
+        setGarageStatus('', '');
+        paintLobby({ preview: !!(res && res.preview), roster: roomRoster, isHost: true });
       } catch (err) {
+        const msg = describeNetError(err, 'create');
+        setGarageStatus('err', msg);
         if (err && err.code === 'NOT_CONFIGURED') {
-          paintLobby({ preview: true, roster: roomRoster });
+          paintLobby({ preview: true, roster: roomRoster, isHost: true });
         } else {
-          showFeedbackToast('開房失敗，請稍後再試或改用單人模式。', 'linear-gradient(135deg, #dc2626, #7c2d12)');
+          paintLobby({ error: msg, isHost: true, roster: roomRoster });
           raceMode = 'solo';
         }
       }
     }
     async function beginJoinRoom() {
       sfx.init(); sfx.playClick();
-      const name = ensurePlayerName(); if (!name) return;
       if (!isNetConfigured()) {
-        showFeedbackToast('連線尚未設定：請先喺 js/net-config.js 填入免費 Supabase 網址同 anon key。單人模式仍然可用。', 'linear-gradient(135deg, #b45309, #7c2d12)');
+        const msg = '連線尚未設定，未能加入房間。單人挑戰 AI 仍然可以照常開跑。';
+        setGarageStatus('err', msg);
+        showFeedbackToast(msg, 'linear-gradient(135deg, #b45309, #7c2d12)');
         return;
       }
-      const code = (window.prompt('請輸入 4 位數房號：', '') || '').trim();
-      if (!/^\d{4}$/.test(code)) { showFeedbackToast('房號必須係 4 位數字。', 'linear-gradient(135deg, #dc2626, #7c2d12)'); return; }
+      let name = ensurePlayerName();
+      const roomEl = document.getElementById('room-code-input');
+      let code = String((roomEl && roomEl.value) || '').trim();
+      if (!name || !/^\d{4}$/.test(code)) {
+        const entered = await openEntryDialog({
+          needName: !name, needCode: true,
+          title: '加入房間',
+          sub: '請輸入 4 位數房號' + (name ? '。' : '同短名／學號。') + '唔會彈出系統對話框。',
+          presetName: name, presetCode: code
+        });
+        if (!entered) return;
+        if (entered.name) name = applyPlayerName(entered.name);
+        code = String(entered.code || '').trim();
+      }
+      if (!name) { setGarageStatus('err', '請先輸入短名或學號先可以加入房間。'); return; }
+      if (!/^\d{4}$/.test(code)) { setGarageStatus('err', '房號必須係 4 位數字。'); showFeedbackToast('房號必須係 4 位數字。', 'linear-gradient(135deg, #dc2626, #7c2d12)'); return; }
+      if (roomEl) roomEl.value = code;
+      syncMathSettingsFromForm();
       raceMode = 'multi';
+      setGarageStatus('wait', '正在加入房間，請稍候…');
+      paintLobby({ connecting: true, isHost: false, roster: [], code });
       try {
-        await net.joinRoom(code, currentLocalProfile(), { onRoomReady() {}, onLobbyUpdate: applyLobbyPacket, onMessage: handleNetMessage, onError: handleNetError, onJoined() { paintLobby({ roster: roomRoster }); }, onDisconnect() {} });
-        document.getElementById('start-modal').style.display = 'none';
-        document.getElementById('lobby-modal').style.display = 'flex';
-        document.getElementById('lobby-code-display').textContent = code;
-        document.getElementById('lobby-role-badge').textContent = '同學 JOIN';
-        document.getElementById('lobby-net-banner').className = 'lobby-ok';
-        document.getElementById('lobby-net-banner').textContent = '正在加入房間，等候房主確認…';
-        document.getElementById('lobby-start-btn').style.display = 'none';
-        document.getElementById('lobby-leave-btn').style.display = 'inline-block';
+        await net.joinRoom(code, currentLocalProfile(), {
+          onRoomReady() {}, onLobbyUpdate: applyLobbyPacket, onMessage: handleNetMessage, onError: handleNetError,
+          onJoined() { setGarageStatus('', ''); paintLobby({ roster: roomRoster, isHost: false }); },
+          onDisconnect() {},
+          onReconnect() { if (net.mySlot >= 0) paintLobby({ roster: roomRoster, isHost: false }); }
+        });
+        paintLobby({ connecting: true, isHost: false, roster: roomRoster, code });
+        // 若房主遲遲未回 WELCOME，清楚顯示，避免好似死咗
+        setTimeout(() => {
+          if (raceMode === 'multi' && !net.isHost && net.mySlot < 0 && document.getElementById('lobby-modal').style.display === 'flex') {
+            const msg = '仍未收到房主回應。請確認房號是否正確、房主是否仍在大廳。若喺 Google 協作平台內嵌，亦可改用瀏覽器直接開啟遊戲網址。';
+            setGarageStatus('err', msg);
+            paintLobby({ error: msg, isHost: false, roster: roomRoster, code });
+          }
+        }, 10000);
       } catch (err) {
         raceMode = 'solo';
-        if (err && err.code === 'NOT_CONFIGURED') showFeedbackToast('連線尚未設定：請先填入 js/net-config.js。單人模式仍然可用。', 'linear-gradient(135deg, #b45309, #7c2d12)');
-        else if (err && err.code === 'INVALID_CODE') showFeedbackToast('房號必須係 4 位數字。', 'linear-gradient(135deg, #dc2626, #7c2d12)');
-        else showFeedbackToast('加入房間失敗，請確認房號同網絡後再試。', 'linear-gradient(135deg, #dc2626, #7c2d12)');
+        const msg = describeNetError(err, 'join');
+        setGarageStatus('err', msg);
+        paintLobby({ error: msg, isHost: false, code, roster: [] });
       }
     }
     function onRoomReady(code, meta) { paintLobby({ preview: !!(meta && meta.preview), code, roster: roomRoster }); }
@@ -2499,7 +2775,14 @@
     function handleNetError(err) {
       const code = err && err.code;
       if (code === 'NOT_CONFIGURED') return;
-      showFeedbackToast('連線出現問題，請檢查網絡。單人模式仍然可用。', 'linear-gradient(135deg, #dc2626, #7c2d12)');
+      const msg = describeNetError(err, net && net.isHost ? 'create' : 'join');
+      setGarageStatus('err', msg);
+      const lobby = document.getElementById('lobby-modal');
+      if (lobby && lobby.style.display === 'flex') {
+        paintLobby({ error: msg, roster: roomRoster, isHost: net.isHost, code: net.roomCode });
+      } else {
+        showFeedbackToast(msg, 'linear-gradient(135deg, #dc2626, #7c2d12)');
+      }
     }
     function findKartBySlot(slot) { return allKarts.find((k) => k.slot === slot); }
     function applySharedGates(msg) {
@@ -2590,8 +2873,7 @@
         return;
       }
       sfx.playClick();
-      independentQuestions = document.getElementById('independent-q-toggle').checked;
-      mathRangeMode = document.getElementById('math-range-select').value;
+      syncMathSettingsFromForm();
       const fillAi = buildHostAiFill();
       const payload = { type: 'START', track: selectedTrackId, mathRange: mathRangeMode, independentQuestions, roster: roomRoster, fillAi };
       net.send(payload);
@@ -2781,8 +3063,7 @@
       const mode = opts.mode || (isMulti() && opts.mode !== 'solo' ? 'multi' : 'solo');
       raceMode = mode === 'multi' ? 'multi' : 'solo';
       if (raceMode === 'solo') {
-        mathRangeMode = document.getElementById('math-range-select').value;
-        independentQuestions = document.getElementById('independent-q-toggle').checked;
+        syncMathSettingsFromForm();
         const n = readPlayerName(); if (n) { localPlayerName = n; player.name = n; }
         restoreShowroomAi();
       }
@@ -3499,11 +3780,24 @@
       renderer.render(scene, camera);
     }
 
-    window.addEventListener('resize', () => {
-      camera.aspect = window.innerWidth / window.innerHeight;
+    function syncRendererSize() {
+      const { w, h } = getViewSize();
+      camera.aspect = w / Math.max(1, h);
       camera.updateProjectionMatrix();
-      renderer.setSize(window.innerWidth, window.innerHeight);
-    });
+      renderer.setSize(w, h, false);
+      const cv = renderer.domElement;
+      cv.style.width = '100%';
+      cv.style.height = '100%';
+    }
+    window.addEventListener('resize', syncRendererSize);
+    if (window.visualViewport) {
+      window.visualViewport.addEventListener('resize', syncRendererSize);
+      window.visualViewport.addEventListener('scroll', syncRendererSize);
+    }
+    bindEntryDialog();
+    bindFullscreenButtons();
+    updateViewportMode();
+    syncRendererSize();
 
     animate();
   </script>
