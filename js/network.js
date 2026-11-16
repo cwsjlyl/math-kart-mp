@@ -21,6 +21,13 @@ function randomPeerId() {
   return 'p-' + Math.random().toString(36).slice(2) + Date.now().toString(36);
 }
 
+function makeNetError(code, status, message) {
+  const err = new Error(message || code);
+  err.code = code;
+  if (status) err.status = status;
+  return err;
+}
+
 export class KartNetworkManager {
   constructor() {
     this.client = null;
@@ -39,6 +46,10 @@ export class KartNetworkManager {
     this._getLocalState = null;
     this._getAiStates = null;
     this.previewOnly = false;
+    this._closing = false;
+    this._joinRetryTimer = null;
+    this._reconnectTimer = null;
+    this._reconnectAttempts = 0;
   }
 
   isReady() {
@@ -48,9 +59,7 @@ export class KartNetworkManager {
   _ensureClient() {
     this.configured = isNetConfigured();
     if (!this.configured) {
-      const err = new Error('NOT_CONFIGURED');
-      err.code = 'NOT_CONFIGURED';
-      throw err;
+      throw makeNetError('NOT_CONFIGURED', null, 'NOT_CONFIGURED');
     }
     if (!this.client) {
       this.client = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
@@ -75,6 +84,19 @@ export class KartNetworkManager {
     this._emit('onMessage', payload);
   }
 
+  _stopJoinRetry() {
+    if (this._joinRetryTimer) { clearInterval(this._joinRetryTimer); this._joinRetryTimer = null; }
+  }
+
+  _stopReconnect() {
+    if (this._reconnectTimer) { clearTimeout(this._reconnectTimer); this._reconnectTimer = null; }
+  }
+
+  _sendJoin() {
+    if (!this.localProfile) return Promise.resolve(false);
+    return this.send({ type: 'JOIN', profile: this.localProfile });
+  }
+
   async _subscribe(roomCode) {
     const client = this._ensureClient();
     const channelName = `cwsj-mk8-${roomCode}`;
@@ -82,8 +104,9 @@ export class KartNetworkManager {
       try { await client.removeChannel(this.channel); } catch (_) {}
       this.channel = null;
     }
+    // 公開 Broadcast：明確 private: false，避免新版 Realtime 預設私人頻道而收唔到 JOIN
     this.channel = client.channel(channelName, {
-      config: { broadcast: { ack: false, self: false } }
+      config: { private: false, broadcast: { ack: false, self: false } }
     });
     this.channel.on('broadcast', { event: 'kart' }, ({ payload }) => {
       this._onPayload(payload);
@@ -92,18 +115,60 @@ export class KartNetworkManager {
       let settled = false;
       const finish = (s) => { if (!settled) { settled = true; resolve(s); } };
       this.channel.subscribe((s) => {
-        if (s === 'SUBSCRIBED' || s === 'CHANNEL_ERROR' || s === 'TIMED_OUT' || s === 'CLOSED') finish(s);
+        if (!settled && (s === 'SUBSCRIBED' || s === 'CHANNEL_ERROR' || s === 'TIMED_OUT' || s === 'CLOSED')) {
+          finish(s);
+          return;
+        }
+        if (settled && this.connected && !this._closing && (s === 'CHANNEL_ERROR' || s === 'TIMED_OUT' || s === 'CLOSED')) {
+          const err = makeNetError('CHANNEL_DROPPED', s, 'CHANNEL_DROPPED');
+          this._emit('onError', err);
+          this._scheduleReconnect();
+        }
       });
-      setTimeout(() => finish('TIMED_OUT'), 8000);
+      setTimeout(() => finish('TIMED_OUT'), 10000);
     });
     if (status !== 'SUBSCRIBED') {
-      const err = new Error('SUBSCRIBE_FAILED');
-      err.code = 'SUBSCRIBE_FAILED';
-      err.status = status;
-      throw err;
+      throw makeNetError('SUBSCRIBE_FAILED', status, 'SUBSCRIBE_FAILED');
     }
     this.connected = true;
     this.previewOnly = false;
+    this._reconnectAttempts = 0;
+  }
+
+  _scheduleReconnect() {
+    if (this._closing || this.previewOnly || !this.roomCode) return;
+    if (this._reconnectAttempts >= 3) return;
+    this._stopReconnect();
+    const delay = 800 + this._reconnectAttempts * 700;
+    this._reconnectTimer = setTimeout(() => { this._attemptReconnect(); }, delay);
+  }
+
+  async _attemptReconnect() {
+    if (this._closing || !this.roomCode || this.previewOnly) return;
+    this._reconnectAttempts += 1;
+    try {
+      this.connected = false;
+      await this._subscribe(this.roomCode);
+      if (!this.isHost && this.mySlot < 0) this._startJoinRetry();
+      else if (!this.isHost) this._sendJoin();
+      this._emit('onReconnect');
+    } catch (err) {
+      this.connected = false;
+      this._emit('onError', err);
+      this._scheduleReconnect();
+    }
+  }
+
+  _startJoinRetry() {
+    this._stopJoinRetry();
+    this._sendJoin();
+    this._joinRetryTimer = setInterval(() => {
+      if (this._closing || !this.connected || this.mySlot >= 0) {
+        this._stopJoinRetry();
+        return;
+      }
+      this._sendJoin();
+    }, 750);
   }
 
   async createRoom(profile, handlers = {}) {
@@ -116,6 +181,7 @@ export class KartNetworkManager {
     this.localProfile = { ...profile, slot: 0, isHost: true, ready: true };
     this.remoteStates.clear();
     this.configured = isNetConfigured();
+    this._closing = false;
 
     if (!this.configured) {
       this.previewOnly = true;
@@ -145,25 +211,24 @@ export class KartNetworkManager {
     this.localProfile = { ...profile, isHost: false, ready: true };
     this.remoteStates.clear();
     this.configured = isNetConfigured();
+    this._closing = false;
 
     if (!/^\d{4}$/.test(this.roomCode)) {
-      const err = new Error('INVALID_CODE');
-      err.code = 'INVALID_CODE';
+      const err = makeNetError('INVALID_CODE', null, 'INVALID_CODE');
       this._emit('onError', err);
       throw err;
     }
     if (!this.configured) {
       this.previewOnly = true;
       this.connected = false;
-      const err = new Error('NOT_CONFIGURED');
-      err.code = 'NOT_CONFIGURED';
+      const err = makeNetError('NOT_CONFIGURED', null, 'NOT_CONFIGURED');
       this._emit('onError', err);
       throw err;
     }
 
     try {
       await this._subscribe(this.roomCode);
-      this.send({ type: 'JOIN', profile: this.localProfile });
+      this._startJoinRetry();
       return { preview: false, configured: true, roomCode: this.roomCode };
     } catch (err) {
       this.connected = false;
@@ -175,6 +240,7 @@ export class KartNetworkManager {
   assignJoinedSlot(slot) {
     this.mySlot = slot;
     if (this.localProfile) this.localProfile.slot = slot;
+    this._stopJoinRetry();
     this._emit('onJoined', slot, this.roomCode);
   }
 
@@ -212,6 +278,9 @@ export class KartNetworkManager {
   }
 
   async disconnect({ silent = false } = {}) {
+    this._closing = true;
+    this._stopJoinRetry();
+    this._stopReconnect();
     this.stopSyncLoop();
     this.connected = false;
     this.previewOnly = false;
@@ -224,6 +293,7 @@ export class KartNetworkManager {
     this.remoteStates.clear();
     if (!silent) this._emit('onDisconnect');
     this.handlers = silent ? this.handlers : {};
+    this._closing = false;
   }
 }
 
