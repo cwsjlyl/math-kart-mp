@@ -1,0 +1,13 @@
+Classroom kart models (compact .glb)
+
+- formula, gt, monster, star, bolt, storm, taxi:
+  Derived from Kenney Car Kit 3.1 (www.kenney.nl), Creative Commons CC0 1.0.
+  Recoloured / retargeted for this classroom game. 赤電號 window-eyes and 07
+  markings are original additions, not official commercial characters.
+
+- bike (冒險單車):
+  Derived from the Pixor library bicycle
+  (https://pixor.art/library/vehicles/bicycle/), Creative Commons CC0 1.0,
+  with an added yellow basket and green frame recolour.
+
+No official commercial racing IP was used.
