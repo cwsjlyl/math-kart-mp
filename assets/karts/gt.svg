@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 270">
+  <defs>
+    <linearGradient id="gtBg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#020617"/>
+      <stop offset="52%" stop-color="#0369a1"/>
+      <stop offset="100%" stop-color="#eab308"/>
+    </linearGradient>
+    <linearGradient id="gtBody" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#fde047"/>
+      <stop offset="50%" stop-color="#f59e0b"/>
+      <stop offset="100%" stop-color="#b45309"/>
+    </linearGradient>
+    <linearGradient id="gtGlass" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#bae6fd"/>
+      <stop offset="100%" stop-color="#0284c7"/>
+    </linearGradient>
+  </defs>
+  <rect width="480" height="270" fill="url(#gtBg)"/>
+  <!-- Lightning bolt backdrop -->
+  <polygon points="295,12 245,98 286,98 238,185 338,84 292,84" fill="#fef08a" opacity="0.24"/>
+  <polygon points="0,206 480,178 480,270 0,270" fill="#0f172a"/>
+  <line x1="0" y1="216" x2="480" y2="188" stroke="#38bdf8" stroke-width="4" stroke-dasharray="28 18"/>
+  <ellipse cx="244" cy="212" rx="172" ry="20" fill="#020617" opacity="0.72"/>
+  <g stroke="#0f172a" stroke-width="4" stroke-linejoin="round">
+    <!-- GT Spoiler -->
+    <polygon points="366,94 422,88 416,104 362,108" fill="#1e293b"/>
+    <line x1="382" y1="106" x2="376" y2="132" stroke="#0f172a" stroke-width="6"/>
+    <!-- Main Widebody GT Silhouette -->
+    <path d="M66,178 Q74,146 138,136 L198,98 L314,98 L374,128 L404,134 L408,178 L384,188 L82,190 Z" fill="url(#gtBody)"/>
+    <!-- Racing Stripes & Side Intake -->
+    <polygon points="188,102 304,102 346,130 154,134" fill="url(#gtGlass)"/>
+    <polygon points="244,102 260,102 252,132 236,132" fill="#0f172a"/>
+    <polygon points="258,150 326,142 314,174 246,174" fill="#1e293b"/>
+    <polygon points="62,176 116,174 110,190 58,190" fill="#1e293b"/>
+    <!-- Glowing Headlight -->
+    <polygon points="80,152 124,146 116,160 76,163" fill="#fef9c3"/>
+    <!-- Wheels -->
+    <circle cx="144" cy="184" r="35" fill="#0f172a"/>
+    <circle cx="144" cy="184" r="21" fill="#e2e8f0"/>
+    <circle cx="144" cy="184" r="8" fill="#f59e0b"/>
+    <circle cx="344" cy="182" r="37" fill="#0f172a"/>
+    <circle cx="344" cy="182" r="22" fill="#e2e8f0"/>
+    <circle cx="344" cy="182" r="8" fill="#f59e0b"/>
+  </g>
+  <text x="24" y="42" fill="#fef08a" font-family="sans-serif" font-weight="900" font-size="22" letter-spacing="1">THUNDER GT</text>
+</svg>

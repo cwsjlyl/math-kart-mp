@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 270">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="55%" stop-color="#1e3a8a"/>
+      <stop offset="100%" stop-color="#dc2626"/>
+    </linearGradient>
+    <linearGradient id="redPaint" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#ff6b6b"/>
+      <stop offset="48%" stop-color="#ef4444"/>
+      <stop offset="100%" stop-color="#991b1b"/>
+    </linearGradient>
+    <linearGradient id="wingWhite" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#cbd5e1"/>
+    </linearGradient>
+  </defs>
+  <rect width="480" height="270" fill="url(#bg)"/>
+  <!-- Speed lines -->
+  <g stroke="#ffffff" stroke-opacity="0.18" stroke-width="3">
+    <line x1="20" y1="48" x2="210" y2="48"/>
+    <line x1="60" y1="78" x2="310" y2="78"/>
+    <line x1="0" y1="115" x2="155" y2="115"/>
+    <line x1="290" y1="42" x2="470" y2="42"/>
+  </g>
+  <!-- Checkered kerb & track -->
+  <polygon points="0,205 480,175 480,270 0,270" fill="#1e293b"/>
+  <polygon points="0,205 480,175 480,187 0,217" fill="#ef4444"/>
+  <polygon points="60,201 120,197 112,210 52,214" fill="#f8fafc"/>
+  <polygon points="180,194 240,190 232,202 172,206" fill="#f8fafc"/>
+  <polygon points="300,186 360,182 352,195 292,199" fill="#f8fafc"/>
+  <polygon points="410,179 465,176 458,188 403,192" fill="#f8fafc"/>
+  <!-- Shadow -->
+  <ellipse cx="242" cy="212" rx="168" ry="20" fill="#020617" opacity="0.68"/>
+  <!-- Rear Wing -->
+  <g stroke="#0f172a" stroke-width="4" stroke-linejoin="round">
+    <polygon points="348,84 414,78 406,104 340,108" fill="url(#wingWhite)"/>
+    <rect x="366" y="104" width="12" height="36" fill="#94a3b8"/>
+    <polygon points="398,74 418,76 412,114 394,112" fill="#dc2626"/>
+    <!-- Rear Wheel -->
+    <circle cx="352" cy="176" r="38" fill="#0f172a"/>
+    <circle cx="352" cy="176" r="22" fill="#cbd5e1"/>
+    <circle cx="352" cy="176" r="9" fill="#ef4444"/>
+    <!-- Formula Body & Sidepod -->
+    <path d="M82,178 L158,136 L252,118 L345,122 L366,152 L338,184 L126,188 Z" fill="url(#redPaint)"/>
+    <path d="M188,150 L312,144 L304,178 L178,180 Z" fill="url(#wingWhite)"/>
+    <!-- Cockpit & Halo -->
+    <path d="M214,122 Q245,95 278,120 Z" fill="#1e293b"/>
+    <circle cx="248" cy="112" r="15" fill="#f8fafc"/>
+    <path d="M235,109 L254,109 L252,117 L235,117 Z" fill="#0ea5e9"/>
+    <path d="M204,124 Q236,104 268,122" fill="none" stroke="#e2e8f0" stroke-width="5"/>
+    <!-- Front Nose & Front Wing -->
+    <polygon points="48,182 118,166 132,190 54,196" fill="url(#wingWhite)"/>
+    <polygon points="44,172 68,170 64,198 42,198" fill="#dc2626"/>
+    <!-- Front Wheel -->
+    <circle cx="138" cy="182" r="34" fill="#0f172a"/>
+    <circle cx="138" cy="182" r="19" fill="#e2e8f0"/>
+    <circle cx="138" cy="182" r="8" fill="#ef4444"/>
+  </g>
+  <text x="24" y="42" fill="#fef08a" font-family="sans-serif" font-weight="900" font-size="22" letter-spacing="1">FORMULA GP</text>
+</svg>

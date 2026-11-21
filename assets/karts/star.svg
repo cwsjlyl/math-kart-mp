@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 270">
+  <defs>
+    <linearGradient id="sBg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#020617"/>
+      <stop offset="50%" stop-color="#1e1b4b"/>
+      <stop offset="100%" stop-color="#0ea5e9"/>
+    </linearGradient>
+    <linearGradient id="sBody" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f8fafc"/>
+      <stop offset="55%" stop-color="#38bdf8"/>
+      <stop offset="100%" stop-color="#1d4ed8"/>
+    </linearGradient>
+  </defs>
+  <rect width="480" height="270" fill="url(#sBg)"/>
+  <!-- Stars -->
+  <g fill="#ffffff">
+    <circle cx="65" cy="48" r="2.5"/><circle cx="142" cy="30" r="2"/><circle cx="385" cy="44" r="3"/>
+    <circle cx="430" cy="86" r="2"/><circle cx="265" cy="26" r="2.5"/><circle cx="95" cy="94" r="1.8"/>
+  </g>
+  <polygon points="0,208 480,180 480,270 0,270" fill="#0f172a"/>
+  <line x1="0" y1="212" x2="480" y2="184" stroke="#ec4899" stroke-width="4"/>
+  <line x1="0" y1="220" x2="480" y2="192" stroke="#22d3ee" stroke-width="4"/>
+  <ellipse cx="242" cy="212" rx="170" ry="18" fill="#020617" opacity="0.72"/>
+  <!-- Jet Flame -->
+  <polygon points="396,144 468,132 446,154 474,166 396,164" fill="#38bdf8"/>
+  <polygon points="396,149 442,144 434,158 396,159" fill="#fef08a"/>
+  <g stroke="#0f172a" stroke-width="4" stroke-linejoin="round">
+    <!-- Twin Tail Fins & Jet Nacelle -->
+    <polygon points="330,118 386,74 398,74 378,128" fill="#38bdf8"/>
+    <rect x="308" y="128" width="90" height="36" rx="14" fill="#cbd5e1"/>
+    <ellipse cx="398" cy="146" rx="8" ry="16" fill="#22d3ee"/>
+    <!-- Star Jet Fuselage -->
+    <path d="M52,172 L152,134 L274,122 L356,136 L346,178 L112,184 Z" fill="url(#sBody)"/>
+    <!-- Dark Bubble Canopy -->
+    <path d="M174,132 Q232,90 288,128 Z" fill="#0f172a"/>
+    <path d="M190,126 Q230,100 266,122" fill="none" stroke="#38bdf8" stroke-width="3"/>
+    <!-- Neon Trim & Canard -->
+    <line x1="120" y1="168" x2="320" y2="164" stroke="#22d3ee" stroke-width="5"/>
+    <polygon points="74,166 126,158 118,176 68,178" fill="#f8fafc"/>
+    <!-- Dish Aero Wheels -->
+    <circle cx="142" cy="182" r="33" fill="#0f172a"/>
+    <circle cx="142" cy="182" r="20" fill="#e2e8f0"/>
+    <circle cx="142" cy="182" r="11" fill="none" stroke="#22d3ee" stroke-width="4"/>
+    <circle cx="340" cy="180" r="36" fill="#0f172a"/>
+    <circle cx="340" cy="180" r="22" fill="#e2e8f0"/>
+    <circle cx="340" cy="180" r="12" fill="none" stroke="#22d3ee" stroke-width="4"/>
+  </g>
+  <text x="24" y="42" fill="#7dd3fc" font-family="sans-serif" font-weight="900" font-size="22" letter-spacing="1">STAR JET</text>
+</svg>
