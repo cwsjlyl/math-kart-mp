@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 480">
+  <defs>
+    <linearGradient id="tBg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#090d16"/>
+      <stop offset="55%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#0284c7"/>
+    </linearGradient>
+    <linearGradient id="skin" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#fde6c4"/>
+      <stop offset="100%" stop-color="#eab68c"/>
+    </linearGradient>
+    <linearGradient id="hair" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#785238"/>
+      <stop offset="55%" stop-color="#563825"/>
+      <stop offset="100%" stop-color="#362115"/>
+    </linearGradient>
+    <linearGradient id="tee" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#dbeafe"/>
+    </linearGradient>
+  </defs>
+  <rect width="360" height="480" fill="url(#tBg)"/>
+  <!-- Touge Guardrail & Manga Speed Lines -->
+  <g stroke="#38bdf8" stroke-opacity="0.26" stroke-width="3">
+    <line x1="0" y1="54" x2="145" y2="110"/>
+    <line x1="0" y1="108" x2="120" y2="146"/>
+    <line x1="360" y1="48" x2="225" y2="108"/>
+    <line x1="360" y1="112" x2="245" y2="150"/>
+  </g>
+  <text x="20" y="52" fill="#facc15" opacity="0.22" font-family="sans-serif" font-weight="900" font-size="44" font-style="italic">86</text>
+  <!-- Neck & White Crew-Neck T-Shirt + Blue Jeans Accent -->
+  <g stroke="#0f172a" stroke-width="4" stroke-linejoin="round">
+    <!-- White T-Shirt Shoulders & Torso -->
+    <path d="M44,480 L64,344 Q112,310 180,310 Q248,310 296,344 L316,480 Z" fill="url(#tee)"/>
+    <!-- Shirt Shading Folds -->
+    <path d="M108,358 L124,450 M252,358 L236,450" stroke="#94a3b8" stroke-width="3" fill="none"/>
+    <!-- Dark Undershirt Collar + Crew Neck Ribbing -->
+    <path d="M136,314 Q180,352 224,314" fill="#1e293b"/>
+    <path d="M128,314 Q180,362 232,314" fill="none" stroke="#e2e8f0" stroke-width="8"/>
+    <!-- Neck -->
+    <path d="M152,258 L152,320 Q180,336 208,320 L208,258 Z" fill="#dca47c"/>
+    <path d="M156,274 Q180,292 204,274" fill="#b87d56" stroke="none"/>
+    <!-- Back Hair Layer -->
+    <path d="M98,176 L88,242 L114,232 L116,256 L244,256 L246,232 L272,242 L262,176 Z" fill="#362115"/>
+    <!-- Ears -->
+    <ellipse cx="106" cy="196" rx="12" ry="22" fill="url(#skin)"/>
+    <ellipse cx="254" cy="196" rx="12" ry="22" fill="url(#skin)"/>
+    <!-- Anime Jawline & Face (Initial D 90s Sharp Chin) -->
+    <path d="M108,144 L112,208 Q116,246 154,268 Q180,280 206,268 Q244,246 248,208 L252,144 Z" fill="url(#skin)"/>
+    <!-- Iconic Ash-Brown Center/Off-Center Parted Hair & Layered Bangs -->
+    <path d="M96,168 Q92,92 146,72 Q182,58 220,72 Q268,92 264,168 L252,196 L244,150 L226,184 L208,134 L188,176 L180,124 L164,178 L146,134 L128,186 L114,150 L106,196 Z" fill="url(#hair)"/>
+    <!-- Hair Highlight Ribbon -->
+    <path d="M128,108 Q154,94 174,106 M192,104 Q216,94 238,110" fill="none" stroke="#9c6f4f" stroke-width="4" stroke-linecap="round"/>
+  </g>
+  <!-- Calm Focused Initial D Eyes, Brows, Nose & Expression -->
+  <g stroke="#0f172a" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Determined Straight Brows -->
+    <path d="M126,166 L164,171" stroke-width="4.5"/>
+    <path d="M234,166 L196,171" stroke-width="4.5"/>
+    <!-- Half-Lidded Calm Focused Eyes -->
+    <path d="M128,184 L164,185 L160,198 L132,197 Z" fill="#ffffff" stroke-width="3"/>
+    <circle cx="147" cy="191" r="6.5" fill="#29170e" stroke="none"/>
+    <circle cx="145" cy="189" r="2" fill="#ffffff" stroke="none"/>
+    <line x1="126" y1="183" x2="166" y2="184" stroke-width="4.2"/>
+
+    <path d="M196,185 L232,184 L228,197 L200,198 Z" fill="#ffffff" stroke-width="3"/>
+    <circle cx="213" cy="191" r="6.5" fill="#29170e" stroke="none"/>
+    <circle cx="211" cy="189" r="2" fill="#ffffff" stroke="none"/>
+    <line x1="194" y1="184" x2="234" y2="183" stroke-width="4.2"/>
+
+    <!-- Sharp Anime Nose Bridge & Shadow -->
+    <path d="M179,192 L176,220 L184,223" fill="none" stroke-width="3"/>
+    <!-- Calm Confident Mouth -->
+    <path d="M164,244 Q180,247 196,243" fill="none" stroke-width="3.4"/>
+  </g>
+  <!-- Classic 3-Spoke Drift Steering Wheel & Paper Cup Tribute -->
+  <g stroke="#0f172a" stroke-width="4">
+    <circle cx="180" cy="458" r="68" fill="none" stroke="#1e293b" stroke-width="16"/>
+    <circle cx="180" cy="458" r="68" fill="none" stroke="#0f172a" stroke-width="3"/>
+    <line x1="122" y1="452" x2="238" y2="452" stroke="#475569" stroke-width="10"/>
+    <circle cx="180" cy="454" r="16" fill="#0f172a"/>
+    <rect x="175" y="384" width="10" height="14" fill="#ef4444" stroke="none"/>
+    <!-- Cup of Water on Dash Corner -->
+    <polygon points="292,412 332,412 326,466 298,466" fill="#f8fafc"/>
+    <ellipse cx="312" cy="422" rx="16" ry="4" fill="#38bdf8" stroke="none"/>
+  </g>
+</svg>

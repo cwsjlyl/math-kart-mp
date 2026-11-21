@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 270">
+  <defs>
+    <linearGradient id="mBg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1c1917"/>
+      <stop offset="55%" stop-color="#7c2d12"/>
+      <stop offset="100%" stop-color="#f97316"/>
+    </linearGradient>
+    <linearGradient id="mBody" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#4ade80"/>
+      <stop offset="55%" stop-color="#16a34a"/>
+      <stop offset="100%" stop-color="#14532d"/>
+    </linearGradient>
+  </defs>
+  <rect width="480" height="270" fill="url(#mBg)"/>
+  <polygon points="0,212 150,188 290,204 480,180 480,270 0,270" fill="#292524"/>
+  <ellipse cx="242" cy="218" rx="166" ry="22" fill="#0c0a09" opacity="0.75"/>
+  <g stroke="#0f172a" stroke-width="4" stroke-linejoin="round">
+    <!-- Suspension struts -->
+    <line x1="156" y1="138" x2="142" y2="184" stroke="#cbd5e1" stroke-width="8"/>
+    <line x1="324" y1="138" x2="340" y2="184" stroke="#cbd5e1" stroke-width="8"/>
+    <rect x="175" y="132" width="132" height="18" rx="6" fill="#334155"/>
+    <!-- Roof Light Bar & Roll Cage -->
+    <path d="M268,94 L268,62 L338,62 L348,94" fill="none" stroke="#e2e8f0" stroke-width="6"/>
+    <circle cx="278" cy="56" r="8" fill="#fef08a"/>
+    <circle cx="302" cy="56" r="8" fill="#fef08a"/>
+    <circle cx="326" cy="56" r="8" fill="#fef08a"/>
+    <!-- Monster Truck Body -->
+    <path d="M96,132 L114,96 L186,90 L216,64 L298,64 L314,92 L378,94 L384,136 L100,138 Z" fill="url(#mBody)"/>
+    <polygon points="196,90 220,70 286,70 294,90" fill="#7dd3fc"/>
+    <rect x="84" y="114" width="22" height="22" rx="6" fill="#e2e8f0"/>
+    <!-- Flame Stripe -->
+    <polygon points="124,114 218,108 196,124 248,122 170,132 122,128" fill="#facc15"/>
+    <!-- Giant Chunky Wheels -->
+    <circle cx="142" cy="184" r="48" fill="#111827"/>
+    <circle cx="142" cy="184" r="24" fill="#f59e0b"/>
+    <circle cx="142" cy="184" r="10" fill="#1e293b"/>
+    <circle cx="340" cy="184" r="48" fill="#111827"/>
+    <circle cx="340" cy="184" r="24" fill="#f59e0b"/>
+    <circle cx="340" cy="184" r="10" fill="#1e293b"/>
+  </g>
+  <text x="24" y="42" fill="#fed7aa" font-family="sans-serif" font-weight="900" font-size="22" letter-spacing="1">MONSTER 4X4</text>
+</svg>
